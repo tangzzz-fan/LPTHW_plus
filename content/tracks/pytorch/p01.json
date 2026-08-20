@@ -7,13 +7,13 @@
     "torch"
   ],
   "entry": "p01_main.py",
-  "body": "# P01 · Tensor 基础\n\n张量是 PyTorch 的核心数据结构。练习创建、形状、dtype。\n\n若报错 `No module named 'torch'`，在项目根执行（先 `proxy_on`）：\n`uv sync --extra ml`\n或 `npm run install:ml`\n\n不要使用 Linux 的 `whl/cpu` 索引。本课会检测 MPS。\n\n## 注释\n- 代码里带有 **【优先课注释】** 与分段说明，先读注释再跑。\n",
+  "body": "# P01: Tensor 基础\n\n来源：本站优先轨 · PyTorch 入门到推理（原创讲义；手敲练习）。\n\n## 关键概念（先读文档，再敲代码）\n\n| 概念 | 必须讲清 |\n|------|----------|\n| Tensor | 多维数组 + 设备 + dtype；后续一切计算的载体 |\n| device | `cpu` / `mps`（Apple）/ `cuda`；张量与运算要在同一设备 |\n| 安装 | `uv sync --extra ml`；**不要**用 Linux `whl/cpu` 索引装 Mac 包 |\n\n## 本题任务\n\n检测 MPS/CPU，创建 2×2 张量，打印版本、设备、运算结果。\n\n## 动手要求\n\n- 起始代码已用注释标出：**请自行输入**（或去掉 `#`），再删除占位 `print`。\n- **关键机制以本题「关键概念」为准**；代码里的撞墙注释只是现场提醒。\n- 少复制粘贴，多手敲；敲错再改。\n\n## 自检\n\n- [ ] 去掉注释后能运行\n- [ ] 能用自己的话复述上表中的关键机制\n- [ ] 知道本课在整体轨道里卡住的是哪一环\n",
   "starterFiles": {
-    "p01_main.py": "# 【优先课注释】PyTorch\n# 课题：P01: Tensor 基础\n# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。\n# ---------------------------------------------------------------------------\n\n# --- 导入依赖 ---\nimport torch\n\n\n# --- 函数 pick_device：读参数与返回值，想清楚谁调用它 ---\ndef pick_device() -> torch.device:\n    if torch.backends.mps.is_available():\n        return torch.device(\"mps\")\n    return torch.device(\"cpu\")\n\n\ndevice = pick_device()\nprint(\"torch\", torch.__version__)\nprint(\"device\", device)\nprint(\"mps_built\", torch.backends.mps.is_built(), \"mps_available\", torch.backends.mps.is_available())\n\nx = torch.tensor([[1.0, 2.0], [3.0, 4.0]], device=device)\nprint(\"x\", x)\nprint(\"shape\", tuple(x.shape), \"dtype\", x.dtype)\nprint(\"x + 1\", x + 1)\nprint(\"matmul\", x @ x.T)\n"
+    "p01_main.py": "# =============================================================================\n# 自己动手敲（笨方法 / 代码题）：\n# 1) 先读左侧「本题任务 / 关键概念」，再敲下面「已注释」的参考实现（或去掉行首 #）\n# 2) 删掉最底部的占位 print\n# 3) 保存并运行（⌘/Ctrl+Enter）\n# 关键机制以题目文档为准；代码注释只是现场提示，不要只抄不读讲义。\n# =============================================================================\n\n# P01：Tensor 基础与设备选择。\n# 撞墙记录（预习，敲时对照）：\n#   墙：装了 CPU 轮子在 Mac 上，MPS 永远 False。\n\n# import torch\n\n\n# def pick_device() -> torch.device:\n    # if torch.backends.mps.is_available():\n        # return torch.device(\"mps\")\n    # return torch.device(\"cpu\")\n\n\n# device = pick_device()\n# print(\"torch\", torch.__version__)\n# print(\"device\", device)\n# print(\"mps_built\", torch.backends.mps.is_built(), \"mps_available\", torch.backends.mps.is_available())\n\n# x = torch.tensor([[1.0, 2.0], [3.0, 4.0]], device=device)\n# print(\"x\", x)\n# print(\"shape\", tuple(x.shape), \"dtype\", x.dtype)\n# print(\"x + 1\", x + 1)\n# print(\"matmul\", x @ x.T)\n\n# =============================================================================\n# 写完练习后，删除下面这行占位再运行：\nprint(\"(请在上方自行输入代码)\")\n"
   },
   "checklist": [
-    "确认 torch 已安装（如需要）",
-    "运行通过",
-    "查看生成的文件"
+    "读完关键概念与本题任务",
+    "手敲参考实现并跑通",
+    "能复述关键机制"
   ]
 }

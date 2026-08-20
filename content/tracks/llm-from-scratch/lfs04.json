@@ -7,13 +7,13 @@
     "torch"
   ],
   "entry": "lfs04_main.py",
-  "body": "# LFS04 · Common tensor operations\n\n对应《从零开始构建大模型》**附录 A · A.2.3 Common PyTorch tensor operations**（原创练习提纲，非书中原文）。\n\n## 目标\n- 练习 `reshape` / `view`、转置、矩阵乘、广播\n- 知道 `view` 要求内存连续，必要时 `.contiguous()`\n\n## 自检\n- [ ] 改形状再 matmul，不报错\n\n## 注释\n- 代码里带有 **【优先课注释】** 与分段说明，先读注释再跑。\n",
+  "body": "# LFS04: Common tensor operations\n\n来源：对照《从零开始构建大模型》附录 A（原创提纲，非书中原文；手敲练习）。\n\n## 关键概念（先读文档，再敲代码）\n\n| 概念 | 必须讲清 |\n|------|----------|\n| 逐元素 vs 矩阵乘 | `*` 与 `@` / `matmul` 不同 |\n| 广播 | 维度从后对齐，1 可扩；不懂广播=静默错 shape |\n| 归约 | sum/mean；注意 `dim=` 与 `keepdim` |\n\n## 本题任务\n\n对 arange 张量做 reshape、运算、归约并打印。\n\n## 动手要求\n\n- 起始代码已用注释标出：**请自行输入**（或去掉 `#`），再删除占位 `print`。\n- **关键机制以本题「关键概念」为准**；代码里的撞墙注释只是现场提醒。\n- 少复制粘贴，多手敲；敲错再改。\n\n## 自检\n\n- [ ] 去掉注释后能运行\n- [ ] 能用自己的话复述上表中的关键机制\n- [ ] 知道本课在整体轨道里卡住的是哪一环\n",
   "starterFiles": {
-    "lfs04_main.py": "# 【优先课注释】LLMFromScratch（附录 A）\n# 课题：LFS04: Common tensor operations\n# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。\n# ---------------------------------------------------------------------------\n\n# --- 导入依赖 ---\nimport torch\n\nx = torch.arange(6)\nprint(\"x\", x)\nprint(\"reshape (2,3)\", x.reshape(2, 3))\nprint(\"view (3,2)\", x.view(3, 2))\n\na = torch.tensor([[1.0, 2.0], [3.0, 4.0]])\nb = torch.tensor([[5.0, 6.0], [7.0, 8.0]])\nprint(\"a @ b\\n\", a @ b)\nprint(\"a.T\\n\", a.T)\n\n# broadcasting\nv = torch.tensor([10.0, 20.0])\nprint(\"a + v\\n\", a + v)\n"
+    "lfs04_main.py": "# =============================================================================\n# 自己动手敲（笨方法 / 代码题）：\n# 1) 先读左侧「本题任务 / 关键概念」，再敲下面「已注释」的参考实现（或去掉行首 #）\n# 2) 删掉最底部的占位 print\n# 3) 保存并运行（⌘/Ctrl+Enter）\n# 关键机制以题目文档为准；代码注释只是现场提示，不要只抄不读讲义。\n# =============================================================================\n\n# LFS04：常用张量运算。\n# 撞墙记录（预习，敲时对照）：\n#   墙：该 matmul 时写成 *，得到逐元素积还以为对。\n\n# import torch\n\n# x = torch.arange(6)\n# print(\"x\", x)\n# print(\"reshape (2,3)\", x.reshape(2, 3))\n# print(\"view (3,2)\", x.view(3, 2))\n\n# a = torch.tensor([[1.0, 2.0], [3.0, 4.0]])\n# b = torch.tensor([[5.0, 6.0], [7.0, 8.0]])\n# print(\"a @ b\\n\", a @ b)\n# print(\"a.T\\n\", a.T)\n\n# broadcasting\n# v = torch.tensor([10.0, 20.0])\n# print(\"a + v\\n\", a + v)\n\n# =============================================================================\n# 写完练习后，删除下面这行占位再运行：\nprint(\"(请在上方自行输入代码)\")\n"
   },
   "checklist": [
-    "对照书本附录 A 阅读",
-    "运行本课代码",
-    "改参数再跑一次"
+    "读完关键概念与本题任务",
+    "手敲参考实现并跑通",
+    "能复述关键机制"
   ]
 }

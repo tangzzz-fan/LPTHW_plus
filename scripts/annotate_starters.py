@@ -49,9 +49,13 @@ def comment_out_python(src: str) -> str:
 
 
 def annotate_priority(src: str, title: str, track: str) -> str:
-    """Prepend Chinese teaching comments; keep code runnable."""
+    """Prepend Chinese teaching comments; keep code runnable (may be commented out later)."""
     if "【优先课注释】" in src:
-        return src
+        # Refresh stale guidance line if present.
+        return src.replace(
+            "# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。",
+            "# 建议：先通读注释 → 按注释自己手敲（或去掉行首 #）→ 删占位 print 再跑。",
+        )
     track_hint = {
         "async-llm": "Async / LLM 落地",
         "pytorch": "PyTorch",
@@ -62,7 +66,7 @@ def annotate_priority(src: str, title: str, track: str) -> str:
     header = f'''\
 # 【优先课注释】{track_hint}
 # 课题：{title}
-# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。
+# 建议：先通读注释 → 按注释自己手敲（或去掉行首 #）→ 删占位 print 再跑。
 # ---------------------------------------------------------------------------
 
 '''
@@ -101,29 +105,39 @@ def process_lesson(path: Path, mode: str, track: str) -> bool:
         if mode == "lpthw":
             new = comment_out_python(content)
         else:
-            new = annotate_priority(content, title, track)
+            # mit-python / mit-llm: keep hand-type code; only add priority header if missing.
+            # Do NOT comment_out again (already commented by gen_mit).
+            if "自己动手敲" in content:
+                new = annotate_priority(content, title, track) if "【优先课注释】" not in content else content
+                # refresh guidance line only
+                if "【优先课注释】" in content:
+                    new = annotate_priority(content, title, track)
+            else:
+                new = annotate_priority(content, title, track)
+                new = comment_out_python(new)
         if new != content:
             starters[name] = new
             changed = True
-    if changed:
-        # nudge body
-        body = data.get("body") or ""
-        if mode == "lpthw" and "自己动手敲" not in body:
-            data["body"] = (
-                body.rstrip()
-                + "\n\n## 动手要求\n"
-                + "- 起始代码已用注释标出：**请自行输入**（或去掉 `#`），再删除占位 `print`。\n"
-                + "- 少复制粘贴，多手敲；敲错再改，是笨方法的核心。\n"
-            )
-        if mode == "priority" and "优先课注释" not in body:
-            data["body"] = (
-                body.rstrip()
-                + "\n\n## 注释\n"
-                + "- 代码里带有 **【优先课注释】** 与分段说明，先读注释再跑。\n"
-            )
-        data["starterFiles"] = starters
-        path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    return changed
+    if not changed:
+        return False
+    body = data.get("body") or ""
+    if mode == "lpthw" and "自己动手敲" not in body:
+        data["body"] = (
+            body.rstrip()
+            + "\n\n## 动手要求\n"
+            + "- 起始代码已用注释标出：**请自行输入**（或去掉 `#`），再删除占位 `print`。\n"
+            + "- 少复制粘贴，多手敲；敲错再改，是笨方法的核心。\n"
+        )
+    # Avoid appending duplicate 动手要求/注释 onto mit-style bodies that already have 本题任务
+    if mode == "priority" and "## 本题任务" not in body and "优先课注释" not in body:
+        data["body"] = (
+            (data.get("body") or body).rstrip()
+            + "\n\n## 注释\n"
+            + "- 代码里带有 **【优先课注释】**；先读左侧题目文档中的关键概念再手敲。\n"
+        )
+    data["starterFiles"] = starters
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return True
 
 
 def main() -> None:
@@ -131,7 +145,9 @@ def main() -> None:
     for p in sorted((TRACKS / "lpthw").glob("ex*.json")):
         if process_lesson(p, "lpthw", "lpthw"):
             n += 1
-    for track in ("async-llm", "pytorch", "llm-from-scratch", "mit-python", "mit-llm"):
+    # mit-* already ship mit-python style from gen_mit_tracks; only light priority tag if missing.
+    # async/pytorch/lfs are upgraded by scripts/upgrade_tracks_mit_style.py (rich body + mit starter).
+    for track in ("mit-python", "mit-llm"):
         folder = TRACKS / track
         if not folder.is_dir():
             continue
@@ -139,6 +155,7 @@ def main() -> None:
             if process_lesson(p, "priority", track):
                 n += 1
     print(f"updated {n} lessons")
+    print("note: async-llm/pytorch/llm-from-scratch → run scripts/upgrade_tracks_mit_style.py")
 
 
 if __name__ == "__main__":

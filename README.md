@@ -51,12 +51,12 @@ uv run python -c "import torch; print(torch.__version__, 'mps=', torch.backends.
 
 | 轨道 | 说明 |
 |------|------|
-| `lpthw` | Ex 0–52 全课可练（原创提纲） |
-| `async-llm` | 重点：asyncio → httpx → 流式 → 限流/Queue → JSON 重试 → RAG → `to_thread` → HTTP 退避 → FastAPI 超时 → SSE → 熔断 |
-| `pytorch` | 重点：Tensor → 训练/推理 → `asyncio.to_thread` 桥接 |
-| `llm-from-scratch` | **LLMFromScratch**：对照《从零开始构建大模型》附录 A（PyTorch 入门） |
-| `mit-python` | **MIT-Python**：inbox 一期 T1–T6 代码题（LPTHW 手敲） |
-| `mit-llm` | **MIT-LLM**：inbox 一期 T1–T7 代码题（mock 可跑，LPTHW 手敲） |
+| `lpthw` | Ex 0–52 全课可练（原创提纲；starter **已注释**，需手敲） |
+| `async-llm` | 企业 LLM 异步落地（**mit-python 标准**：关键概念在题目文档 + 手敲） |
+| `pytorch` | Tensor → 训练/推理 → `to_thread`（同上标准） |
+| `llm-from-scratch` | 附录 A 提纲（同上标准） |
+| `mit-python` | inbox 一期 T1–T6（讲义骨架 + 本题任务 + 手敲） |
+| `mit-llm` | inbox 一期 T1–T7（同上） |
 
 学习产生的文件在 `learner_workspace/`（已 gitignore）。
 
