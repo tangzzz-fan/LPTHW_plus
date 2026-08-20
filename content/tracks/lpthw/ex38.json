@@ -1,16 +1,16 @@
 {
   "title": "Ex 38: Doing Things to Lists",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex38.py",
-  "body": "# Ex 38 · Doing Things to Lists\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex38.py": "# Ex 38: Doing Things to Lists\nprint(\"TODO: complete exercise 38\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 38 · Doing Things to Lists\n\n列表方法：`append` `pop` 等会改原列表。\n\n## 目标\n- 练习常见 list 方法\n- 观察方法调用后列表如何变化\n\n## 自检\n- [ ] 每一步打印都看懂了\n- [ ] 试 `extend` 或 `insert`\n",
+  "entry": "ex38.py",
+  "starterFiles": {
+    "ex38.py": "ten_things = \"Apples Oranges Crows Telephone Light Sugar\"\nprint(\"Wait there are not 10 things in that list. Let's fix that.\")\n\nstuff = ten_things.split(\" \")\nmore_stuff = [\"Day\", \"Night\", \"Song\", \"Frisbee\", \"Corn\", \"Banana\", \"Girl\", \"Boy\"]\n\nwhile len(stuff) != 10:\n    next_one = more_stuff.pop()\n    print(\"Adding:\", next_one)\n    stuff.append(next_one)\n    print(f\"There are {len(stuff)} items now.\")\n\nprint(\"There we go:\", stuff)\nprint(\"Let's do some things with stuff.\")\nprint(stuff[1])\nprint(stuff[-1])\nprint(stuff.pop())\nprint(\" \".join(stuff))\nprint(\"#\".join(stuff[3:5]))\n"
+  },
+  "timeoutSec": 5
 }

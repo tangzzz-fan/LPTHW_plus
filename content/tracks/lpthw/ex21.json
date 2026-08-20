@@ -1,16 +1,16 @@
 {
   "title": "Ex 21: Functions Can Return Something",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex21.py",
-  "body": "# Ex 21 · Functions Can Return Something\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex21.py": "# Ex 21: Functions Can Return Something\nprint(\"TODO: complete exercise 21\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 21 · Functions Can Return Something\n\n`return` 把结果交回调用方，而不是只打印。\n\n## 目标\n- 写带返回值的函数\n- 把返回值赋给变量再继续算\n\n## 自检\n- [ ] 年龄相关公式能打印出数字\n- [ ] 试着 `return` 一个你自己的表达式\n",
+  "entry": "ex21.py",
+  "starterFiles": {
+    "ex21.py": "def add(a, b):\n    print(f\"ADDING {a} + {b}\")\n    return a + b\n\n\ndef subtract(a, b):\n    print(f\"SUBTRACTING {a} - {b}\")\n    return a - b\n\n\ndef multiply(a, b):\n    print(f\"MULTIPLYING {a} * {b}\")\n    return a * b\n\n\ndef divide(a, b):\n    print(f\"DIVIDING {a} / {b}\")\n    return a / b\n\n\nprint(\"Let's do some math with just functions!\")\nage = add(30, 5)\nheight = subtract(78, 4)\nweight = multiply(90, 2)\niq = divide(100, 2)\n\nprint(f\"Age: {age}, Height: {height}, Weight: {weight}, IQ: {iq}\")\n\nprint(\"Here is a puzzle.\")\nwhat = add(age, subtract(height, multiply(weight, divide(iq, 2))))\nprint(\"That becomes:\", what, \"Can you do it by hand?\")\n"
+  },
+  "timeoutSec": 5
 }

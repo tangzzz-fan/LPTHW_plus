@@ -1,16 +1,16 @@
 {
   "title": "Ex 33: While Loops",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex33.py",
-  "body": "# Ex 33 · While Loops\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex33.py": "# Ex 33: While Loops\nprint(\"TODO: complete exercise 33\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 33 · While Loops\n\n`while`：条件为真就重复。注意更新循环变量，避免死循环。\n\n## 目标\n- 用 while 填充列表\n- 对比等效的 for/range 写法\n\n## 自检\n- [ ] i 每次都会增加\n- [ ] 列表长度符合预期\n",
+  "entry": "ex33.py",
+  "starterFiles": {
+    "ex33.py": "i = 0\nnumbers = []\n\nwhile i < 6:\n    print(f\"At the top i is {i}\")\n    numbers.append(i)\n    i = i + 1\n    print(\"Numbers now:\", numbers)\n    print(f\"At the bottom i is {i}\")\n\nprint(\"The numbers:\")\nfor num in numbers:\n    print(num)\n"
+  },
+  "timeoutSec": 5
 }

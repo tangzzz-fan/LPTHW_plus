@@ -1,16 +1,16 @@
 {
   "title": "Ex 45: You Make a Game",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex45.py",
-  "body": "# Ex 45 · You Make a Game\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex45.py": "# Ex 45: You Make a Game\nprint(\"TODO: complete exercise 45\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 45 · You Make a Game\n\n极简文字游戏骨架：场景字典 + 主循环。在此基础上可自行扩展。\n\n## 目标\n- 跑通一个可玩的迷你循环\n- 看懂如何加新场景\n\n## 自检\n- [ ] 能从 start 走到 end\n- [ ] 新增一个场景名并接到地图\n",
+  "entry": "ex45.py",
+  "starterFiles": {
+    "ex45.py": "def start():\n    print(\"You wake up in a train station.\")\n    print(\"Go north to the plaza, or east to the cafe?\")\n    choice = input(\"> \").strip().lower()\n    if choice == \"north\":\n        return \"plaza\"\n    if choice == \"east\":\n        return \"cafe\"\n    print(\"Confused, you stay put.\")\n    return \"start\"\n\n\ndef plaza():\n    print(\"A fountain sparkles. You find a ticket. You win!\")\n    return \"end\"\n\n\ndef cafe():\n    print(\"Coffee smell. You rest, then head back.\")\n    return \"start\"\n\n\nSCENES = {\n    \"start\": start,\n    \"plaza\": plaza,\n    \"cafe\": cafe,\n}\n\nroom = \"start\"\nwhile room != \"end\":\n    room = SCENES[room]()\nprint(\"--- thanks for playing ---\")\n"
+  },
+  "timeoutSec": 3
 }

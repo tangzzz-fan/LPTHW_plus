@@ -1,16 +1,16 @@
 {
   "title": "Ex 25: Even More Practice",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex25.py",
-  "body": "# Ex 25 · Even More Practice\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex25.py": "# Ex 25: Even More Practice\nprint(\"TODO: complete exercise 25\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 25 · Even More Practice\n\n写一组处理句子的小函数，在主程序里组合调用。\n\n## 目标\n- 拆词、排序、弹出等列表操作\n- 函数返回列表供下一步使用\n\n## 自检\n- [ ] 每个函数都至少被调用一次\n- [ ] 理解 `pop(0)` 与 `pop(-1)` 的差别\n",
+  "entry": "ex25.py",
+  "starterFiles": {
+    "ex25.py": "def break_words(stuff):\n    \"\"\"This function will break up words for us.\"\"\"\n    return stuff.split()\n\n\ndef sort_words(words):\n    \"\"\"Sorts the words.\"\"\"\n    return sorted(words)\n\n\ndef print_first_word(words):\n    word = words.pop(0)\n    print(word)\n\n\ndef print_last_word(words):\n    word = words.pop(-1)\n    print(word)\n\n\ndef sort_sentence(sentence):\n    return sort_words(break_words(sentence))\n\n\ndef print_first_and_last(sentence):\n    words = break_words(sentence)\n    print_first_word(words)\n    print_last_word(words)\n\n\ndef print_first_and_last_sorted(sentence):\n    words = sort_sentence(sentence)\n    print_first_word(words)\n    print_last_word(words)\n\n\nsentence = \"All good things come to those who wait.\"\nwords = break_words(sentence)\nprint(\"words:\", words)\nsorted_words = sort_words(words)\nprint(\"sorted:\", sorted_words)\nprint(\"first/last from copy of words:\")\nprint_first_and_last(sentence)\nprint(\"first/last from sorted:\")\nprint_first_and_last_sorted(sentence)\n"
+  },
+  "timeoutSec": 5
 }

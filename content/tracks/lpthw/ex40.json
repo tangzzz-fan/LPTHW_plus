@@ -1,16 +1,16 @@
 {
   "title": "Ex 40: Modules, Classes, and Objects",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex40.py",
-  "body": "# Ex 40 · Modules, Classes, and Objects\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex40.py": "# Ex 40: Modules, Classes, and Objects\nprint(\"TODO: complete exercise 40\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 40 · Modules, Classes, and Objects\n\n类像模块的加强版：用 `MyClass()` 得到对象，再用 `.` 取属性/方法。\n\n## 目标\n- 定义 class 与 `__init__`\n- 创建实例并调用方法\n\n## 自检\n- [ ] 两首歌都能唱出来\n- [ ] 再给 Song 加一个方法\n",
+  "entry": "ex40.py",
+  "starterFiles": {
+    "ex40.py": "class Song:\n    def __init__(self, lyrics):\n        self.lyrics = lyrics\n\n    def sing_me_a_song(self):\n        for line in self.lyrics:\n            print(line)\n\n\nhappy_bday = Song([\n    \"Happy birthday to you\",\n    \"I don't want to get sued\",\n    \"So I'll stop right there\",\n])\n\nbulls_on_parade = Song([\n    \"They rally around tha family\",\n    \"With pockets full of shells\",\n])\n\nhappy_bday.sing_me_a_song()\nprint(\"---\")\nbulls_on_parade.sing_me_a_song()\n"
+  },
+  "timeoutSec": 5
 }

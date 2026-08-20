@@ -1,16 +1,16 @@
 {
   "title": "Ex 50: Your First Website",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex50.py",
-  "body": "# Ex 50 · Your First Website\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex50.py": "# Ex 50: Your First Website\nprint(\"TODO: complete exercise 50\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 50 · Your First Website\n\n不启动真实服务器：用函数模拟「收到请求 → 返回响应」，全程可离线跑。\n\n## 目标\n- 理解请求/响应的最小模型\n- 写一个返回 HTML 字符串的 handler\n\n## 自检\n- [ ] 打印出 status 与 body\n- [ ] 改 HTML 文案再跑一次\n",
+  "entry": "ex50.py",
+  "starterFiles": {
+    "ex50.py": "def handle_request(method: str, path: str) -> tuple[int, str, str]:\n    \"\"\"Return (status, content_type, body).\"\"\"\n    print(f\"[REQ] {method} {path}\")\n    if method == \"GET\" and path == \"/\":\n        body = \"<h1>Hello LPTHW</h1><p>Offline fake web server.</p>\"\n        return 200, \"text/html\", body\n    return 404, \"text/plain\", \"Not Found\"\n\n\ndef send_response(status: int, content_type: str, body: str) -> None:\n    print(f\"[RES] {status}\")\n    print(f\"Content-Type: {content_type}\")\n    print()\n    print(body)\n\n\nstatus, ctype, body = handle_request(\"GET\", \"/\")\nsend_response(status, ctype, body)\nprint(\"---\")\nstatus, ctype, body = handle_request(\"GET\", \"/missing\")\nsend_response(status, ctype, body)\n"
+  },
+  "timeoutSec": 5
 }

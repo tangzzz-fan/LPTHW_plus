@@ -1,16 +1,16 @@
 {
   "title": "Ex 47: Automated Testing",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex47.py",
-  "body": "# Ex 47 · Automated Testing\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex47.py": "# Ex 47: Automated Testing\nprint(\"TODO: complete exercise 47\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 47 · Automated Testing\n\n用 `assert` 写可运行的小测试。入口直接跑全部断言。\n\n## 目标\n- 为函数写 assert 测试\n- 失败时能根据 AssertionError 定位\n\n## 自检\n- [ ] 全部 assert 通过\n- [ ] 故意改期望值看失败信息\n",
+  "entry": "test_ex47.py",
+  "starterFiles": {
+    "test_ex47.py": "def room_paths(room, direction):\n    paths = {\n        \"center\": {\"north\": \"armory\", \"south\": \"door\"},\n        \"armory\": {\"south\": \"center\"},\n        \"door\": {\"north\": \"center\"},\n    }\n    return paths[room][direction]\n\n\ndef run_tests():\n    assert room_paths(\"center\", \"north\") == \"armory\"\n    assert room_paths(\"center\", \"south\") == \"door\"\n    assert room_paths(\"armory\", \"south\") == \"center\"\n    assert room_paths(\"door\", \"north\") == \"center\"\n    print(\"All asserts passed.\")\n\n\nif __name__ == \"__main__\":\n    run_tests()\n"
+  },
+  "timeoutSec": 5
 }

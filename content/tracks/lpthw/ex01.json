@@ -7,10 +7,10 @@
     "对照书本做一遍",
     "改几个数字/字符串再跑"
   ],
-  "body": "# Ex 1 · A Good First Program\n\n练习 `print`。多敲几遍，观察引号与括号。\n\n## 自检\n- [ ] 至少三行不同输出\n",
+  "body": "# Ex 1 · A Good First Program\n\n练习 `print`。多敲几遍，观察引号与括号。\n\n## 目标\n- 写出至少三行 `print`\n- 理解字符串要用引号包住\n\n## 说明\nPython 靠缩进组织代码；本课先专注输出。少写一个括号或引号都会报错——那是正常的学习过程。\n\n## 自检\n- [ ] 至少三行不同输出\n- [ ] 故意改错一次，再修好\n",
   "entry": "ex01.py",
   "starterFiles": {
-    "ex01.py": "print(\"Hello World!\")\nprint(\"Hello Again\")\nprint(\"I like typing this.\")\n"
+    "ex01.py": "print(\"Hello World!\")\nprint(\"Hello Again\")\nprint(\"I like typing this.\")\nprint(\"This is fun.\")\n"
   },
   "timeoutSec": 5
 }

@@ -1,16 +1,18 @@
 {
   "title": "Ex 46: A Project Skeleton",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex46.py",
-  "body": "# Ex 46 · A Project Skeleton\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex46.py": "# Ex 46: A Project Skeleton\nprint(\"TODO: complete exercise 46\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 46 · A Project Skeleton\n\n小型项目布局：包目录 + `__init__.py` + 可运行入口。\n\n## 目标\n- 认识 package 结构\n- 从入口脚本导入包内函数\n\n## 自检\n- [ ] `ex46.py` 能导入 `skeleton` 并打印\n- [ ] 打开包内文件看清分工\n",
+  "entry": "ex46.py",
+  "starterFiles": {
+    "ex46.py": "from skeleton import greet, VERSION\n\nprint(f\"skeleton package v{VERSION}\")\nprint(greet(\"LPTHW learner\"))\n",
+    "skeleton/__init__.py": "\"\"\"Tiny demo package for Ex 46.\"\"\"\n\nVERSION = \"0.1.0\"\n\n\ndef greet(name: str) -> str:\n    return f\"Hello from skeleton, {name}!\"\n",
+    "skeleton/core.py": "def add(a, b):\n    return a + b\n"
+  },
+  "timeoutSec": 5
 }

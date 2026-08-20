@@ -1,16 +1,16 @@
 {
   "title": "Ex 35: Branches and Functions",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex35.py",
-  "body": "# Ex 35 · Branches and Functions\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex35.py": "# Ex 35: Branches and Functions\nprint(\"TODO: complete exercise 35\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 35 · Branches and Functions\n\n小冒险：函数 + `input` + 分支，房间之间互相调用。\n\n## 目标\n- 用函数表示不同场景\n- 在分支里调用下一个场景\n\n## 自检\n- [ ] 至少通关一条安全路线\n- [ ] 读懂函数如何「跳转」\n",
+  "entry": "ex35.py",
+  "starterFiles": {
+    "ex35.py": "from sys import exit\n\n\ndef gold_room():\n    print(\"This room is full of gold. How much do you take?\")\n    choice = input(\"> \")\n    if choice.isnumeric():\n        how_much = int(choice)\n    else:\n        dead(\"Man, learn to type a number.\")\n        return\n    if how_much < 50:\n        print(\"Nice, you're not greedy. You win!\")\n        exit(0)\n    else:\n        dead(\"You greedy goose!\")\n\n\ndef bear_room():\n    print(\"There is a bear here.\")\n    print(\"The bear has a bunch of honey.\")\n    print(\"The fat bear is in front of another door.\")\n    print(\"How are you going to move the bear?\")\n    bear_moved = False\n    while True:\n        choice = input(\"> \")\n        if choice == \"take honey\":\n            dead(\"The bear looks at you then slaps your face off.\")\n        elif choice == \"taunt bear\" and not bear_moved:\n            print(\"The bear has moved from the door.\")\n            bear_moved = True\n        elif choice == \"taunt bear\" and bear_moved:\n            dead(\"The bear gets pissed off and chews your leg off.\")\n        elif choice == \"open door\" and bear_moved:\n            gold_room()\n            return\n        else:\n            print(\"I got no idea what that means.\")\n\n\ndef cthulhu_room():\n    print(\"Here you see the great evil Cthulhu.\")\n    print(\"It, uh, stares at you and you go insane.\")\n    print(\"Do you flee for your life or eat your head?\")\n    choice = input(\"> \")\n    if \"flee\" in choice:\n        start()\n    elif \"head\" in choice:\n        dead(\"Well that was tasty!\")\n    else:\n        cthulhu_room()\n\n\ndef dead(why):\n    print(why, \"Good job!\")\n    exit(0)\n\n\ndef start():\n    print(\"You are in a dark room.\")\n    print(\"There is a door to your right and left.\")\n    print(\"Which one do you take?\")\n    choice = input(\"> \")\n    if choice == \"left\":\n        bear_room()\n    elif choice == \"right\":\n        cthulhu_room()\n    else:\n        dead(\"You stumble around the room until you starve.\")\n\n\nstart()\n"
+  },
+  "timeoutSec": 3
 }

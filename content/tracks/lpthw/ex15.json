@@ -7,7 +7,7 @@
     "对照书本做一遍",
     "改几个数字/字符串再跑"
   ],
-  "body": "# Ex 15 · Reading Files\n\n右侧文件树里有 `sample.txt`。用 `open` / `read` 读出内容。\n",
+  "body": "# Ex 15 · Reading Files\n\n右侧文件树里有 `sample.txt`。用 `open` / `read` 读出内容。\n\n## 目标\n- 用 `with open(...)` 打开文件\n- 用 `read()` 打印全部内容\n\n## 自检\n- [ ] 能看到 sample.txt 的三行文字\n- [ ] 试着改 sample.txt 再跑一次\n",
   "entry": "ex15.py",
   "starterFiles": {
     "ex15.py": "filename = \"sample.txt\"\nwith open(filename) as f:\n    print(f\"Here is your file {filename}:\")\n    print(f.read())\n",

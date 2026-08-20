@@ -1,16 +1,16 @@
 {
   "title": "Ex 13: Parameters, Unpacking, Variables",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex13.py",
-  "body": "# Ex 13 · Parameters, Unpacking, Variables\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex13.py": "# Ex 13: Parameters, Unpacking, Variables\nprint(\"TODO: complete exercise 13\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 13 · Parameters, Unpacking, Variables\n\n`sys.argv` 接收命令行参数。本课在参数不足时使用默认值，保证直接点运行也能学到概念。\n\n## 目标\n- 理解 `sys.argv[0]` 是脚本名\n- 参数不够时优雅回退到默认值\n\n## 自检\n- [ ] 无参数运行仍有完整输出\n- [ ] 若环境支持传参，可试 `python ex13.py apple orange pear`\n",
+  "entry": "ex13.py",
+  "starterFiles": {
+    "ex13.py": "import sys\n\nscript = sys.argv[0]\nif len(sys.argv) >= 4:\n    first, second, third = sys.argv[1], sys.argv[2], sys.argv[3]\nelse:\n    print(\"Usage: python ex13.py first second third\")\n    print(\"(missing args — using defaults)\\n\")\n    first, second, third = \"first\", \"second\", \"third\"\n\nprint(\"The script is called:\", script)\nprint(\"Your first variable is:\", first)\nprint(\"Your second variable is:\", second)\nprint(\"Your third variable is:\", third)\n"
+  },
+  "timeoutSec": 5
 }

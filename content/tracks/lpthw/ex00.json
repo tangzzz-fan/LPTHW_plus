@@ -7,7 +7,7 @@
     "对照书本做一遍",
     "改几个数字/字符串再跑"
   ],
-  "body": "# Ex 0 · The Setup\n\n对照你的书完成环境确认。本站用本机 `python3` 执行代码。\n\n## 目标\n- 确认本机 Python 可运行\n- 习惯：先读说明 → 改代码 → 运行 → 看输出\n\n## 自检\n- [ ] 下方代码能跑出版本信息\n",
+  "body": "# Ex 0 · The Setup\n\n对照你的书完成环境确认。本站用本机 `python3` 执行代码。\n\n## 目标\n- 确认本机 Python 可运行\n- 习惯：先读说明 → 改代码 → 运行 → 看输出\n\n## 说明\n这一课没有花哨语法。跑通版本信息，就算环境就绪。\n\n## 自检\n- [ ] 下方代码能跑出版本信息\n- [ ] 你知道「运行」按钮会执行入口文件\n",
   "entry": "ex00.py",
   "starterFiles": {
     "ex00.py": "import sys\n\nprint(\"Python OK\")\nprint(sys.version)\n"

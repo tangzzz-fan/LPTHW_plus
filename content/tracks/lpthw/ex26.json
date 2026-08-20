@@ -1,16 +1,16 @@
 {
   "title": "Ex 26: Congratulations, Take a Test!",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex26.py",
-  "body": "# Ex 26 · Congratulations, Take a Test!\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex26.py": "# Ex 26: Congratulations, Take a Test!\nprint(\"TODO: complete exercise 26\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 26 · Congratulations, Take a Test!\n\n找 bug 风格练习：下面代码里埋了几处小错误/别扭写法，先跑通，再按注释清理。\n\n## 目标\n- 根据报错或错误输出定位问题\n- 学会「读 traceback → 改一行 → 再跑」\n\n## 自检\n- [ ] 程序能完整跑完\n- [ ] 你至少主动修过一处（或解释为何这样写）\n",
+  "entry": "ex26.py",
+  "starterFiles": {
+    "ex26.py": "# Drill: read carefully. One intentional quirk is documented.\nprint(\"How old are you?\", end=\" \")\n# For sandbox auto-run friendliness we also accept a default:\ntry:\n    age = input()\nexcept EOFError:\n    age = \"25\"\n    print(age, \"(default)\")\n\nprint(\"How tall are you?\", end=\" \")\ntry:\n    height = input()\nexcept EOFError:\n    height = \"180cm\"\n    print(height, \"(default)\")\n\nprint(f\"So you're {age} old and {height} tall.\")\n\ndef add(a, b):\n    return a + b\n\n\n# BUGFIX practice: this used to miss a return / wrong names.\nprint(\"10 + 5 =\", add(10, 5))\nwords = \"fixing bugs is a skill\".split()\nprint(\"sorted words:\", sorted(words))\n"
+  },
+  "timeoutSec": 3
 }

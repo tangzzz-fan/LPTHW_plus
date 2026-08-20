@@ -7,10 +7,10 @@
     "对照书本做一遍",
     "改几个数字/字符串再跑"
   ],
-  "body": "# Ex 3 · Numbers and Math\n\n练习 `+ - * / % < > <= >=`。先心算再核对输出。\n",
+  "body": "# Ex 3 · Numbers and Math\n\n练习 `+ - * / % < > <= >=`。先心算再核对输出。\n\n## 目标\n- 区分整数运算与浮点除法\n- 看懂比较表达式的 True/False\n\n## 自检\n- [ ] 至少改一组数字并预测结果\n- [ ] 理解 `%` 是取余\n",
   "entry": "ex03.py",
   "starterFiles": {
-    "ex03.py": "print(\"I will now count my chickens:\")\nprint(\"Hens\", 25 + 30 / 6)\nprint(\"Roosters\", 100 - 25 * 3 % 4)\nprint(\"Is it true that 3 + 2 < 5 - 7?\")\nprint(3 + 2 < 5 - 7)\n"
+    "ex03.py": "print(\"I will now count my chickens:\")\nprint(\"Hens\", 25 + 30 / 6)\nprint(\"Roosters\", 100 - 25 * 3 % 4)\nprint(\"Now I will count the eggs:\")\nprint(3 + 2 + 1 - 5 + 4 % 2 - 1 / 4 + 6)\nprint(\"Is it true that 3 + 2 < 5 - 7?\")\nprint(3 + 2 < 5 - 7)\nprint(\"What is 3 + 2?\", 3 + 2)\nprint(\"What is 5 - 7?\", 5 - 7)\n"
   },
   "timeoutSec": 5
 }

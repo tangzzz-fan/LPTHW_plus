@@ -1,16 +1,16 @@
 {
   "title": "Ex 18: Names, Variables, Code, Functions",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex18.py",
-  "body": "# Ex 18 · Names, Variables, Code, Functions\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex18.py": "# Ex 18: Names, Variables, Code, Functions\nprint(\"TODO: complete exercise 18\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 18 · Names, Variables, Code, Functions\n\n函数：给一段代码起名字，之后反复调用。\n\n## 目标\n- 用 `def` 定义函数\n- 理解参数就像函数里的变量\n\n## 自检\n- [ ] 至少两个函数被调用\n- [ ] 改参数再跑，输出变化符合预期\n",
+  "entry": "ex18.py",
+  "starterFiles": {
+    "ex18.py": "def print_two(*args):\n    arg1, arg2 = args\n    print(f\"arg1: {arg1}, arg2: {arg2}\")\n\n\ndef print_two_again(arg1, arg2):\n    print(f\"arg1: {arg1}, arg2: {arg2}\")\n\n\ndef print_one(arg1):\n    print(f\"arg1: {arg1}\")\n\n\ndef print_none():\n    print(\"I got nothin'.\")\n\n\nprint_two(\"Zed\", \"Shaw\")\nprint_two_again(\"Zed\", \"Shaw\")\nprint_one(\"First!\")\nprint_none()\n"
+  },
+  "timeoutSec": 5
 }

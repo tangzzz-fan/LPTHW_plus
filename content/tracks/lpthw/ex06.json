@@ -1,16 +1,16 @@
 {
   "title": "Ex 6: Strings and Text",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex06.py",
-  "body": "# Ex 6 · Strings and Text\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex06.py": "# Ex 6: Strings and Text\nprint(\"TODO: complete exercise 6\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 6 · Strings and Text\n\n字符串可以拼接、格式化，也可以嵌进别的字符串。\n\n## 目标\n- 使用 f-string 与 `+` 拼接\n- 看懂「字符串里再放变量」\n\n## 自检\n- [ ] 改 `types_of_people` 后相关句子变化\n- [ ] 至少一种拼接方式自己改写过\n",
+  "entry": "ex06.py",
+  "starterFiles": {
+    "ex06.py": "types_of_people = 10\nx = f\"There are {types_of_people} types of people.\"\n\nbinary = \"binary\"\ndo_not = \"don't\"\ny = f\"Those who know {binary} and those who {do_not}.\"\n\nprint(x)\nprint(y)\nprint(f\"I said: {x}\")\nprint(f\"I also said: '{y}'\")\n\nhilarious = False\njoke_evaluation = \"Isn't that joke so funny?! {}\"\nprint(joke_evaluation.format(hilarious))\n\nw = \"This is the left side of...\"\ne = \"a string with a right side.\"\nprint(w + e)\n"
+  },
+  "timeoutSec": 5
 }

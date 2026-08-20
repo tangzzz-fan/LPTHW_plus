@@ -1,16 +1,16 @@
 {
   "title": "Ex 48: Advanced User Input",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex48.py",
-  "body": "# Ex 48 · Advanced User Input\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex48.py": "# Ex 48: Advanced User Input\nprint(\"TODO: complete exercise 48\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 48 · Advanced User Input\n\n迷你词法：把句子拆成 `(类型, 词)` 对。可从 `input` 读一句。\n\n## 目标\n- 维护一小份 lexicon\n- 把未知词标成 error 类型\n\n## 自检\n- [ ] 默认句子能正确分词\n- [ ] 自己输入一句再看结果\n",
+  "entry": "ex48.py",
+  "starterFiles": {
+    "ex48.py": "LEXICON = {\n    \"north\": \"direction\",\n    \"south\": \"direction\",\n    \"east\": \"direction\",\n    \"west\": \"direction\",\n    \"go\": \"verb\",\n    \"kill\": \"verb\",\n    \"eat\": \"verb\",\n    \"the\": \"stop\",\n    \"in\": \"stop\",\n    \"of\": \"stop\",\n    \"bear\": \"noun\",\n    \"princess\": \"noun\",\n}\n\n\ndef scan(sentence: str):\n    words = sentence.lower().split()\n    result = []\n    for w in words:\n        if w in LEXICON:\n            result.append((LEXICON[w], w))\n        elif w.isnumeric():\n            result.append((\"number\", int(w)))\n        else:\n            result.append((\"error\", w))\n    return result\n\n\nprint(\"Type a sentence (or press Enter for demo):\")\nline = input(\"> \").strip()\nif not line:\n    line = \"go north eat the bear\"\n    print(\"(demo)\", line)\nprint(scan(line))\n"
+  },
+  "timeoutSec": 3
 }

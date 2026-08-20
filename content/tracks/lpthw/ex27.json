@@ -1,16 +1,16 @@
 {
   "title": "Ex 27: Memorizing Logic",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex27.py",
-  "body": "# Ex 27 · Memorizing Logic\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex27.py": "# Ex 27: Memorizing Logic\nprint(\"TODO: complete exercise 27\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 27 · Memorizing Logic\n\n布尔逻辑：`and` `or` `not` 与真值表。先背，再打印验证。\n\n## 目标\n- 打印一小份真值表\n- 记住 `not` 的优先级直觉\n\n## 自检\n- [ ] 表中每一行你都能口头解释\n- [ ] 试着加一行自己的表达式\n",
+  "entry": "ex27.py",
+  "starterFiles": {
+    "ex27.py": "print(\"True and True  =>\", True and True)\nprint(\"True and False =>\", True and False)\nprint(\"False and True =>\", False and True)\nprint(\"False and False=>\", False and False)\nprint()\nprint(\"True or True   =>\", True or True)\nprint(\"True or False  =>\", True or False)\nprint(\"False or True  =>\", False or True)\nprint(\"False or False =>\", False or False)\nprint()\nprint(\"not True  =>\", not True)\nprint(\"not False =>\", not False)\nprint()\nprint(\"1 != 0 =>\", 1 != 0)\nprint(\"1 == 0 =>\", 1 == 0)\nprint(\"1 > 0 and 2 < 5 =>\", 1 > 0 and 2 < 5)\n"
+  },
+  "timeoutSec": 5
 }

@@ -1,16 +1,16 @@
 {
   "title": "Ex 42: Is-A, Has-A, Objects, and Classes",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex42.py",
-  "body": "# Ex 42 · Is-A, Has-A, Objects, and Classes\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex42.py": "# Ex 42: Is-A, Has-A, Objects, and Classes\nprint(\"TODO: complete exercise 42\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 42 · Is-A, Has-A, Objects, and Classes\n\nis-a：继承关系。has-a：组合（里面有另一个对象）。\n\n## 目标\n- 用继承表达 Animal → Dog\n- 用属性表达 Person has-a pet\n\n## 自检\n- [ ] 能指出代码里的 is-a / has-a\n- [ ] 再加一种 Animal 子类\n",
+  "entry": "ex42.py",
+  "starterFiles": {
+    "ex42.py": "class Animal:\n    pass\n\n\nclass Dog(Animal):\n    def __init__(self, name):\n        self.name = name\n\n\nclass Cat(Animal):\n    def __init__(self, name):\n        self.name = name\n\n\nclass Person:\n    def __init__(self, name):\n        self.name = name\n        self.pet = None  # has-a pet (maybe)\n\n\nclass Employee(Person):\n    def __init__(self, name, salary):\n        super().__init__(name)\n        self.salary = salary\n\n\nrover = Dog(\"Rover\")\nsatan = Cat(\"Satan\")\nmary = Person(\"Mary\")\nmary.pet = satan\nfrank = Employee(\"Frank\", 120000)\nfrank.pet = rover\n\nprint(\"Dog is-a Animal?\", isinstance(rover, Animal))\nprint(\"Mary has-a pet:\", mary.pet.name)\nprint(\"Frank is-a Person?\", isinstance(frank, Person))\nprint(\"Frank has-a pet:\", frank.pet.name, \"salary:\", frank.salary)\n"
+  },
+  "timeoutSec": 5
 }

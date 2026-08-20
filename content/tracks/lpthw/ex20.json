@@ -1,16 +1,17 @@
 {
   "title": "Ex 20: Functions and Files",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex20.py",
-  "body": "# Ex 20 · Functions and Files\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex20.py": "# Ex 20: Functions and Files\nprint(\"TODO: complete exercise 20\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 20 · Functions and Files\n\n把读文件的步骤拆成小函数，主流程更清晰。\n\n## 目标\n- 函数接收文件对象并操作\n- 练习 `seek(0)` 回到文件开头\n\n## 自检\n- [ ] 三份打印内容都能看到\n- [ ] 理解为什么第二次全文打印前要 seek\n",
+  "entry": "ex20.py",
+  "starterFiles": {
+    "ex20.py": "def print_all(f):\n    print(f.read())\n\n\ndef rewind(f):\n    f.seek(0)\n\n\ndef print_a_line(line_count, f):\n    print(line_count, f.readline(), end=\"\")\n\n\ncurrent_file = open(\"story.txt\")\n\nprint(\"First let's print the whole file:\\n\")\nprint_all(current_file)\n\nprint(\"Now let's rewind, kind of like a tape.\")\nrewind(current_file)\n\nprint(\"Let's print three lines:\")\ncurrent_line = 1\nprint_a_line(current_line, current_file)\ncurrent_line += 1\nprint_a_line(current_line, current_file)\ncurrent_line += 1\nprint_a_line(current_line, current_file)\n\ncurrent_file.close()\n",
+    "story.txt": "This is line 1\nThis is line 2\nThis is line 3\n"
+  },
+  "timeoutSec": 5
 }

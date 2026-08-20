@@ -1,16 +1,16 @@
 {
   "title": "Ex 29: What If",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex29.py",
-  "body": "# Ex 29 · What If\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex29.py": "# Ex 29: What If\nprint(\"TODO: complete exercise 29\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 29 · What If\n\n`if`：条件为真才执行缩进块。\n\n## 目标\n- 写几个独立的 `if`\n- 观察缩进块何时执行\n\n## 自检\n- [ ] 改数字让某条 if 从不执行 / 总会执行\n- [ ] 缩进保持一致\n",
+  "entry": "ex29.py",
+  "starterFiles": {
+    "ex29.py": "people = 20\ncats = 30\ndogs = 15\n\nif people < cats:\n    print(\"Too many cats! The world is doomed!\")\n\nif people > cats:\n    print(\"Not many cats! The world is saved!\")\n\nif people < dogs:\n    print(\"The world is drooled on!\")\n\nif people > dogs:\n    print(\"The world is dry!\")\n\ndogs += 5\n\nif people >= dogs:\n    print(\"People are greater than or equal to dogs.\")\n\nif people <= dogs:\n    print(\"People are less than or equal to dogs.\")\n\nif people == dogs:\n    print(\"People are dogs.\")\n"
+  },
+  "timeoutSec": 5
 }

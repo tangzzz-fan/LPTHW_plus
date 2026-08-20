@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import Editor from '@monaco-editor/react'
 
 type EditorPaneProps = {
@@ -10,6 +11,12 @@ type EditorPaneProps = {
   running?: boolean
 }
 
+const isMac =
+  typeof navigator !== 'undefined' &&
+  /Mac|iPhone|iPad|iPod/i.test(navigator.platform)
+
+const mod = isMac ? '⌘' : 'Ctrl'
+
 export function EditorPane({
   path,
   value,
@@ -19,6 +26,31 @@ export function EditorPane({
   saving,
   running,
 }: EditorPaneProps) {
+  const onSaveRef = useRef(onSave)
+  const onRunRef = useRef(onRun)
+  onSaveRef.current = onSave
+  onRunRef.current = onRun
+
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      const modPressed = isMac ? e.metaKey : e.ctrlKey
+      if (!modPressed) return
+      // Terminal stdin uses Enter alone; don't steal Cmd/Ctrl+Enter there either if focused
+      const t = e.target as HTMLElement | null
+      if (t?.closest?.('.terminal-input-row') && e.key !== 'Enter') return
+
+      if (e.key === 'Enter') {
+        e.preventDefault()
+        onRunRef.current()
+      } else if (e.key.toLowerCase() === 's') {
+        e.preventDefault()
+        onSaveRef.current()
+      }
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [])
+
   return (
     <div className="editor-pane">
       <div className="editor-toolbar">
@@ -31,16 +63,18 @@ export function EditorPane({
             className="btn"
             onClick={onSave}
             disabled={!path || saving}
+            title={`${mod}+S`}
           >
-            {saving ? '保存中…' : '保存'}
+            {saving ? '保存中…' : `保存 ${mod}+S`}
           </button>
           <button
             type="button"
             className="btn primary"
             onClick={onRun}
             disabled={running}
+            title={`${mod}+Enter`}
           >
-            {running ? '运行中…' : '运行'}
+            {running ? '运行中…' : `运行 ${mod}+Enter`}
           </button>
         </div>
       </div>

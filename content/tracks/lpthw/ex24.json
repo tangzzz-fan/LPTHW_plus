@@ -1,16 +1,16 @@
 {
   "title": "Ex 24: More Practice",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex24.py",
-  "body": "# Ex 24 · More Practice\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex24.py": "# Ex 24: More Practice\nprint(\"TODO: complete exercise 24\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 24 · More Practice\n\n综合小练习：转义、格式化、函数、简单运算。\n\n## 目标\n- 把前面几课手法串起来\n- 读懂每一行在干什么\n\n## 自检\n- [ ] 全部输出无报错\n- [ ] 试着改 `secret_formula` 的返回值\n",
+  "entry": "ex24.py",
+  "starterFiles": {
+    "ex24.py": "print(\"Let's practice everything.\")\nprint(\"You'd need to know 'bout escapes with \\\\ that do:\")\nprint(\"\\n newlines and \\t tabs.\")\n\npoem = \"\"\"\n\\tThe lovely world\nwith logic so firmly planted\ncannot discern \\n the needs of love\nnor comprehend passion from intuition\nand requires an explanation\n\\n\\t\\twhere there is none.\n\"\"\"\nprint(\"--------------\")\nprint(poem)\nprint(\"--------------\")\n\nfive = 10 - 2 + 3 - 6\nprint(f\"This should be five: {five}\")\n\n\ndef secret_formula(started):\n    jelly_beans = started * 500\n    jars = jelly_beans / 1000\n    crates = jars / 100\n    return jelly_beans, jars, crates\n\n\nstart_point = 10000\nbeans, jars, crates = secret_formula(start_point)\nprint(\"With a starting point of: {}\".format(start_point))\nprint(f\"We'd have {beans} beans, {jars} jars, and {crates} crates.\")\n\nstart_point = start_point / 10\nprint(\"We can also do that this way:\")\nformula = secret_formula(start_point)\nprint(\"We'd have {} beans, {} jars, and {} crates.\".format(*formula))\n"
+  },
+  "timeoutSec": 5
 }

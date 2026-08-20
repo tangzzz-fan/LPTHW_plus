@@ -1,16 +1,16 @@
 {
   "title": "Ex 10: What Was That?",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex10.py",
-  "body": "# Ex 10 · What Was That?\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex10.py": "# Ex 10: What Was That?\nprint(\"TODO: complete exercise 10\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 10 · What Was That?\n\n转义字符：`\\n` `\\t` `\\\\` 以及引号转义。\n\n## 目标\n- 认识常见转义\n- 会在字符串里嵌套引号\n\n## 自检\n- [ ] 能指出哪一行用了 tab\n- [ ] 试着打印带双引号的句子\n",
+  "entry": "ex10.py",
+  "starterFiles": {
+    "ex10.py": "tabby_cat = \"\\tI'm tabbed in.\"\npersian_cat = \"I'm split\\non a line.\"\nbackslash_cat = \"I'm \\\\ a \\\\ cat.\"\n\nfat_cat = \"\"\"\nI'll do a list:\n\\t* Cat food\n\\t* Fishies\n\\t* Catnip\\n\\t* Grass\n\"\"\"\n\nprint(tabby_cat)\nprint(persian_cat)\nprint(backslash_cat)\nprint(fat_cat)\n"
+  },
+  "timeoutSec": 5
 }

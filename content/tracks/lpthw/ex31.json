@@ -1,16 +1,16 @@
 {
   "title": "Ex 31: Making Decisions",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex31.py",
-  "body": "# Ex 31 · Making Decisions\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex31.py": "# Ex 31: Making Decisions\nprint(\"TODO: complete exercise 31\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 31 · Making Decisions\n\n用 `input` + 嵌套 `if` 做简单选择游戏。\n\n## 目标\n- 根据用户输入走不同分支\n- 练习嵌套缩进\n\n## 自检\n- [ ] 至少两条完整路径你都试过\n- [ ] 输入非法选项时有提示\n",
+  "entry": "ex31.py",
+  "starterFiles": {
+    "ex31.py": "print(\"\"\"You enter a dark room with two doors.\nDo you go through door #1 or door #2?\"\"\")\n\ndoor = input(\"> \")\n\nif door == \"1\":\n    print(\"There's a giant bear here eating a cheese cake.\")\n    print(\"What do you do?\")\n    print(\"1. Take the cake.\")\n    print(\"2. Scream at the bear.\")\n    bear = input(\"> \")\n    if bear == \"1\":\n        print(\"The bear eats your face. Good job!\")\n    elif bear == \"2\":\n        print(\"The bear eats your legs. Good job!\")\n    else:\n        print(f\"Well, doing {bear} is probably better.\")\n        print(\"Bear runs away.\")\nelif door == \"2\":\n    print(\"You stare into the endless abyss at Cthulhu's retina.\")\n    print(\"1. Blueberries.\")\n    print(\"2. Yellow jacket clothespins.\")\n    print(\"3. Understanding revolvers yelling melodies.\")\n    insanity = input(\"> \")\n    if insanity in (\"1\", \"2\"):\n        print(\"Your body survives powered by a mind of jello.\")\n    else:\n        print(\"The insanity rots your eyes into a pool of muck.\")\nelse:\n    print(\"You stumble around and fall on a knife. Good job!\")\n"
+  },
+  "timeoutSec": 3
 }

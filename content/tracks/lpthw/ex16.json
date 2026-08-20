@@ -7,10 +7,10 @@
     "对照书本做一遍",
     "改几个数字/字符串再跑"
   ],
-  "body": "# Ex 16 · Reading and Writing Files\n\n练习 `write`。运行后刷新文件树，打开新文件确认内容。\n",
+  "body": "# Ex 16 · Reading and Writing Files\n\n练习 `write`。运行后刷新文件树，打开新文件确认内容。\n\n## 目标\n- 用 `\"w\"` 模式写入（会截断旧内容）\n- 写入多行并确认文件生成\n\n## 自检\n- [ ] 运行后出现 `out.txt`\n- [ ] 文件内容与代码一致\n",
   "entry": "ex16.py",
   "starterFiles": {
-    "ex16.py": "filename = \"out.txt\"\nwith open(filename, \"w\") as f:\n    f.write(\"I am truncating and writing.\\n\")\n    f.write(\"Line two.\\n\")\nprint(f\"Wrote {filename}\")\n"
+    "ex16.py": "filename = \"out.txt\"\nwith open(filename, \"w\") as f:\n    f.write(\"I am truncating and writing.\\n\")\n    f.write(\"Line two.\\n\")\n    f.write(\"Line three.\\n\")\nprint(f\"Wrote {filename}\")\n"
   },
   "timeoutSec": 5
 }

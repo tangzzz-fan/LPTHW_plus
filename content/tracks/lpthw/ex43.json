@@ -1,16 +1,16 @@
 {
   "title": "Ex 43: Basic Object-Oriented Analysis and Design",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex43.py",
-  "body": "# Ex 43 · Basic Object-Oriented Analysis and Design\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex43.py": "# Ex 43: Basic Object-Oriented Analysis and Design\nprint(\"TODO: complete exercise 43\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 43 · Basic Object-Oriented Analysis and Design\n\n迷你场景：用类描述「地图 / 房间 / 引擎」的职责划分。\n\n## 目标\n- 把概念拆成几个类\n- 引擎负责流程，房间负责描写\n\n## 自检\n- [ ] 跑通两个房间\n- [ ] 试着再加一个 Room 子类\n",
+  "entry": "ex43.py",
+  "starterFiles": {
+    "ex43.py": "class Scene:\n    def enter(self):\n        raise NotImplementedError\n\n\nclass Forest(Scene):\n    def enter(self):\n        print(\"You are in a misty forest. Paths: cabin / lake\")\n        return \"cabin\"\n\n\nclass Cabin(Scene):\n    def enter(self):\n        print(\"A warm cabin. You rest. The end.\")\n        return \"finished\"\n\n\nclass Map:\n    scenes = {\n        \"forest\": Forest(),\n        \"cabin\": Cabin(),\n    }\n\n    def __init__(self, start):\n        self.start = start\n\n    def next_scene(self, name):\n        return self.scenes.get(name)\n\n\nclass Engine:\n    def __init__(self, scene_map):\n        self.scene_map = scene_map\n\n    def play(self):\n        current = self.scene_map.next_scene(self.scene_map.start)\n        while current:\n            nxt = current.enter()\n            if nxt == \"finished\":\n                break\n            current = self.scene_map.next_scene(nxt)\n\n\nEngine(Map(\"forest\")).play()\n"
+  },
+  "timeoutSec": 5
 }

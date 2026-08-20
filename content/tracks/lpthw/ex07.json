@@ -1,16 +1,16 @@
 {
   "title": "Ex 7: More Printing",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex07.py",
-  "body": "# Ex 7 · More Printing\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex07.py": "# Ex 7: More Printing\nprint(\"TODO: complete exercise 7\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 7 · More Printing\n\n继续练 `print`：多行输出、拼接、`end=` 控制换行。\n\n## 目标\n- 熟练打印多段文字\n- 用 `end=\" \"` 让下一行接在同一行\n\n## 自检\n- [ ] 看到雪人那一行是拼出来的\n- [ ] 试着改 `end` 观察效果\n",
+  "entry": "ex07.py",
+  "starterFiles": {
+    "ex07.py": "print(\"Mary had a little lamb.\")\nprint(\"Its fleece was white as {}.\".format(\"snow\"))\nprint(\"And everywhere that Mary went.\")\nprint(\".\" * 10)  # what did that do?\n\nend1 = \"C\"\nend2 = \"h\"\nend3 = \"e\"\nend4 = \"e\"\nend5 = \"s\"\nend6 = \"e\"\nend7 = \"B\"\nend8 = \"u\"\nend9 = \"r\"\nend10 = \"g\"\nend11 = \"e\"\nend12 = \"r\"\n\nprint(end1 + end2 + end3 + end4 + end5 + end6, end=\" \")\nprint(end7 + end8 + end9 + end10 + end11 + end12)\n"
+  },
+  "timeoutSec": 5
 }

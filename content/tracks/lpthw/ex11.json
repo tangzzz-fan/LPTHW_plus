@@ -7,7 +7,7 @@
     "对照书本做一遍",
     "改几个数字/字符串再跑"
   ],
-  "body": "# Ex 11 · Asking Questions\n\n`input()` 从终端读一行。运行后在下方终端输入答案并回车。\n",
+  "body": "# Ex 11 · Asking Questions\n\n`input()` 从终端读一行。运行后在下方终端输入答案并回车。\n\n## 目标\n- 用 `input()` 读入用户输入\n- 把读到的值嵌进 f-string 打印\n\n## 自检\n- [ ] 运行后能在终端打字并回车\n- [ ] 最终总结句包含你输入的三个值\n",
   "entry": "ex11.py",
   "starterFiles": {
     "ex11.py": "print(\"How old are you?\", end=\" \")\nage = input()\nprint(\"How tall are you?\", end=\" \")\nheight = input()\nprint(\"How much do you weigh?\", end=\" \")\nweight = input()\nprint(f\"So, you're {age} old, {height} tall and {weight} heavy.\")\n"

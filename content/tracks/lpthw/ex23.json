@@ -1,16 +1,16 @@
 {
   "title": "Ex 23: Strings, Bytes and Character Encodings",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex23.py",
-  "body": "# Ex 23 · Strings, Bytes and Character Encodings\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex23.py": "# Ex 23: Strings, Bytes and Character Encodings\nprint(\"TODO: complete exercise 23\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 23 · Strings, Bytes and Character Encodings\n\n`str` 是文字，`bytes` 是原始字节。编解码用 UTF-8 最常见。\n\n## 目标\n- 用 `.encode(\"utf-8\")` / `.decode(\"utf-8\")`\n- 看懂中文等多字节字符\n\n## 自检\n- [ ] 编码后看到 `b'...'`\n- [ ] 解码后文字恢复\n",
+  "entry": "ex23.py",
+  "starterFiles": {
+    "ex23.py": "text = \"你好, LPTHW! café ☕\"\nprint(\"original:\", text)\nprint(\"type:\", type(text))\n\nraw = text.encode(\"utf-8\")\nprint(\"encoded bytes:\", raw)\nprint(\"byte length:\", len(raw), \"| char length:\", len(text))\n\nback = raw.decode(\"utf-8\")\nprint(\"decoded:\", back)\nprint(\"round-trip ok?\", back == text)\n\nprint(\"\\nHex view:\", raw.hex(\" \"))\n"
+  },
+  "timeoutSec": 5
 }

@@ -7,10 +7,10 @@
     "对照书本做一遍",
     "改几个数字/字符串再跑"
   ],
-  "body": "# Ex 5 · More Variables and Printing\n\n用 f-string 或 `.format` 把变量嵌进字符串。\n",
+  "body": "# Ex 5 · More Variables and Printing\n\n用 f-string 或 `.format` 把变量嵌进字符串。\n\n## 目标\n- 用 f-string 插入变量\n- 区分「字符串里的文字」和「算出来的值」\n\n## 自检\n- [ ] 改名字/年龄后输出跟着变\n- [ ] 至少两处 f-string\n",
   "entry": "ex05.py",
   "starterFiles": {
-    "ex05.py": "my_name = \"Zed A. Shaw\"\nmy_age = 35\nmy_height = 74  # inches\nmy_weight = 180  # lbs\n\nprint(f\"Let's talk about {my_name}.\")\nprint(f\"He's {my_height} inches tall.\")\nprint(f\"He's {my_weight} pounds heavy.\")\n"
+    "ex05.py": "my_name = \"Zed A. Shaw\"\nmy_age = 35\nmy_height = 74  # inches\nmy_weight = 180  # lbs\nmy_eyes = \"Blue\"\nmy_teeth = \"White\"\nmy_hair = \"Brown\"\n\nprint(f\"Let's talk about {my_name}.\")\nprint(f\"He's {my_height} inches tall.\")\nprint(f\"He's {my_weight} pounds heavy.\")\nprint(f\"He's got {my_eyes} eyes and {my_hair} hair.\")\nprint(f\"His teeth are usually {my_teeth} depending on the coffee.\")\ntotal = my_age + my_height + my_weight\nprint(f\"If I add {my_age}, {my_height}, and {my_weight} I get {total}.\")\n"
   },
   "timeoutSec": 5
 }

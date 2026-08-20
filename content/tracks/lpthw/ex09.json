@@ -1,16 +1,16 @@
 {
   "title": "Ex 9: Printing, Printing, Printing",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex09.py",
-  "body": "# Ex 9 · Printing, Printing, Printing\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex09.py": "# Ex 9: Printing, Printing, Printing\nprint(\"TODO: complete exercise 9\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 9 · Printing, Printing, Printing\n\n多行字符串：`\\n` 换行，或用三引号保留格式。\n\n## 目标\n- 用 `\\n` 手动换行\n- 用 `\"\"\"...\"\"\"` 写一段多行文字\n\n## 自检\n- [ ] days / months 输出格式清楚\n- [ ] 三引号段落里至少改一行字\n",
+  "entry": "ex09.py",
+  "starterFiles": {
+    "ex09.py": "days = \"Mon Tue Wed Thu Fri Sat Sun\"\nmonths = \"Jan\\nFeb\\nMar\\nApr\\nMay\\nJun\\nJul\\nAug\"\n\nprint(\"Here are the days:\", days)\nprint(\"Here are the months:\", months)\n\nprint(\"\"\"\nThere's something going on here.\nWith the three double-quotes.\nWe'll be able to type as much as we like.\nEven 4 lines if we want, or 5, or 6.\n\"\"\")\n"
+  },
+  "timeoutSec": 5
 }

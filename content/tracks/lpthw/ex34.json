@@ -1,16 +1,16 @@
 {
   "title": "Ex 34: Accessing Elements of Lists",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex34.py",
-  "body": "# Ex 34 · Accessing Elements of Lists\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex34.py": "# Ex 34: Accessing Elements of Lists\nprint(\"TODO: complete exercise 34\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 34 · Accessing Elements of Lists\n\n列表下标从 0 开始：`animals[0]` 是第一只。\n\n## 目标\n- 用整数下标取元素\n- 分清「第 N 个」与「下标 N-1」\n\n## 自检\n- [ ] 能正确指出 ordinal vs cardial\n- [ ] 试一下负数下标 `animals[-1]`\n",
+  "entry": "ex34.py",
+  "starterFiles": {
+    "ex34.py": "animals = [\"bear\", \"python3\", \"peacock\", \"kangaroo\", \"whale\", \"platypus\"]\n\nprint(\"The animal at 0:\", animals[0])\nprint(\"The 1st animal is at 0 and is a\", animals[0])\nprint(\"The 2nd animal is at 1 and is a\", animals[1])\nprint(\"The 3rd animal is at 2 and is a\", animals[2])\nprint(\"The animal at 3:\", animals[3])\nprint(\"The 5th animal is at 4 and is a\", animals[4])\nprint(\"The animal at 2:\", animals[2])\nprint(\"The 6th animal is at 5 and is a\", animals[5])\nprint(\"The animal at 4:\", animals[4])\nprint(\"Last animal via -1:\", animals[-1])\n"
+  },
+  "timeoutSec": 5
 }

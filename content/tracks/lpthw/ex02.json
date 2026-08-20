@@ -7,10 +7,10 @@
     "对照书本做一遍",
     "改几个数字/字符串再跑"
   ],
-  "body": "# Ex 2 · Comments\n\n`#` 后面是注释。用注释给未来的自己留言。\n",
+  "body": "# Ex 2 · Comments and Pound Characters\n\n`#` 后面是注释。用注释给未来的自己留言。\n\n## 目标\n- 会写行首注释与行尾注释\n- 知道注释不会被执行\n\n## 自检\n- [ ] 至少有两处 `#` 注释\n- [ ] 注释掉一行 `print` 后再运行，确认少了一行输出\n",
   "entry": "ex02.py",
   "starterFiles": {
-    "ex02.py": "# A comment, this is so you can read your program later.\nprint(\"I could have code like this.\")  # and the comment after is ignored\n"
+    "ex02.py": "# A comment, this is so you can read your program later.\n# Anything after the # is ignored by Python.\n\nprint(\"I could have code like this.\")  # and the comment after is ignored\n\n# print(\"This will not run.\")\nprint(\"This will run.\")\n"
   },
   "timeoutSec": 5
 }

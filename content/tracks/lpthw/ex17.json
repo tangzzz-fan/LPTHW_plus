@@ -1,16 +1,17 @@
 {
   "title": "Ex 17: More Files",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex17.py",
-  "body": "# Ex 17 · More Files\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex17.py": "# Ex 17: More Files\nprint(\"TODO: complete exercise 17\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 17 · More Files\n\n从一个文件读，写到另一个文件——迷你「复制」。\n\n## 目标\n- 读 `from.txt` 全文\n- 写入 `to.txt` 并核对长度\n\n## 自检\n- [ ] `to.txt` 内容与 `from.txt` 一致\n- [ ] 打印了复制的字节/字符数\n",
+  "entry": "ex17.py",
+  "starterFiles": {
+    "ex17.py": "from_file = \"from.txt\"\nto_file = \"to.txt\"\n\nprint(f\"Copying from {from_file} to {to_file}\")\nwith open(from_file) as infile:\n    data = infile.read()\n\nprint(f\"The input file is {len(data)} characters long\")\nwith open(to_file, \"w\") as outfile:\n    outfile.write(data)\n\nprint(\"All done. Re-read the copy:\")\nwith open(to_file) as f:\n    print(f.read())\n",
+    "from.txt": "Line A from the source file.\nLine B is also here.\nCopy me please.\n"
+  },
+  "timeoutSec": 5
 }

@@ -1,16 +1,16 @@
 {
   "title": "Ex 28: Boolean Practice",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex28.py",
-  "body": "# Ex 28 · Boolean Practice\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex28.py": "# Ex 28: Boolean Practice\nprint(\"TODO: complete exercise 28\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 28 · Boolean Practice\n\n更多布尔表达式练习：先猜结果，再看程序输出。\n\n## 目标\n- 对一列表达式做「心算 vs 实算」\n- 习惯用括号让优先级清晰\n\n## 自检\n- [ ] 至少猜对一半再对答案\n- [ ] 改写其中两行加括号\n",
+  "entry": "ex28.py",
+  "starterFiles": {
+    "ex28.py": "exprs = [\n    \"True and True\",\n    \"False and True\",\n    \"1 == 1 and 2 == 1\",\n    '\"test\" == \"test\"',\n    \"1 == 1 or 2 != 1\",\n    \"True and 1 == 1\",\n    \"False and 0 != 0\",\n    \"True or 1 == 1\",\n    '\"test\" == \"testing\"',\n    \"1 != 0 and 2 == 1\",\n    '\"test\" != \"testing\"',\n    '\"test\" == 1',\n    \"not (True and False)\",\n    \"not (1 == 1 and 0 != 1)\",\n    \"not (10 == 1 or 1000 == 1000)\",\n]\n\nfor e in exprs:\n    print(f\"{e:40} => {eval(e)}\")\n"
+  },
+  "timeoutSec": 5
 }

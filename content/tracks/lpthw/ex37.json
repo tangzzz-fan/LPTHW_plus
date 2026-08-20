@@ -1,16 +1,16 @@
 {
   "title": "Ex 37: Symbol Review",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex37.py",
-  "body": "# Ex 37 · Symbol Review\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex37.py": "# Ex 37: Symbol Review\nprint(\"TODO: complete exercise 37\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 37 · Symbol Review\n\n符号速查：把常见关键字/运算符打印成小抄。\n\n## 目标\n- 复习关键字与运算符含义\n- 对照输出查漏补缺\n\n## 自检\n- [ ] 标出仍不熟的 3 个符号\n- [ ] 给表里补一行你自己的例子\n",
+  "entry": "ex37.py",
+  "starterFiles": {
+    "ex37.py": "symbols = [\n    (\"and\", \"逻辑与\"),\n    (\"or\", \"逻辑或\"),\n    (\"not\", \"逻辑非\"),\n    (\"if/elif/else\", \"分支\"),\n    (\"for/while\", \"循环\"),\n    (\"def/return\", \"函数\"),\n    (\"class\", \"类\"),\n    (\"import/from\", \"导入\"),\n    (\"try/except\", \"异常\"),\n    (\"True/False/None\", \"内建常量\"),\n    (\"+/ -/*/ / // %\", \"算术\"),\n    (\"== != < > <= >=\", \"比较\"),\n    (\"[] {} ()\", \"容器/调用/优先级\"),\n]\n\nprint(f'{\"symbol\":20} meaning')\nprint(\"-\" * 40)\nfor sym, meaning in symbols:\n    print(f\"{sym:20} {meaning}\")\n"
+  },
+  "timeoutSec": 5
 }

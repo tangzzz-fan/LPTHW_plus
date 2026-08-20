@@ -1,16 +1,16 @@
 {
   "title": "Ex 44: Inheritance Versus Composition",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex44.py",
-  "body": "# Ex 44 · Inheritance Versus Composition\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex44.py": "# Ex 44: Inheritance Versus Composition\nprint(\"TODO: complete exercise 44\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 44 · Inheritance Versus Composition\n\n继承：是一种。组合：有一个。很多时候组合更灵活。\n\n## 目标\n- 对比继承调用与组合委托\n- 体会何时该用哪一种\n\n## 自检\n- [ ] 两种写法都能打印\n- [ ] 用自己的话各举一例\n",
+  "entry": "ex44.py",
+  "starterFiles": {
+    "ex44.py": "class Parent:\n    def implicit(self):\n        print(\"PARENT implicit()\")\n\n    def override(self):\n        print(\"PARENT override()\")\n\n    def altered(self):\n        print(\"PARENT altered()\")\n\n\nclass Child(Parent):\n    def override(self):\n        print(\"CHILD override()\")\n\n    def altered(self):\n        print(\"CHILD, BEFORE PARENT altered()\")\n        super().altered()\n        print(\"CHILD, AFTER PARENT altered()\")\n\n\nprint(\"=== Inheritance ===\")\ndad = Parent()\nson = Child()\ndad.implicit()\nson.implicit()\ndad.override()\nson.override()\ndad.altered()\nson.altered()\n\n\nclass Other:\n    def override(self):\n        print(\"OTHER override()\")\n\n    def implicit(self):\n        print(\"OTHER implicit()\")\n\n    def altered(self):\n        print(\"OTHER altered()\")\n\n\nclass Composed:\n    def __init__(self):\n        self.other = Other()\n\n    def implicit(self):\n        self.other.implicit()\n\n    def override(self):\n        print(\"COMPOSED override()\")\n\n    def altered(self):\n        print(\"COMPOSED, BEFORE OTHER altered()\")\n        self.other.altered()\n        print(\"COMPOSED, AFTER OTHER altered()\")\n\n\nprint(\"\\n=== Composition ===\")\nc = Composed()\nc.implicit()\nc.override()\nc.altered()\n"
+  },
+  "timeoutSec": 5
 }

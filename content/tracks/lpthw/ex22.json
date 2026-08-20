@@ -1,16 +1,16 @@
 {
   "title": "Ex 22: What Do You Know So Far?",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex22.py",
-  "body": "# Ex 22 · What Do You Know So Far?\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex22.py": "# Ex 22: What Do You Know So Far?\nprint(\"TODO: complete exercise 22\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 22 · What Do You Know So Far?\n\n复习课：把目前学过的关键词/概念打印成清单，对照自查。\n\n## 目标\n- 用代码列出已学概念\n- 标出还不熟的一项去复习\n\n## 自检\n- [ ] 清单能完整打印\n- [ ] 至少补充一项你自己的笔记到列表里\n",
+  "entry": "ex22.py",
+  "starterFiles": {
+    "ex22.py": "concepts = [\n    (\"print\", \"输出到终端\"),\n    (\"#\", \"注释\"),\n    (\"变量\", \"给值起名字\"),\n    (\"字符串\", \"引号包住的文字\"),\n    (\"input\", \"从终端读入\"),\n    (\"sys.argv\", \"命令行参数\"),\n    (\"open/read/write\", \"文件读写\"),\n    (\"def / return\", \"函数与返回值\"),\n]\n\nprint(\"=== LPTHW so far ===\")\nfor i, (name, tip) in enumerate(concepts, start=1):\n    print(f\"{i:02d}. {name:16} — {tip}\")\n\nprint(\"\\nPick one weak item and re-run an earlier exercise.\")\n"
+  },
+  "timeoutSec": 5
 }

@@ -1,16 +1,16 @@
 {
   "title": "Ex 51: Getting Input from a Browser",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex51.py",
-  "body": "# Ex 51 · Getting Input from a Browser\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex51.py": "# Ex 51: Getting Input from a Browser\nprint(\"TODO: complete exercise 51\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 51 · Getting Input from a Browser\n\n模拟表单提交：把「浏览器发来的字段」做成 dict，handler 读取后回显。\n\n## 目标\n- 用 dict 表示 form/query 参数\n- 根据输入生成不同响应\n\n## 自检\n- [ ] 两种名字都能生成问候\n- [ ] 缺省参数有默认值\n",
+  "entry": "ex51.py",
+  "starterFiles": {
+    "ex51.py": "def handle_form(method: str, path: str, form: dict) -> str:\n    print(f\"[REQ] {method} {path} form={form}\")\n    if path == \"/hello\" and method == \"POST\":\n        name = form.get(\"name\") or \"World\"\n        greet = form.get(\"greet\") or \"Hi\"\n        return f\"<p>{greet}, {name}!</p>\"\n    return \"<p>unknown form</p>\"\n\n\nprint(handle_form(\"POST\", \"/hello\", {\"name\": \"Ada\", \"greet\": \"Hello\"}))\nprint(handle_form(\"POST\", \"/hello\", {}))\nprint(handle_form(\"GET\", \"/\", {}))\n"
+  },
+  "timeoutSec": 5
 }

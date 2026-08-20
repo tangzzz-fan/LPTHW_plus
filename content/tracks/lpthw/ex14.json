@@ -1,16 +1,16 @@
 {
   "title": "Ex 14: Prompting and Passing",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex14.py",
-  "body": "# Ex 14 · Prompting and Passing\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex14.py": "# Ex 14: Prompting and Passing\nprint(\"TODO: complete exercise 14\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 14 · Prompting and Passing\n\n结合 `sys.argv` 与 `input()`：参数给用户名，其余问题现场问。\n\n## 目标\n- 从 argv 取用户名（缺省则默认）\n- 再用 `input` 问后续问题\n\n## 自检\n- [ ] 无参数时仍能完成对话\n- [ ] 提示语里出现用户名\n",
+  "entry": "ex14.py",
+  "starterFiles": {
+    "ex14.py": "import sys\n\nscript = sys.argv[0]\nif len(sys.argv) >= 2:\n    user_name = sys.argv[1]\nelse:\n    print(\"Usage: python ex14.py your_name  (using default name)\")\n    user_name = \"Learner\"\n\nprompt = f\"{script} ({user_name})> \"\n\nprint(f\"Hi {user_name}, I'm the {script} script.\")\nprint(\"I'd like to ask you a few questions.\")\nlikes = input(f\"Do you like me {user_name}? \")\nlives = input(f\"Where do you live {user_name}? \")\ncomputer = input(\"What kind of computer do you have? \")\n\nprint(f\"\"\"\nAlright, so you said {likes} about liking me.\nYou live in {lives}. Not sure where that is.\nAnd you have a {computer} computer. Nice.\n\"\"\")\n"
+  },
+  "timeoutSec": 3
 }

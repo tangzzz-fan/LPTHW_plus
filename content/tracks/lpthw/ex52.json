@@ -1,16 +1,16 @@
 {
   "title": "Ex 52: The Start of Your Web Game",
   "priority": false,
-  "outlineOnly": true,
-  "timeoutSec": 5,
+  "outlineOnly": false,
   "requires": [],
-  "entry": "ex52.py",
-  "body": "# Ex 52 · The Start of Your Web Game\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
-  "starterFiles": {
-    "ex52.py": "# Ex 52: The Start of Your Web Game\nprint(\"TODO: complete exercise 52\")\n"
-  },
   "checklist": [
-    "阅读书中本课",
-    "在此完成练习并运行"
-  ]
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 52 · The Start of Your Web Game\n\n进程内迷你路由器：路径映射到场景函数，模拟「网页版」文字游戏的一跳。\n\n## 目标\n- 用 dict 做路由表\n- 一次请求进入一个场景并得到 HTML\n\n## 自检\n- [ ] `/game?door=left` 与 `right` 结果不同\n- [ ] 404 路径有提示\n",
+  "entry": "ex52.py",
+  "starterFiles": {
+    "ex52.py": "def scene_index(params: dict) -> str:\n    return \"<h1>Web Game</h1><p>Try /game?door=left or door=right</p>\"\n\n\ndef scene_game(params: dict) -> str:\n    door = params.get(\"door\", \"\")\n    if door == \"left\":\n        return \"<p>You find a quiet library. Safe for now.</p>\"\n    if door == \"right\":\n        return \"<p>A dragon snorts. Maybe go left next time.</p>\"\n    return \"<p>Pick a door via ?door=left|right</p>\"\n\n\nROUTES = {\n    \"/\": scene_index,\n    \"/game\": scene_game,\n}\n\n\ndef dispatch(path: str, params: dict | None = None) -> str:\n    params = params or {}\n    print(f\"[REQ] GET {path} {params}\")\n    handler = ROUTES.get(path)\n    if not handler:\n        body = f\"<p>404 {path}</p>\"\n    else:\n        body = handler(params)\n    print(\"[RES]\", body)\n    return body\n\n\ndispatch(\"/\")\ndispatch(\"/game\", {\"door\": \"left\"})\ndispatch(\"/game\", {\"door\": \"right\"})\ndispatch(\"/nope\")\n"
+  },
+  "timeoutSec": 5
 }
