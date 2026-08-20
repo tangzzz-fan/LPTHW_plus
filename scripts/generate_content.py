@@ -1237,6 +1237,10 @@ if __name__ == "__main__":
     gen_lpthw()
     gen_async()
     gen_pytorch()
+    import sys
+    from pathlib import Path as _Path
+
+    sys.path.insert(0, str(_Path(__file__).resolve().parent))
     from gen_llm_from_scratch import main as gen_lfs
 
     gen_lfs()
