@@ -1,6 +1,6 @@
 # Inbox → LPTHW 式练习轨道（执行计划）
 
-> 状态：**待你下令后执行**。已通读 `inbox/MIT-Python-Migration` 与 `inbox/MIT-LLM-Migration`。
+> 状态：**已按默认一期执行并提交**（MIT-Python T1–T6 + MIT-LLM T1–T7）。
 
 ## Inbox 内容结论
 
