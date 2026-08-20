@@ -7,10 +7,10 @@
     "对照书本做一遍",
     "改几个数字/字符串再跑"
   ],
-  "body": "# Ex 38 · Doing Things to Lists\n\n列表方法：`append` `pop` 等会改原列表。\n\n## 目标\n- 练习常见 list 方法\n- 观察方法调用后列表如何变化\n\n## 自检\n- [ ] 每一步打印都看懂了\n- [ ] 试 `extend` 或 `insert`\n",
+  "body": "# Ex 38 · Doing Things to Lists\n\n列表方法：`append` `pop` 等会改原列表。\n\n## 目标\n- 练习常见 list 方法\n- 观察方法调用后列表如何变化\n\n## 自检\n- [ ] 每一步打印都看懂了\n- [ ] 试 `extend` 或 `insert`\n\n## 动手要求\n- 起始代码已用注释标出：**请自行输入**（或去掉 `#`），再删除占位 `print`。\n- 少复制粘贴，多手敲；敲错再改，是笨方法的核心。\n",
   "entry": "ex38.py",
   "starterFiles": {
-    "ex38.py": "ten_things = \"Apples Oranges Crows Telephone Light Sugar\"\nprint(\"Wait there are not 10 things in that list. Let's fix that.\")\n\nstuff = ten_things.split(\" \")\nmore_stuff = [\"Day\", \"Night\", \"Song\", \"Frisbee\", \"Corn\", \"Banana\", \"Girl\", \"Boy\"]\n\nwhile len(stuff) != 10:\n    next_one = more_stuff.pop()\n    print(\"Adding:\", next_one)\n    stuff.append(next_one)\n    print(f\"There are {len(stuff)} items now.\")\n\nprint(\"There we go:\", stuff)\nprint(\"Let's do some things with stuff.\")\nprint(stuff[1])\nprint(stuff[-1])\nprint(stuff.pop())\nprint(\" \".join(stuff))\nprint(\"#\".join(stuff[3:5]))\n"
+    "ex38.py": "# =============================================================================\n# 自己动手敲（笨方法）：\n# 1) 把下面「已注释」的代码亲手输入到编辑器（或去掉行首的 # ）\n# 2) 删掉最底部的占位 print\n# 3) 保存并运行（⌘/Ctrl+Enter）\n# 对照书本完成本课；不要复制粘贴完事。\n# =============================================================================\n\n# ten_things = \"Apples Oranges Crows Telephone Light Sugar\"\n# print(\"Wait there are not 10 things in that list. Let's fix that.\")\n\n# stuff = ten_things.split(\" \")\n# more_stuff = [\"Day\", \"Night\", \"Song\", \"Frisbee\", \"Corn\", \"Banana\", \"Girl\", \"Boy\"]\n\n# while len(stuff) != 10:\n    # next_one = more_stuff.pop()\n    # print(\"Adding:\", next_one)\n    # stuff.append(next_one)\n    # print(f\"There are {len(stuff)} items now.\")\n\n# print(\"There we go:\", stuff)\n# print(\"Let's do some things with stuff.\")\n# print(stuff[1])\n# print(stuff[-1])\n# print(stuff.pop())\n# print(\" \".join(stuff))\n# print(\"#\".join(stuff[3:5]))\n\n# =============================================================================\n# 写完练习后，删除下面这行占位再运行：\nprint(\"(请在上方自行输入代码)\")\n"
   },
   "timeoutSec": 5
 }

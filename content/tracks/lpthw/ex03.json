@@ -7,10 +7,10 @@
     "对照书本做一遍",
     "改几个数字/字符串再跑"
   ],
-  "body": "# Ex 3 · Numbers and Math\n\n练习 `+ - * / % < > <= >=`。先心算再核对输出。\n\n## 目标\n- 区分整数运算与浮点除法\n- 看懂比较表达式的 True/False\n\n## 自检\n- [ ] 至少改一组数字并预测结果\n- [ ] 理解 `%` 是取余\n",
+  "body": "# Ex 3 · Numbers and Math\n\n练习 `+ - * / % < > <= >=`。先心算再核对输出。\n\n## 目标\n- 区分整数运算与浮点除法\n- 看懂比较表达式的 True/False\n\n## 自检\n- [ ] 至少改一组数字并预测结果\n- [ ] 理解 `%` 是取余\n\n## 动手要求\n- 起始代码已用注释标出：**请自行输入**（或去掉 `#`），再删除占位 `print`。\n- 少复制粘贴，多手敲；敲错再改，是笨方法的核心。\n",
   "entry": "ex03.py",
   "starterFiles": {
-    "ex03.py": "print(\"I will now count my chickens:\")\nprint(\"Hens\", 25 + 30 / 6)\nprint(\"Roosters\", 100 - 25 * 3 % 4)\nprint(\"Now I will count the eggs:\")\nprint(3 + 2 + 1 - 5 + 4 % 2 - 1 / 4 + 6)\nprint(\"Is it true that 3 + 2 < 5 - 7?\")\nprint(3 + 2 < 5 - 7)\nprint(\"What is 3 + 2?\", 3 + 2)\nprint(\"What is 5 - 7?\", 5 - 7)\n"
+    "ex03.py": "# =============================================================================\n# 自己动手敲（笨方法）：\n# 1) 把下面「已注释」的代码亲手输入到编辑器（或去掉行首的 # ）\n# 2) 删掉最底部的占位 print\n# 3) 保存并运行（⌘/Ctrl+Enter）\n# 对照书本完成本课；不要复制粘贴完事。\n# =============================================================================\n\n# print(\"I will now count my chickens:\")\n# print(\"Hens\", 25 + 30 / 6)\n# print(\"Roosters\", 100 - 25 * 3 % 4)\n# print(\"Now I will count the eggs:\")\n# print(3 + 2 + 1 - 5 + 4 % 2 - 1 / 4 + 6)\n# print(\"Is it true that 3 + 2 < 5 - 7?\")\n# print(3 + 2 < 5 - 7)\n# print(\"What is 3 + 2?\", 3 + 2)\n# print(\"What is 5 - 7?\", 5 - 7)\n\n# =============================================================================\n# 写完练习后，删除下面这行占位再运行：\nprint(\"(请在上方自行输入代码)\")\n"
   },
   "timeoutSec": 5
 }

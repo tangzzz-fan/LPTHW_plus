@@ -7,10 +7,10 @@
     "torch"
   ],
   "entry": "p04_main.py",
-  "body": "# P04 · Dataset 与 DataLoader\n\n从 `data.csv` 读入，按 batch 迭代。\n",
+  "body": "# P04 · Dataset 与 DataLoader\n\n从 `data.csv` 读入，按 batch 迭代。\n\n## 注释\n- 代码里带有 **【优先课注释】** 与分段说明，先读注释再跑。\n",
   "starterFiles": {
     "data.csv": "x,y\n0,0.5\n1,2.5\n2,4.5\n3,6.5\n4,8.5\n",
-    "p04_main.py": "import csv\nfrom pathlib import Path\n\nimport torch\nfrom torch.utils.data import DataLoader, Dataset\n\n\nclass CsvXy(Dataset):\n    def __init__(self, path: str) -> None:\n        rows = list(csv.DictReader(Path(path).open()))\n        self.x = torch.tensor([[float(r[\"x\"])] for r in rows], dtype=torch.float32)\n        self.y = torch.tensor([[float(r[\"y\"])] for r in rows], dtype=torch.float32)\n\n    def __len__(self) -> int:\n        return len(self.x)\n\n    def __getitem__(self, idx: int):\n        return self.x[idx], self.y[idx]\n\n\nds = CsvXy(\"data.csv\")\nloader = DataLoader(ds, batch_size=2, shuffle=False)\nfor batch_x, batch_y in loader:\n    print(\"batch\", batch_x.tolist(), batch_y.tolist())\n"
+    "p04_main.py": "# 【优先课注释】PyTorch\n# 课题：P04: Dataset / DataLoader\n# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。\n# ---------------------------------------------------------------------------\n\n# --- 导入依赖 ---\nimport csv\nfrom pathlib import Path\n\nimport torch\nfrom torch.utils.data import DataLoader, Dataset\n\n\n# --- 类 CsvXy：关注 __init__ / forward 或核心方法 ---\nclass CsvXy(Dataset):\n    def __init__(self, path: str) -> None:\n        rows = list(csv.DictReader(Path(path).open()))\n        self.x = torch.tensor([[float(r[\"x\"])] for r in rows], dtype=torch.float32)\n        self.y = torch.tensor([[float(r[\"y\"])] for r in rows], dtype=torch.float32)\n\n    def __len__(self) -> int:\n        return len(self.x)\n\n    def __getitem__(self, idx: int):\n        return self.x[idx], self.y[idx]\n\n\nds = CsvXy(\"data.csv\")\nloader = DataLoader(ds, batch_size=2, shuffle=False)\nfor batch_x, batch_y in loader:\n    print(\"batch\", batch_x.tolist(), batch_y.tolist())\n"
   },
   "checklist": [
     "确认 torch 已安装（如需要）",

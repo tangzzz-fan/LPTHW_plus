@@ -7,9 +7,9 @@
     "torch"
   ],
   "entry": "p03_main.py",
-  "body": "# P03 · Module + 一步优化\n\n线性层拟合一个简单目标，跑几步 SGD。\n",
+  "body": "# P03 · Module + 一步优化\n\n线性层拟合一个简单目标，跑几步 SGD。\n\n## 注释\n- 代码里带有 **【优先课注释】** 与分段说明，先读注释再跑。\n",
   "starterFiles": {
-    "p03_main.py": "import torch\nimport torch.nn as nn\n\ntorch.manual_seed(0)\nmodel = nn.Linear(1, 1)\nopt = torch.optim.SGD(model.parameters(), lr=0.1)\nloss_fn = nn.MSELoss()\n\nx = torch.linspace(-1, 1, 20).unsqueeze(1)\ny = 2 * x + 0.5\n\nfor step in range(50):\n    pred = model(x)\n    loss = loss_fn(pred, y)\n    opt.zero_grad()\n    loss.backward()\n    opt.step()\n    if step % 10 == 0:\n        print(f\"step={step} loss={loss.item():.4f}\")\n\nprint(\"weight\", model.weight.item(), \"bias\", model.bias.item())\n"
+    "p03_main.py": "# 【优先课注释】PyTorch\n# 课题：P03: nn.Module 一步优化\n# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。\n# ---------------------------------------------------------------------------\n\n# --- 导入依赖 ---\nimport torch\nimport torch.nn as nn\n\ntorch.manual_seed(0)\nmodel = nn.Linear(1, 1)\nopt = torch.optim.SGD(model.parameters(), lr=0.1)\nloss_fn = nn.MSELoss()\n\nx = torch.linspace(-1, 1, 20).unsqueeze(1)\ny = 2 * x + 0.5\n\nfor step in range(50):\n    pred = model(x)\n    loss = loss_fn(pred, y)\n    opt.zero_grad()\n    loss.backward()\n    opt.step()\n    if step % 10 == 0:\n        print(f\"step={step} loss={loss.item():.4f}\")\n\nprint(\"weight\", model.weight.item(), \"bias\", model.bias.item())\n"
   },
   "checklist": [
     "确认 torch 已安装（如需要）",

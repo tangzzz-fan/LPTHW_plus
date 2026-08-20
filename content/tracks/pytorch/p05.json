@@ -7,9 +7,9 @@
     "torch"
   ],
   "entry": "p05_main.py",
-  "body": "# P05 · 训练循环 + state_dict\n\n训练后保存 `model.pt`，在文件树中确认生成。\n",
+  "body": "# P05 · 训练循环 + state_dict\n\n训练后保存 `model.pt`，在文件树中确认生成。\n\n## 注释\n- 代码里带有 **【优先课注释】** 与分段说明，先读注释再跑。\n",
   "starterFiles": {
-    "p05_main.py": "import torch\nimport torch.nn as nn\n\ntorch.manual_seed(0)\nmodel = nn.Linear(1, 1)\nopt = torch.optim.SGD(model.parameters(), lr=0.1)\nloss_fn = nn.MSELoss()\nx = torch.linspace(-1, 1, 40).unsqueeze(1)\ny = -1.5 * x + 0.25\n\nfor epoch in range(80):\n    loss = loss_fn(model(x), y)\n    opt.zero_grad()\n    loss.backward()\n    opt.step()\n\ntorch.save(model.state_dict(), \"model.pt\")\nprint(\"saved model.pt loss=\", float(loss))\n"
+    "p05_main.py": "# 【优先课注释】PyTorch\n# 课题：P05: 训练循环并保存权重\n# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。\n# ---------------------------------------------------------------------------\n\n# --- 导入依赖 ---\nimport torch\nimport torch.nn as nn\n\ntorch.manual_seed(0)\nmodel = nn.Linear(1, 1)\nopt = torch.optim.SGD(model.parameters(), lr=0.1)\nloss_fn = nn.MSELoss()\nx = torch.linspace(-1, 1, 40).unsqueeze(1)\ny = -1.5 * x + 0.25\n\nfor epoch in range(80):\n    loss = loss_fn(model(x), y)\n    opt.zero_grad()\n    loss.backward()\n    opt.step()\n\ntorch.save(model.state_dict(), \"model.pt\")\nprint(\"saved model.pt loss=\", float(loss))\n"
   },
   "checklist": [
     "确认 torch 已安装（如需要）",

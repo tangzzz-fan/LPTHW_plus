@@ -5,9 +5,9 @@
   "timeoutSec": 15,
   "requires": [],
   "entry": "a04_main.py",
-  "body": "# A04 · httpx 异步 HTTP\n\n用 `httpx.AsyncClient` 打一个公开 JSON API（需本机网络）。把状态码与耗时打出来。\n",
+  "body": "# A04 · httpx 异步 HTTP\n\n用 `httpx.AsyncClient` 打一个公开 JSON API（需本机网络）。把状态码与耗时打出来。\n\n## 注释\n- 代码里带有 **【优先课注释】** 与分段说明，先读注释再跑。\n",
   "starterFiles": {
-    "a04_main.py": "import asyncio\nimport time\nimport httpx\n\n\nasync def main() -> None:\n    t0 = time.perf_counter()\n    async with httpx.AsyncClient(timeout=10.0) as client:\n        resp = await client.get(\"https://httpbin.org/json\")\n        print(\"status\", resp.status_code)\n        print(resp.json())\n    print(f\"elapsed={time.perf_counter() - t0:.2f}s\")\n\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n"
+    "a04_main.py": "# 【优先课注释】Async / LLM 落地\n# 课题：A04: httpx AsyncClient\n# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。\n# ---------------------------------------------------------------------------\n\n# --- 导入依赖 ---\nimport asyncio\nimport time\nimport httpx\n\n\n# --- 异步函数 main：注意 await 点，勿在此写阻塞 IO ---\nasync def main() -> None:\n    t0 = time.perf_counter()\n    async with httpx.AsyncClient(timeout=10.0) as client:\n        resp = await client.get(\"https://httpbin.org/json\")\n        print(\"status\", resp.status_code)\n        print(resp.json())\n    print(f\"elapsed={time.perf_counter() - t0:.2f}s\")\n\n\n# --- 脚本入口：从这里开始执行 ---\nif __name__ == \"__main__\":\n    asyncio.run(main())\n"
   },
   "checklist": [
     "阅读说明",

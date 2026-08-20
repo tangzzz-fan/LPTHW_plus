@@ -7,10 +7,10 @@
     "对照书本做一遍",
     "改几个数字/字符串再跑"
   ],
-  "body": "# Ex 11 · Asking Questions\n\n`input()` 从终端读一行。运行后在下方终端输入答案并回车。\n\n## 目标\n- 用 `input()` 读入用户输入\n- 把读到的值嵌进 f-string 打印\n\n## 自检\n- [ ] 运行后能在终端打字并回车\n- [ ] 最终总结句包含你输入的三个值\n",
+  "body": "# Ex 11 · Asking Questions\n\n`input()` 从终端读一行。运行后在下方终端输入答案并回车。\n\n## 目标\n- 用 `input()` 读入用户输入\n- 把读到的值嵌进 f-string 打印\n\n## 自检\n- [ ] 运行后能在终端打字并回车\n- [ ] 最终总结句包含你输入的三个值\n\n## 动手要求\n- 起始代码已用注释标出：**请自行输入**（或去掉 `#`），再删除占位 `print`。\n- 少复制粘贴，多手敲；敲错再改，是笨方法的核心。\n",
   "entry": "ex11.py",
   "starterFiles": {
-    "ex11.py": "print(\"How old are you?\", end=\" \")\nage = input()\nprint(\"How tall are you?\", end=\" \")\nheight = input()\nprint(\"How much do you weigh?\", end=\" \")\nweight = input()\nprint(f\"So, you're {age} old, {height} tall and {weight} heavy.\")\n"
+    "ex11.py": "# =============================================================================\n# 自己动手敲（笨方法）：\n# 1) 把下面「已注释」的代码亲手输入到编辑器（或去掉行首的 # ）\n# 2) 删掉最底部的占位 print\n# 3) 保存并运行（⌘/Ctrl+Enter）\n# 对照书本完成本课；不要复制粘贴完事。\n# =============================================================================\n\n# print(\"How old are you?\", end=\" \")\n# age = input()\n# print(\"How tall are you?\", end=\" \")\n# height = input()\n# print(\"How much do you weigh?\", end=\" \")\n# weight = input()\n# print(f\"So, you're {age} old, {height} tall and {weight} heavy.\")\n\n# =============================================================================\n# 写完练习后，删除下面这行占位再运行：\nprint(\"(请在上方自行输入代码)\")\n"
   },
   "timeoutSec": 3
 }

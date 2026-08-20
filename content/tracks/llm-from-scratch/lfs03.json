@@ -7,9 +7,9 @@
     "torch"
   ],
   "entry": "lfs03_main.py",
-  "body": "# LFS03 · Tensor data types\n\n对应《从零开始构建大模型》**附录 A · A.2.2 Tensor data types**（原创练习提纲，非书中原文）。\n\n## 目标\n- 认识常见 dtype：`float32` / `int64` / `bool`\n- 会用 `.to(dtype=...)` 转换\n\n## 自检\n- [ ] 理解 LLM 训练里常用 float32（有时再混精度）\n",
+  "body": "# LFS03 · Tensor data types\n\n对应《从零开始构建大模型》**附录 A · A.2.2 Tensor data types**（原创练习提纲，非书中原文）。\n\n## 目标\n- 认识常见 dtype：`float32` / `int64` / `bool`\n- 会用 `.to(dtype=...)` 转换\n\n## 自检\n- [ ] 理解 LLM 训练里常用 float32（有时再混精度）\n\n## 注释\n- 代码里带有 **【优先课注释】** 与分段说明，先读注释再跑。\n",
   "starterFiles": {
-    "lfs03_main.py": "import torch\n\nx = torch.tensor([1, 2, 3])\nprint(\"default int tensor\", x, x.dtype)\n\ny = x.to(torch.float32)\nprint(\"as float32\", y, y.dtype)\n\nz = torch.tensor([1.0, 2.0, 3.0], dtype=torch.float64)\nprint(\"float64\", z.dtype, \"-> float32\", z.to(torch.float32).dtype)\n\nmask = y > 1.5\nprint(\"bool mask\", mask, mask.dtype)\n"
+    "lfs03_main.py": "# 【优先课注释】LLMFromScratch（附录 A）\n# 课题：LFS03: Tensor data types\n# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。\n# ---------------------------------------------------------------------------\n\n# --- 导入依赖 ---\nimport torch\n\nx = torch.tensor([1, 2, 3])\nprint(\"default int tensor\", x, x.dtype)\n\ny = x.to(torch.float32)\nprint(\"as float32\", y, y.dtype)\n\nz = torch.tensor([1.0, 2.0, 3.0], dtype=torch.float64)\nprint(\"float64\", z.dtype, \"-> float32\", z.to(torch.float32).dtype)\n\nmask = y > 1.5\nprint(\"bool mask\", mask, mask.dtype)\n"
   },
   "checklist": [
     "对照书本附录 A 阅读",

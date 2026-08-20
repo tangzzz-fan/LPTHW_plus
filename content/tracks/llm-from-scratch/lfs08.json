@@ -7,9 +7,9 @@
     "torch"
   ],
   "entry": "lfs08_main.py",
-  "body": "# LFS08 · Dataset and DataLoader\n\n对应《从零开始构建大模型》**附录 A · A.6 Setting up efficient data loaders**（原创练习提纲，非书中原文）。\n\n## 目标\n- 实现最小 `Dataset`\n- 用 `DataLoader` 按 batch 迭代（LLM 预训练同理，只是样本变成 token 块）\n\n## 自检\n- [ ] 看到两个 batch 打印\n",
+  "body": "# LFS08 · Dataset and DataLoader\n\n对应《从零开始构建大模型》**附录 A · A.6 Setting up efficient data loaders**（原创练习提纲，非书中原文）。\n\n## 目标\n- 实现最小 `Dataset`\n- 用 `DataLoader` 按 batch 迭代（LLM 预训练同理，只是样本变成 token 块）\n\n## 自检\n- [ ] 看到两个 batch 打印\n\n## 注释\n- 代码里带有 **【优先课注释】** 与分段说明，先读注释再跑。\n",
   "starterFiles": {
-    "lfs08_main.py": "import torch\nfrom torch.utils.data import DataLoader, Dataset\n\n\nclass ToyReg(Dataset):\n    def __init__(self, n=20):\n        self.x = torch.linspace(-1, 1, n).unsqueeze(1)\n        self.y = 2 * self.x + 0.1\n\n    def __len__(self):\n        return len(self.x)\n\n    def __getitem__(self, i):\n        return self.x[i], self.y[i]\n\n\nloader = DataLoader(ToyReg(), batch_size=8, shuffle=True)\nfor step, (bx, by) in enumerate(loader):\n    print(f\"batch {step}: x{tuple(bx.shape)} y{tuple(by.shape)}\")\n"
+    "lfs08_main.py": "# 【优先课注释】LLMFromScratch（附录 A）\n# 课题：LFS08: Dataset and DataLoader\n# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。\n# ---------------------------------------------------------------------------\n\n# --- 导入依赖 ---\nimport torch\nfrom torch.utils.data import DataLoader, Dataset\n\n\n# --- 类 ToyReg：关注 __init__ / forward 或核心方法 ---\nclass ToyReg(Dataset):\n    def __init__(self, n=20):\n        self.x = torch.linspace(-1, 1, n).unsqueeze(1)\n        self.y = 2 * self.x + 0.1\n\n    def __len__(self):\n        return len(self.x)\n\n    def __getitem__(self, i):\n        return self.x[i], self.y[i]\n\n\nloader = DataLoader(ToyReg(), batch_size=8, shuffle=True)\nfor step, (bx, by) in enumerate(loader):\n    print(f\"batch {step}: x{tuple(bx.shape)} y{tuple(by.shape)}\")\n"
   },
   "checklist": [
     "对照书本附录 A 阅读",

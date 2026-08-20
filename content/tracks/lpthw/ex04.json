@@ -7,10 +7,10 @@
     "对照书本做一遍",
     "改几个数字/字符串再跑"
   ],
-  "body": "# Ex 4 · Variables and Names\n\n给值起名字。变量名要可读。\n\n## 目标\n- 用变量保存数字并做运算\n- 用逗号把文字和变量一起 `print`\n\n## 自检\n- [ ] 改掉 `cars` 等数字后，后续输出一起变\n- [ ] 变量名没有空格、不以数字开头\n",
+  "body": "# Ex 4 · Variables and Names\n\n给值起名字。变量名要可读。\n\n## 目标\n- 用变量保存数字并做运算\n- 用逗号把文字和变量一起 `print`\n\n## 自检\n- [ ] 改掉 `cars` 等数字后，后续输出一起变\n- [ ] 变量名没有空格、不以数字开头\n\n## 动手要求\n- 起始代码已用注释标出：**请自行输入**（或去掉 `#`），再删除占位 `print`。\n- 少复制粘贴，多手敲；敲错再改，是笨方法的核心。\n",
   "entry": "ex04.py",
   "starterFiles": {
-    "ex04.py": "cars = 100\nspace_in_a_car = 4.0\ndrivers = 30\npassengers = 90\ncars_not_driven = cars - drivers\ncars_driven = drivers\ncarpool_capacity = cars_driven * space_in_a_car\naverage_passengers_per_car = passengers / cars_driven\n\nprint(\"There are\", cars, \"cars available.\")\nprint(\"There are only\", drivers, \"drivers available.\")\nprint(\"There will be\", cars_not_driven, \"empty cars today.\")\nprint(\"We can transport\", carpool_capacity, \"people today.\")\nprint(\"We have\", passengers, \"to carpool today.\")\nprint(\"We need to put about\", average_passengers_per_car, \"in each car.\")\n"
+    "ex04.py": "# =============================================================================\n# 自己动手敲（笨方法）：\n# 1) 把下面「已注释」的代码亲手输入到编辑器（或去掉行首的 # ）\n# 2) 删掉最底部的占位 print\n# 3) 保存并运行（⌘/Ctrl+Enter）\n# 对照书本完成本课；不要复制粘贴完事。\n# =============================================================================\n\n# cars = 100\n# space_in_a_car = 4.0\n# drivers = 30\n# passengers = 90\n# cars_not_driven = cars - drivers\n# cars_driven = drivers\n# carpool_capacity = cars_driven * space_in_a_car\n# average_passengers_per_car = passengers / cars_driven\n\n# print(\"There are\", cars, \"cars available.\")\n# print(\"There are only\", drivers, \"drivers available.\")\n# print(\"There will be\", cars_not_driven, \"empty cars today.\")\n# print(\"We can transport\", carpool_capacity, \"people today.\")\n# print(\"We have\", passengers, \"to carpool today.\")\n# print(\"We need to put about\", average_passengers_per_car, \"in each car.\")\n\n# =============================================================================\n# 写完练习后，删除下面这行占位再运行：\nprint(\"(请在上方自行输入代码)\")\n"
   },
   "timeoutSec": 5
 }

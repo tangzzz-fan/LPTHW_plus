@@ -7,9 +7,9 @@
     "torch"
   ],
   "entry": "lfs05_main.py",
-  "body": "# LFS05 · Indexing tensors\n\n对应《从零开始构建大模型》**附录 A · A.3 Seeing tensors in action / indexing**（原创练习提纲，非书中原文）。\n\n## 目标\n- 掌握切片、花式索引、布尔索引\n- 知道索引可能返回视图（改动可能影响原张量）\n\n## 自检\n- [ ] 取出矩阵第二行第一列\n",
+  "body": "# LFS05 · Indexing tensors\n\n对应《从零开始构建大模型》**附录 A · A.3 Seeing tensors in action / indexing**（原创练习提纲，非书中原文）。\n\n## 目标\n- 掌握切片、花式索引、布尔索引\n- 知道索引可能返回视图（改动可能影响原张量）\n\n## 自检\n- [ ] 取出矩阵第二行第一列\n\n## 注释\n- 代码里带有 **【优先课注释】** 与分段说明，先读注释再跑。\n",
   "starterFiles": {
-    "lfs05_main.py": "import torch\n\nt = torch.arange(12).reshape(3, 4)\nprint(t)\nprint(\"row0\", t[0])\nprint(\"col1\", t[:, 1])\nprint(\"t[1, 2]\", t[1, 2])\nprint(\"rows 0:2, cols 1:3\\n\", t[0:2, 1:3])\n\nidx = torch.tensor([0, 2])\nprint(\"fancy rows\", t[idx])\nprint(\"where > 5\", t[t > 5])\n"
+    "lfs05_main.py": "# 【优先课注释】LLMFromScratch（附录 A）\n# 课题：LFS05: Indexing tensors\n# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。\n# ---------------------------------------------------------------------------\n\n# --- 导入依赖 ---\nimport torch\n\nt = torch.arange(12).reshape(3, 4)\nprint(t)\nprint(\"row0\", t[0])\nprint(\"col1\", t[:, 1])\nprint(\"t[1, 2]\", t[1, 2])\nprint(\"rows 0:2, cols 1:3\\n\", t[0:2, 1:3])\n\nidx = torch.tensor([0, 2])\nprint(\"fancy rows\", t[idx])\nprint(\"where > 5\", t[t > 5])\n"
   },
   "checklist": [
     "对照书本附录 A 阅读",

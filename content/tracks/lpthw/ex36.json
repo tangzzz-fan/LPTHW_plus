@@ -7,10 +7,10 @@
     "对照书本做一遍",
     "改几个数字/字符串再跑"
   ],
-  "body": "# Ex 36 · Designing and Debugging\n\n调试清单练习：用打印与断言缩小问题范围。\n\n## 目标\n- 按步骤检查假设\n- 用临时 `print` / `assert` 验证中间状态\n\n## 自检\n- [ ] 看懂调试步骤输出\n- [ ] 故意弄坏一处，用清单找回来\n",
+  "body": "# Ex 36 · Designing and Debugging\n\n调试清单练习：用打印与断言缩小问题范围。\n\n## 目标\n- 按步骤检查假设\n- 用临时 `print` / `assert` 验证中间状态\n\n## 自检\n- [ ] 看懂调试步骤输出\n- [ ] 故意弄坏一处，用清单找回来\n\n## 动手要求\n- 起始代码已用注释标出：**请自行输入**（或去掉 `#`），再删除占位 `print`。\n- 少复制粘贴，多手敲；敲错再改，是笨方法的核心。\n",
   "entry": "ex36.py",
   "starterFiles": {
-    "ex36.py": "def buggy_average(nums):\n    \"\"\"Intentionally easy to inspect.\"\"\"\n    print(\"[debug] nums =\", nums)\n    total = 0\n    for n in nums:\n        total += n\n        print(f\"[debug] after +{n}, total={total}\")\n    assert len(nums) > 0, \"empty list\"\n    avg = total / len(nums)\n    print(\"[debug] avg =\", avg)\n    return avg\n\n\nprint(\"Debugging checklist:\")\nprint(\"1. Reproduce with a tiny example\")\nprint(\"2. Print / assert intermediate values\")\nprint(\"3. Change one thing at a time\")\nprint(\"4. Keep a notes file of what you tried\")\nprint()\nprint(\"result:\", buggy_average([2, 4, 6, 8]))\n"
+    "ex36.py": "# =============================================================================\n# 自己动手敲（笨方法）：\n# 1) 把下面「已注释」的代码亲手输入到编辑器（或去掉行首的 # ）\n# 2) 删掉最底部的占位 print\n# 3) 保存并运行（⌘/Ctrl+Enter）\n# 对照书本完成本课；不要复制粘贴完事。\n# =============================================================================\n\n# def buggy_average(nums):\n    # \"\"\"Intentionally easy to inspect.\"\"\"\n    # print(\"[debug] nums =\", nums)\n    # total = 0\n    # for n in nums:\n        # total += n\n        # print(f\"[debug] after +{n}, total={total}\")\n    # assert len(nums) > 0, \"empty list\"\n    # avg = total / len(nums)\n    # print(\"[debug] avg =\", avg)\n    # return avg\n\n\n# print(\"Debugging checklist:\")\n# print(\"1. Reproduce with a tiny example\")\n# print(\"2. Print / assert intermediate values\")\n# print(\"3. Change one thing at a time\")\n# print(\"4. Keep a notes file of what you tried\")\n# print()\n# print(\"result:\", buggy_average([2, 4, 6, 8]))\n\n# =============================================================================\n# 写完练习后，删除下面这行占位再运行：\nprint(\"(请在上方自行输入代码)\")\n"
   },
   "timeoutSec": 5
 }

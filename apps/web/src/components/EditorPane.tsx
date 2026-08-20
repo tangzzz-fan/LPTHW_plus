@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import Editor from '@monaco-editor/react'
+import Editor, { type OnMount } from '@monaco-editor/react'
 
 type EditorPaneProps = {
   path: string | null
@@ -13,7 +13,8 @@ type EditorPaneProps = {
 
 const isMac =
   typeof navigator !== 'undefined' &&
-  /Mac|iPhone|iPad|iPod/i.test(navigator.platform)
+  (/Mac|iPhone|iPad|iPod/i.test(navigator.platform) ||
+    navigator.userAgent.includes('Mac'))
 
 const mod = isMac ? '⌘' : 'Ctrl'
 
@@ -28,28 +29,61 @@ export function EditorPane({
 }: EditorPaneProps) {
   const onSaveRef = useRef(onSave)
   const onRunRef = useRef(onRun)
+  const savingRef = useRef(saving)
+  const runningRef = useRef(running)
+  const pathRef = useRef(path)
+  const lockRef = useRef(false)
   onSaveRef.current = onSave
   onRunRef.current = onRun
+  savingRef.current = saving
+  runningRef.current = running
+  pathRef.current = path
 
+  const run = () => {
+    if (runningRef.current || lockRef.current) return
+    lockRef.current = true
+    onRunRef.current()
+    window.setTimeout(() => {
+      lockRef.current = false
+    }, 1000)
+  }
+
+  const save = () => {
+    if (!pathRef.current || savingRef.current || lockRef.current) return
+    onSaveRef.current()
+  }
+
+  // Global shortcuts in capture phase so they win over Monaco's default handling.
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       const modPressed = isMac ? e.metaKey : e.ctrlKey
-      if (!modPressed) return
-      // Terminal stdin uses Enter alone; don't steal Cmd/Ctrl+Enter there either if focused
-      const t = e.target as HTMLElement | null
-      if (t?.closest?.('.terminal-input-row') && e.key !== 'Enter') return
+      if (!modPressed || e.altKey || e.shiftKey) return
 
-      if (e.key === 'Enter') {
-        e.preventDefault()
-        onRunRef.current()
-      } else if (e.key.toLowerCase() === 's') {
-        e.preventDefault()
-        onSaveRef.current()
+      const isEnter =
+        e.key === 'Enter' || e.code === 'Enter' || e.code === 'NumpadEnter'
+      const isS = e.key === 's' || e.key === 'S' || e.code === 'KeyS'
+      if (!isEnter && !isS) return
+
+      const t = e.target as HTMLElement | null
+      if (isS && t?.closest?.('.terminal-input-row')) return
+
+      e.preventDefault()
+      e.stopPropagation()
+      if (typeof e.stopImmediatePropagation === 'function') {
+        e.stopImmediatePropagation()
       }
+      if (isEnter) run()
+      else save()
     }
-    window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
+    window.addEventListener('keydown', onKeyDown, true)
+    return () => window.removeEventListener('keydown', onKeyDown, true)
   }, [])
+
+  const handleMount: OnMount = (editor, monaco) => {
+    // Backup when focus is inside Monaco (some builds swallow keys oddly).
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => run())
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => save())
+  }
 
   return (
     <div className="editor-pane">
@@ -61,7 +95,7 @@ export function EditorPane({
           <button
             type="button"
             className="btn"
-            onClick={onSave}
+            onClick={save}
             disabled={!path || saving}
             title={`${mod}+S`}
           >
@@ -70,7 +104,7 @@ export function EditorPane({
           <button
             type="button"
             className="btn primary"
-            onClick={onRun}
+            onClick={run}
             disabled={running}
             title={`${mod}+Enter`}
           >
@@ -84,6 +118,7 @@ export function EditorPane({
           language="python"
           theme="vs-dark"
           value={value}
+          onMount={handleMount}
           onChange={(v) => onChange(v ?? '')}
           options={{
             fontSize: 13,

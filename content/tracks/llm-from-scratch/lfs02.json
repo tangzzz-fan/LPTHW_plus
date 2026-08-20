@@ -7,9 +7,9 @@
     "torch"
   ],
   "entry": "lfs02_main.py",
-  "body": "# LFS02 · Scalars, vectors, matrices, tensors\n\n对应《从零开始构建大模型》**附录 A · A.2.1 Scalars, vectors, matrices, and tensors**（原创练习提纲，非书中原文）。\n\n## 目标\n- 分清 0D/1D/2D/3D 张量\n- 会用 `.shape` / `.ndim` 观察结构\n\n## 自检\n- [ ] 能说出每个示例的维度含义\n",
+  "body": "# LFS02 · Scalars, vectors, matrices, tensors\n\n对应《从零开始构建大模型》**附录 A · A.2.1 Scalars, vectors, matrices, and tensors**（原创练习提纲，非书中原文）。\n\n## 目标\n- 分清 0D/1D/2D/3D 张量\n- 会用 `.shape` / `.ndim` 观察结构\n\n## 自检\n- [ ] 能说出每个示例的维度含义\n\n## 注释\n- 代码里带有 **【优先课注释】** 与分段说明，先读注释再跑。\n",
   "starterFiles": {
-    "lfs02_main.py": "import torch\n\nscalar = torch.tensor(1.0)\nvector = torch.tensor([1.0, 2.0, 3.0])\nmatrix = torch.tensor([[1.0, 2.0], [3.0, 4.0]])\ntensor3d = torch.tensor([[[1, 2], [3, 4]], [[5, 6], [7, 8]]], dtype=torch.float32)\n\nfor name, t in [(\"scalar\", scalar), (\"vector\", vector), (\"matrix\", matrix), (\"3d\", tensor3d)]:\n    print(f\"{name:8} ndim={t.ndim} shape={tuple(t.shape)} -> {t}\")\n"
+    "lfs02_main.py": "# 【优先课注释】LLMFromScratch（附录 A）\n# 课题：LFS02: Scalars, vectors, matrices, tensors\n# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。\n# ---------------------------------------------------------------------------\n\n# --- 导入依赖 ---\nimport torch\n\nscalar = torch.tensor(1.0)\nvector = torch.tensor([1.0, 2.0, 3.0])\nmatrix = torch.tensor([[1.0, 2.0], [3.0, 4.0]])\ntensor3d = torch.tensor([[[1, 2], [3, 4]], [[5, 6], [7, 8]]], dtype=torch.float32)\n\nfor name, t in [(\"scalar\", scalar), (\"vector\", vector), (\"matrix\", matrix), (\"3d\", tensor3d)]:\n    print(f\"{name:8} ndim={t.ndim} shape={tuple(t.shape)} -> {t}\")\n"
   },
   "checklist": [
     "对照书本附录 A 阅读",

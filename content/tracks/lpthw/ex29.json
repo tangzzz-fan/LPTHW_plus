@@ -7,10 +7,10 @@
     "对照书本做一遍",
     "改几个数字/字符串再跑"
   ],
-  "body": "# Ex 29 · What If\n\n`if`：条件为真才执行缩进块。\n\n## 目标\n- 写几个独立的 `if`\n- 观察缩进块何时执行\n\n## 自检\n- [ ] 改数字让某条 if 从不执行 / 总会执行\n- [ ] 缩进保持一致\n",
+  "body": "# Ex 29 · What If\n\n`if`：条件为真才执行缩进块。\n\n## 目标\n- 写几个独立的 `if`\n- 观察缩进块何时执行\n\n## 自检\n- [ ] 改数字让某条 if 从不执行 / 总会执行\n- [ ] 缩进保持一致\n\n## 动手要求\n- 起始代码已用注释标出：**请自行输入**（或去掉 `#`），再删除占位 `print`。\n- 少复制粘贴，多手敲；敲错再改，是笨方法的核心。\n",
   "entry": "ex29.py",
   "starterFiles": {
-    "ex29.py": "people = 20\ncats = 30\ndogs = 15\n\nif people < cats:\n    print(\"Too many cats! The world is doomed!\")\n\nif people > cats:\n    print(\"Not many cats! The world is saved!\")\n\nif people < dogs:\n    print(\"The world is drooled on!\")\n\nif people > dogs:\n    print(\"The world is dry!\")\n\ndogs += 5\n\nif people >= dogs:\n    print(\"People are greater than or equal to dogs.\")\n\nif people <= dogs:\n    print(\"People are less than or equal to dogs.\")\n\nif people == dogs:\n    print(\"People are dogs.\")\n"
+    "ex29.py": "# =============================================================================\n# 自己动手敲（笨方法）：\n# 1) 把下面「已注释」的代码亲手输入到编辑器（或去掉行首的 # ）\n# 2) 删掉最底部的占位 print\n# 3) 保存并运行（⌘/Ctrl+Enter）\n# 对照书本完成本课；不要复制粘贴完事。\n# =============================================================================\n\n# people = 20\n# cats = 30\n# dogs = 15\n\n# if people < cats:\n    # print(\"Too many cats! The world is doomed!\")\n\n# if people > cats:\n    # print(\"Not many cats! The world is saved!\")\n\n# if people < dogs:\n    # print(\"The world is drooled on!\")\n\n# if people > dogs:\n    # print(\"The world is dry!\")\n\n# dogs += 5\n\n# if people >= dogs:\n    # print(\"People are greater than or equal to dogs.\")\n\n# if people <= dogs:\n    # print(\"People are less than or equal to dogs.\")\n\n# if people == dogs:\n    # print(\"People are dogs.\")\n\n# =============================================================================\n# 写完练习后，删除下面这行占位再运行：\nprint(\"(请在上方自行输入代码)\")\n"
   },
   "timeoutSec": 5
 }

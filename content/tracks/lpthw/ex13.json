@@ -7,10 +7,10 @@
     "对照书本做一遍",
     "改几个数字/字符串再跑"
   ],
-  "body": "# Ex 13 · Parameters, Unpacking, Variables\n\n`sys.argv` 接收命令行参数。本课在参数不足时使用默认值，保证直接点运行也能学到概念。\n\n## 目标\n- 理解 `sys.argv[0]` 是脚本名\n- 参数不够时优雅回退到默认值\n\n## 自检\n- [ ] 无参数运行仍有完整输出\n- [ ] 若环境支持传参，可试 `python ex13.py apple orange pear`\n",
+  "body": "# Ex 13 · Parameters, Unpacking, Variables\n\n`sys.argv` 接收命令行参数。本课在参数不足时使用默认值，保证直接点运行也能学到概念。\n\n## 目标\n- 理解 `sys.argv[0]` 是脚本名\n- 参数不够时优雅回退到默认值\n\n## 自检\n- [ ] 无参数运行仍有完整输出\n- [ ] 若环境支持传参，可试 `python ex13.py apple orange pear`\n\n## 动手要求\n- 起始代码已用注释标出：**请自行输入**（或去掉 `#`），再删除占位 `print`。\n- 少复制粘贴，多手敲；敲错再改，是笨方法的核心。\n",
   "entry": "ex13.py",
   "starterFiles": {
-    "ex13.py": "import sys\n\nscript = sys.argv[0]\nif len(sys.argv) >= 4:\n    first, second, third = sys.argv[1], sys.argv[2], sys.argv[3]\nelse:\n    print(\"Usage: python ex13.py first second third\")\n    print(\"(missing args — using defaults)\\n\")\n    first, second, third = \"first\", \"second\", \"third\"\n\nprint(\"The script is called:\", script)\nprint(\"Your first variable is:\", first)\nprint(\"Your second variable is:\", second)\nprint(\"Your third variable is:\", third)\n"
+    "ex13.py": "# =============================================================================\n# 自己动手敲（笨方法）：\n# 1) 把下面「已注释」的代码亲手输入到编辑器（或去掉行首的 # ）\n# 2) 删掉最底部的占位 print\n# 3) 保存并运行（⌘/Ctrl+Enter）\n# 对照书本完成本课；不要复制粘贴完事。\n# =============================================================================\n\n# import sys\n\n# script = sys.argv[0]\n# if len(sys.argv) >= 4:\n    # first, second, third = sys.argv[1], sys.argv[2], sys.argv[3]\n# else:\n    # print(\"Usage: python ex13.py first second third\")\n    # print(\"(missing args — using defaults)\\n\")\n    # first, second, third = \"first\", \"second\", \"third\"\n\n# print(\"The script is called:\", script)\n# print(\"Your first variable is:\", first)\n# print(\"Your second variable is:\", second)\n# print(\"Your third variable is:\", third)\n\n# =============================================================================\n# 写完练习后，删除下面这行占位再运行：\nprint(\"(请在上方自行输入代码)\")\n"
   },
   "timeoutSec": 5
 }

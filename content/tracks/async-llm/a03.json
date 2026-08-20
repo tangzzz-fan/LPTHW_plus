@@ -5,9 +5,9 @@
   "timeoutSec": 5,
   "requires": [],
   "entry": "a03_main.py",
-  "body": "# A03 · 超时与取消\n\nLLM 调用必须设超时。练习 `wait_for` 与 `CancelledError`。\n",
+  "body": "# A03 · 超时与取消\n\nLLM 调用必须设超时。练习 `wait_for` 与 `CancelledError`。\n\n## 注释\n- 代码里带有 **【优先课注释】** 与分段说明，先读注释再跑。\n",
   "starterFiles": {
-    "a03_main.py": "import asyncio\n\n\nasync def slow_llm() -> str:\n    await asyncio.sleep(2)\n    return \"too-late\"\n\n\nasync def main() -> None:\n    try:\n        result = await asyncio.wait_for(slow_llm(), timeout=0.5)\n        print(result)\n    except asyncio.TimeoutError:\n        print(\"TIMEOUT: upstream LLM did not respond in time\")\n\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n"
+    "a03_main.py": "# 【优先课注释】Async / LLM 落地\n# 课题：A03: 超时与取消\n# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。\n# ---------------------------------------------------------------------------\n\n# --- 导入依赖 ---\nimport asyncio\n\n\n# --- 异步函数 slow_llm：注意 await 点，勿在此写阻塞 IO ---\nasync def slow_llm() -> str:\n    await asyncio.sleep(2)\n    return \"too-late\"\n\n\n# --- 异步函数 main：注意 await 点，勿在此写阻塞 IO ---\nasync def main() -> None:\n    try:\n        result = await asyncio.wait_for(slow_llm(), timeout=0.5)\n        print(result)\n    except asyncio.TimeoutError:\n        print(\"TIMEOUT: upstream LLM did not respond in time\")\n\n\n# --- 脚本入口：从这里开始执行 ---\nif __name__ == \"__main__\":\n    asyncio.run(main())\n"
   },
   "checklist": [
     "阅读说明",

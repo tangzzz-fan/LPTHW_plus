@@ -7,9 +7,9 @@
     "torch"
   ],
   "entry": "lfs10_main.py",
-  "body": "# LFS10 · Saving and loading models\n\n对应《从零开始构建大模型》**附录 A · A.8 Saving and loading models**（原创练习提纲，非书中原文）。\n\n## 目标\n- 保存 / 加载 `state_dict`\n- 推理前 `model.eval()` + `torch.no_grad()`\n\n## 自检\n- [ ] 文件树出现 `toy.pt`，加载后预测一致\n",
+  "body": "# LFS10 · Saving and loading models\n\n对应《从零开始构建大模型》**附录 A · A.8 Saving and loading models**（原创练习提纲，非书中原文）。\n\n## 目标\n- 保存 / 加载 `state_dict`\n- 推理前 `model.eval()` + `torch.no_grad()`\n\n## 自检\n- [ ] 文件树出现 `toy.pt`，加载后预测一致\n\n## 注释\n- 代码里带有 **【优先课注释】** 与分段说明，先读注释再跑。\n",
   "starterFiles": {
-    "lfs10_main.py": "from pathlib import Path\n\nimport torch\nimport torch.nn as nn\n\ntorch.manual_seed(0)\nmodel = nn.Linear(1, 1)\n# quick fit\nopt = torch.optim.SGD(model.parameters(), lr=0.1)\nx = torch.linspace(-1, 1, 30).unsqueeze(1)\ny = -0.5 * x + 0.2\nfor _ in range(80):\n    loss = ((model(x) - y) ** 2).mean()\n    opt.zero_grad()\n    loss.backward()\n    opt.step()\n\npath = Path(\"toy.pt\")\ntorch.save(model.state_dict(), path)\nprint(\"saved\", path)\n\nloaded = nn.Linear(1, 1)\nloaded.load_state_dict(torch.load(path, weights_only=True))\nloaded.eval()\nwith torch.no_grad():\n    q = torch.tensor([[0.0], [1.0]])\n    print(\"pred\", loaded(q).squeeze().tolist())\n"
+    "lfs10_main.py": "# 【优先课注释】LLMFromScratch（附录 A）\n# 课题：LFS10: Saving and loading models\n# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。\n# ---------------------------------------------------------------------------\n\n# --- 导入依赖 ---\nfrom pathlib import Path\n\nimport torch\nimport torch.nn as nn\n\ntorch.manual_seed(0)\nmodel = nn.Linear(1, 1)\n# quick fit\nopt = torch.optim.SGD(model.parameters(), lr=0.1)\nx = torch.linspace(-1, 1, 30).unsqueeze(1)\ny = -0.5 * x + 0.2\nfor _ in range(80):\n    loss = ((model(x) - y) ** 2).mean()\n    opt.zero_grad()\n    loss.backward()\n    opt.step()\n\npath = Path(\"toy.pt\")\ntorch.save(model.state_dict(), path)\nprint(\"saved\", path)\n\nloaded = nn.Linear(1, 1)\nloaded.load_state_dict(torch.load(path, weights_only=True))\nloaded.eval()\nwith torch.no_grad():\n    q = torch.tensor([[0.0], [1.0]])\n    print(\"pred\", loaded(q).squeeze().tolist())\n"
   },
   "checklist": [
     "对照书本附录 A 阅读",

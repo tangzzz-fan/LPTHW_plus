@@ -7,10 +7,10 @@
     "对照书本做一遍",
     "改几个数字/字符串再跑"
   ],
-  "body": "# Ex 21 · Functions Can Return Something\n\n`return` 把结果交回调用方，而不是只打印。\n\n## 目标\n- 写带返回值的函数\n- 把返回值赋给变量再继续算\n\n## 自检\n- [ ] 年龄相关公式能打印出数字\n- [ ] 试着 `return` 一个你自己的表达式\n",
+  "body": "# Ex 21 · Functions Can Return Something\n\n`return` 把结果交回调用方，而不是只打印。\n\n## 目标\n- 写带返回值的函数\n- 把返回值赋给变量再继续算\n\n## 自检\n- [ ] 年龄相关公式能打印出数字\n- [ ] 试着 `return` 一个你自己的表达式\n\n## 动手要求\n- 起始代码已用注释标出：**请自行输入**（或去掉 `#`），再删除占位 `print`。\n- 少复制粘贴，多手敲；敲错再改，是笨方法的核心。\n",
   "entry": "ex21.py",
   "starterFiles": {
-    "ex21.py": "def add(a, b):\n    print(f\"ADDING {a} + {b}\")\n    return a + b\n\n\ndef subtract(a, b):\n    print(f\"SUBTRACTING {a} - {b}\")\n    return a - b\n\n\ndef multiply(a, b):\n    print(f\"MULTIPLYING {a} * {b}\")\n    return a * b\n\n\ndef divide(a, b):\n    print(f\"DIVIDING {a} / {b}\")\n    return a / b\n\n\nprint(\"Let's do some math with just functions!\")\nage = add(30, 5)\nheight = subtract(78, 4)\nweight = multiply(90, 2)\niq = divide(100, 2)\n\nprint(f\"Age: {age}, Height: {height}, Weight: {weight}, IQ: {iq}\")\n\nprint(\"Here is a puzzle.\")\nwhat = add(age, subtract(height, multiply(weight, divide(iq, 2))))\nprint(\"That becomes:\", what, \"Can you do it by hand?\")\n"
+    "ex21.py": "# =============================================================================\n# 自己动手敲（笨方法）：\n# 1) 把下面「已注释」的代码亲手输入到编辑器（或去掉行首的 # ）\n# 2) 删掉最底部的占位 print\n# 3) 保存并运行（⌘/Ctrl+Enter）\n# 对照书本完成本课；不要复制粘贴完事。\n# =============================================================================\n\n# def add(a, b):\n    # print(f\"ADDING {a} + {b}\")\n    # return a + b\n\n\n# def subtract(a, b):\n    # print(f\"SUBTRACTING {a} - {b}\")\n    # return a - b\n\n\n# def multiply(a, b):\n    # print(f\"MULTIPLYING {a} * {b}\")\n    # return a * b\n\n\n# def divide(a, b):\n    # print(f\"DIVIDING {a} / {b}\")\n    # return a / b\n\n\n# print(\"Let's do some math with just functions!\")\n# age = add(30, 5)\n# height = subtract(78, 4)\n# weight = multiply(90, 2)\n# iq = divide(100, 2)\n\n# print(f\"Age: {age}, Height: {height}, Weight: {weight}, IQ: {iq}\")\n\n# print(\"Here is a puzzle.\")\n# what = add(age, subtract(height, multiply(weight, divide(iq, 2))))\n# print(\"That becomes:\", what, \"Can you do it by hand?\")\n\n# =============================================================================\n# 写完练习后，删除下面这行占位再运行：\nprint(\"(请在上方自行输入代码)\")\n"
   },
   "timeoutSec": 5
 }

@@ -7,10 +7,10 @@
     "对照书本做一遍",
     "改几个数字/字符串再跑"
   ],
-  "body": "# Ex 19 · Functions and Variables\n\n函数参数名可以和外面的变量名相同，但它们不是同一个盒子。\n\n## 目标\n- 用不同方式给函数传参\n- 体会「调用时传入的值」才重要\n\n## 自检\n- [ ] 同名变量在函数内外互不影响（本课演示）\n- [ ] 至少改一次调用参数\n",
+  "body": "# Ex 19 · Functions and Variables\n\n函数参数名可以和外面的变量名相同，但它们不是同一个盒子。\n\n## 目标\n- 用不同方式给函数传参\n- 体会「调用时传入的值」才重要\n\n## 自检\n- [ ] 同名变量在函数内外互不影响（本课演示）\n- [ ] 至少改一次调用参数\n\n## 动手要求\n- 起始代码已用注释标出：**请自行输入**（或去掉 `#`），再删除占位 `print`。\n- 少复制粘贴，多手敲；敲错再改，是笨方法的核心。\n",
   "entry": "ex19.py",
   "starterFiles": {
-    "ex19.py": "def cheese_and_crackers(cheese_count, boxes_of_crackers):\n    print(f\"You have {cheese_count} cheeses!\")\n    print(f\"You have {boxes_of_crackers} boxes of crackers!\")\n    print(\"Man that's enough for a party!\")\n    print(\"Get a blanket.\\n\")\n\n\nprint(\"We can just give the function numbers directly:\")\ncheese_and_crackers(20, 30)\n\nprint(\"OR, we can use variables from our script:\")\namount_of_cheese = 10\namount_of_crackers = 50\ncheese_and_crackers(amount_of_cheese, amount_of_crackers)\n\nprint(\"We can even do math inside too:\")\ncheese_and_crackers(10 + 20, 5 + 6)\n\nprint(\"And we can combine the two, variables and math:\")\ncheese_and_crackers(amount_of_cheese + 100, amount_of_crackers + 1000)\n"
+    "ex19.py": "# =============================================================================\n# 自己动手敲（笨方法）：\n# 1) 把下面「已注释」的代码亲手输入到编辑器（或去掉行首的 # ）\n# 2) 删掉最底部的占位 print\n# 3) 保存并运行（⌘/Ctrl+Enter）\n# 对照书本完成本课；不要复制粘贴完事。\n# =============================================================================\n\n# def cheese_and_crackers(cheese_count, boxes_of_crackers):\n    # print(f\"You have {cheese_count} cheeses!\")\n    # print(f\"You have {boxes_of_crackers} boxes of crackers!\")\n    # print(\"Man that's enough for a party!\")\n    # print(\"Get a blanket.\\n\")\n\n\n# print(\"We can just give the function numbers directly:\")\n# cheese_and_crackers(20, 30)\n\n# print(\"OR, we can use variables from our script:\")\n# amount_of_cheese = 10\n# amount_of_crackers = 50\n# cheese_and_crackers(amount_of_cheese, amount_of_crackers)\n\n# print(\"We can even do math inside too:\")\n# cheese_and_crackers(10 + 20, 5 + 6)\n\n# print(\"And we can combine the two, variables and math:\")\n# cheese_and_crackers(amount_of_cheese + 100, amount_of_crackers + 1000)\n\n# =============================================================================\n# 写完练习后，删除下面这行占位再运行：\nprint(\"(请在上方自行输入代码)\")\n"
   },
   "timeoutSec": 5
 }

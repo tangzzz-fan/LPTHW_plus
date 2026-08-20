@@ -7,10 +7,10 @@
     "对照书本做一遍",
     "改几个数字/字符串再跑"
   ],
-  "body": "# Ex 41 · Learning to Speak Object Oriented\n\nOOP 词汇小词典：class / object / instance / attribute / method。\n\n## 目标\n- 用代码演示术语含义\n- 能用自己的话解释每个词\n\n## 自检\n- [ ] 分清 class 与 instance\n- [ ] 指出哪个是 attribute、哪个是 method\n",
+  "body": "# Ex 41 · Learning to Speak Object Oriented\n\nOOP 词汇小词典：class / object / instance / attribute / method。\n\n## 目标\n- 用代码演示术语含义\n- 能用自己的话解释每个词\n\n## 自检\n- [ ] 分清 class 与 instance\n- [ ] 指出哪个是 attribute、哪个是 method\n\n## 动手要求\n- 起始代码已用注释标出：**请自行输入**（或去掉 `#`），再删除占位 `print`。\n- 少复制粘贴，多手敲；敲错再改，是笨方法的核心。\n",
   "entry": "ex41.py",
   "starterFiles": {
-    "ex41.py": "class Dog:\n    \"\"\"A class is a blueprint.\"\"\"\n\n    def __init__(self, name):\n        self.name = name  # attribute\n\n    def bark(self):\n        return f\"{self.name} says woof!\"  # method\n\n\nprint(\"class:\", Dog)\nfido = Dog(\"Fido\")  # object / instance\nprint(\"instance:\", fido)\nprint(\"attribute name:\", fido.name)\nprint(\"method bark():\", fido.bark())\n\nvocab = {\n    \"class\": \"blueprint for objects\",\n    \"object/instance\": \"a concrete value built from a class\",\n    \"attribute\": \"data hanging off self\",\n    \"method\": \"function hanging off self\",\n}\nfor k, v in vocab.items():\n    print(f\"- {k}: {v}\")\n"
+    "ex41.py": "# =============================================================================\n# 自己动手敲（笨方法）：\n# 1) 把下面「已注释」的代码亲手输入到编辑器（或去掉行首的 # ）\n# 2) 删掉最底部的占位 print\n# 3) 保存并运行（⌘/Ctrl+Enter）\n# 对照书本完成本课；不要复制粘贴完事。\n# =============================================================================\n\n# class Dog:\n    # \"\"\"A class is a blueprint.\"\"\"\n\n    # def __init__(self, name):\n        # self.name = name  # attribute\n\n    # def bark(self):\n        # return f\"{self.name} says woof!\"  # method\n\n\n# print(\"class:\", Dog)\n# fido = Dog(\"Fido\")  # object / instance\n# print(\"instance:\", fido)\n# print(\"attribute name:\", fido.name)\n# print(\"method bark():\", fido.bark())\n\n# vocab = {\n    # \"class\": \"blueprint for objects\",\n    # \"object/instance\": \"a concrete value built from a class\",\n    # \"attribute\": \"data hanging off self\",\n    # \"method\": \"function hanging off self\",\n# }\n# for k, v in vocab.items():\n    # print(f\"- {k}: {v}\")\n\n# =============================================================================\n# 写完练习后，删除下面这行占位再运行：\nprint(\"(请在上方自行输入代码)\")\n"
   },
   "timeoutSec": 5
 }

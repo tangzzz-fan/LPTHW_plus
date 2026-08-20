@@ -5,9 +5,9 @@
   "timeoutSec": 5,
   "requires": [],
   "entry": "a05_main.py",
-  "body": "# A05 · 流式输出\n\n企业聊天接口常用 token/chunk 流。这里用异步生成器模拟。\n",
+  "body": "# A05 · 流式输出\n\n企业聊天接口常用 token/chunk 流。这里用异步生成器模拟。\n\n## 注释\n- 代码里带有 **【优先课注释】** 与分段说明，先读注释再跑。\n",
   "starterFiles": {
-    "a05_main.py": "import asyncio\n\n\nasync def fake_llm_stream(prompt: str):\n    tokens = [\"Hello\", \", \", \"this\", \" \", \"is\", \" \", \"streamed\", \" \", \"output\", \".\"]\n    for t in tokens:\n        await asyncio.sleep(0.05)\n        yield t\n\n\nasync def main() -> None:\n    print(\"prompt accepted\")\n    async for chunk in fake_llm_stream(\"hi\"):\n        print(chunk, end=\"\", flush=True)\n    print(\"\\n[done]\")\n\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n"
+    "a05_main.py": "# 【优先课注释】Async / LLM 落地\n# 课题：A05: 流式 chunk（模拟 LLM）\n# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。\n# ---------------------------------------------------------------------------\n\n# --- 导入依赖 ---\nimport asyncio\n\n\n# --- 异步函数 fake_llm_stream：注意 await 点，勿在此写阻塞 IO ---\nasync def fake_llm_stream(prompt: str):\n    tokens = [\"Hello\", \", \", \"this\", \" \", \"is\", \" \", \"streamed\", \" \", \"output\", \".\"]\n    for t in tokens:\n        await asyncio.sleep(0.05)\n        yield t\n\n\n# --- 异步函数 main：注意 await 点，勿在此写阻塞 IO ---\nasync def main() -> None:\n    print(\"prompt accepted\")\n    async for chunk in fake_llm_stream(\"hi\"):\n        print(chunk, end=\"\", flush=True)\n    print(\"\\n[done]\")\n\n\n# --- 脚本入口：从这里开始执行 ---\nif __name__ == \"__main__\":\n    asyncio.run(main())\n"
   },
   "checklist": [
     "阅读说明",

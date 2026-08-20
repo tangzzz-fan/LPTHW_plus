@@ -5,9 +5,9 @@
   "timeoutSec": 5,
   "requires": [],
   "entry": "a02_main.py",
-  "body": "# A02 · 并发：task / gather\n\n把多个 IO 等待叠在一起。对比 A01 的耗时。\n",
+  "body": "# A02 · 并发：task / gather\n\n把多个 IO 等待叠在一起。对比 A01 的耗时。\n\n## 注释\n- 代码里带有 **【优先课注释】** 与分段说明，先读注释再跑。\n",
   "starterFiles": {
-    "a02_main.py": "import asyncio\nimport time\n\n\nasync def fetch_fake(name: str, delay: float) -> str:\n    await asyncio.sleep(delay)\n    return f\"{name}-ok\"\n\n\nasync def main() -> None:\n    t0 = time.perf_counter()\n    results = await asyncio.gather(\n        fetch_fake(\"A\", 0.4),\n        fetch_fake(\"B\", 0.4),\n        fetch_fake(\"C\", 0.4),\n    )\n    print(results, f\"elapsed={time.perf_counter() - t0:.2f}s\")\n\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n"
+    "a02_main.py": "# 【优先课注释】Async / LLM 落地\n# 课题：A02: create_task 与 gather\n# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。\n# ---------------------------------------------------------------------------\n\n# --- 导入依赖 ---\nimport asyncio\nimport time\n\n\n# --- 异步函数 fetch_fake：注意 await 点，勿在此写阻塞 IO ---\nasync def fetch_fake(name: str, delay: float) -> str:\n    await asyncio.sleep(delay)\n    return f\"{name}-ok\"\n\n\n# --- 异步函数 main：注意 await 点，勿在此写阻塞 IO ---\nasync def main() -> None:\n    t0 = time.perf_counter()\n    results = await asyncio.gather(\n        fetch_fake(\"A\", 0.4),\n        fetch_fake(\"B\", 0.4),\n        fetch_fake(\"C\", 0.4),\n    )\n    print(results, f\"elapsed={time.perf_counter() - t0:.2f}s\")\n\n\n# --- 脚本入口：从这里开始执行 ---\nif __name__ == \"__main__\":\n    asyncio.run(main())\n"
   },
   "checklist": [
     "阅读说明",

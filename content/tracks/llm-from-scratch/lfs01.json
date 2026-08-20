@@ -7,9 +7,9 @@
     "torch"
   ],
   "entry": "lfs01_main.py",
-  "body": "# LFS01 · What is PyTorch\n\n对应《从零开始构建大模型》**附录 A · A.1 What is PyTorch**（原创练习提纲，非书中原文）。\n\n## 目标\n- 确认本机已安装 PyTorch\n- 理解：张量计算 + 自动求导，是后续 LLM 实现的底座\n\n## 自检\n- [ ] 打印出版本与设备信息\n",
+  "body": "# LFS01 · What is PyTorch\n\n对应《从零开始构建大模型》**附录 A · A.1 What is PyTorch**（原创练习提纲，非书中原文）。\n\n## 目标\n- 确认本机已安装 PyTorch\n- 理解：张量计算 + 自动求导，是后续 LLM 实现的底座\n\n## 自检\n- [ ] 打印出版本与设备信息\n\n## 注释\n- 代码里带有 **【优先课注释】** 与分段说明，先读注释再跑。\n",
   "starterFiles": {
-    "lfs01_main.py": "import torch\n\nprint(\"torch\", torch.__version__)\nprint(\"cuda\", torch.cuda.is_available())\nprint(\"mps\", torch.backends.mps.is_available())\nprint(\"default_dtype\", torch.get_default_dtype())\n"
+    "lfs01_main.py": "# 【优先课注释】LLMFromScratch（附录 A）\n# 课题：LFS01: What is PyTorch\n# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。\n# ---------------------------------------------------------------------------\n\n# --- 导入依赖 ---\nimport torch\n\nprint(\"torch\", torch.__version__)\nprint(\"cuda\", torch.cuda.is_available())\nprint(\"mps\", torch.backends.mps.is_available())\nprint(\"default_dtype\", torch.get_default_dtype())\n"
   },
   "checklist": [
     "对照书本附录 A 阅读",

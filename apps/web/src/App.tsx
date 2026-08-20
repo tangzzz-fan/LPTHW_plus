@@ -316,7 +316,7 @@ export default function App() {
   )
 
   const handleRun = useCallback(async () => {
-    if (!activeTrack || !activeLessonId) return
+    if (!activeTrack || !activeLessonId || running) return
     setRunning(true)
     setError(null)
     setWaitingForInput(false)
@@ -355,6 +355,7 @@ export default function App() {
     editorValue,
     applyRunResult,
     pollSession,
+    running,
   ])
 
   const handleTerminalInput = useCallback(

@@ -7,9 +7,9 @@
     "torch"
   ],
   "entry": "p06_main.py",
-  "body": "# P06 · 加载权重推理\n\n先运行 P05 生成 `model.pt`，或本课会训练一个临时模型再推理。把预测写入 `preds.txt`。\n",
+  "body": "# P06 · 加载权重推理\n\n先运行 P05 生成 `model.pt`，或本课会训练一个临时模型再推理。把预测写入 `preds.txt`。\n\n## 注释\n- 代码里带有 **【优先课注释】** 与分段说明，先读注释再跑。\n",
   "starterFiles": {
-    "p06_main.py": "from pathlib import Path\n\nimport torch\nimport torch.nn as nn\n\nmodel = nn.Linear(1, 1)\npath = Path(\"model.pt\")\nif not path.exists():\n    # bootstrap if p05 not run\n    opt = torch.optim.SGD(model.parameters(), lr=0.1)\n    loss_fn = nn.MSELoss()\n    x = torch.linspace(-1, 1, 40).unsqueeze(1)\n    y = -1.5 * x + 0.25\n    for _ in range(80):\n        loss = loss_fn(model(x), y)\n        opt.zero_grad()\n        loss.backward()\n        opt.step()\n    torch.save(model.state_dict(), path)\n\nmodel.load_state_dict(torch.load(path, weights_only=True))\nmodel.eval()\nwith torch.no_grad():\n    xs = torch.tensor([[-1.0], [0.0], [1.0]])\n    preds = model(xs).squeeze(1).tolist()\n\nlines = [f\"{x[0]:.1f},{p:.4f}\" for x, p in zip(xs.tolist(), preds)]\nPath(\"preds.txt\").write_text(\"\\n\".join(lines) + \"\\n\", encoding=\"utf-8\")\nprint(\"preds\", preds)\n"
+    "p06_main.py": "# 【优先课注释】PyTorch\n# 课题：P06: 推理脚本\n# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。\n# ---------------------------------------------------------------------------\n\n# --- 导入依赖 ---\nfrom pathlib import Path\n\nimport torch\nimport torch.nn as nn\n\nmodel = nn.Linear(1, 1)\npath = Path(\"model.pt\")\nif not path.exists():\n    # bootstrap if p05 not run\n    opt = torch.optim.SGD(model.parameters(), lr=0.1)\n    loss_fn = nn.MSELoss()\n    x = torch.linspace(-1, 1, 40).unsqueeze(1)\n    y = -1.5 * x + 0.25\n    for _ in range(80):\n        loss = loss_fn(model(x), y)\n        opt.zero_grad()\n        loss.backward()\n        opt.step()\n    torch.save(model.state_dict(), path)\n\nmodel.load_state_dict(torch.load(path, weights_only=True))\nmodel.eval()\nwith torch.no_grad():\n    xs = torch.tensor([[-1.0], [0.0], [1.0]])\n    preds = model(xs).squeeze(1).tolist()\n\nlines = [f\"{x[0]:.1f},{p:.4f}\" for x, p in zip(xs.tolist(), preds)]\nPath(\"preds.txt\").write_text(\"\\n\".join(lines) + \"\\n\", encoding=\"utf-8\")\nprint(\"preds\", preds)\n"
   },
   "checklist": [
     "确认 torch 已安装（如需要）",

@@ -7,9 +7,9 @@
     "torch"
   ],
   "entry": "lfs13_main.py",
-  "body": "# LFS13 · Multi-GPU overview (conceptual)\n\n对应《从零开始构建大模型》**附录 A · A.9.3 Training with multiple GPUs**（原创练习提纲，非书中原文）。\n\n## 目标\n- 理解 DataParallel / DDP 在多卡时的角色\n- 本机若无多 GPU，用「单卡模拟」跑通结构，不要求真多卡\n\n## 说明\n附录 A 后半讲多卡加速。笔记本学习站以单机为主；这里只建立概念，真正 DDP 需多进程启动。\n\n## 自检\n- [ ] 读懂注释；单卡路径跑通\n",
+  "body": "# LFS13 · Multi-GPU overview (conceptual)\n\n对应《从零开始构建大模型》**附录 A · A.9.3 Training with multiple GPUs**（原创练习提纲，非书中原文）。\n\n## 目标\n- 理解 DataParallel / DDP 在多卡时的角色\n- 本机若无多 GPU，用「单卡模拟」跑通结构，不要求真多卡\n\n## 说明\n附录 A 后半讲多卡加速。笔记本学习站以单机为主；这里只建立概念，真正 DDP 需多进程启动。\n\n## 自检\n- [ ] 读懂注释；单卡路径跑通\n\n## 注释\n- 代码里带有 **【优先课注释】** 与分段说明，先读注释再跑。\n",
   "starterFiles": {
-    "lfs13_main.py": "import torch\nimport torch.nn as nn\n\nprint(\"cuda_device_count =\", torch.cuda.device_count())\nprint(\"Tip: true DDP needs torchrun / multiple processes.\")\nprint(\"Here we just train on one device, as you will on a laptop.\")\n\ndevice = torch.device(\"cpu\")\nmodel = nn.Linear(4, 2).to(device)\nx = torch.randn(8, 4, device=device)\ny = torch.randn(8, 2, device=device)\nopt = torch.optim.SGD(model.parameters(), lr=0.1)\nloss = ((model(x) - y) ** 2).mean()\nloss.backward()\nopt.step()\nprint(\"single-process step ok, loss=\", float(loss))\n"
+    "lfs13_main.py": "# 【优先课注释】LLMFromScratch（附录 A）\n# 课题：LFS13: Multi-GPU overview (conceptual)\n# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。\n# ---------------------------------------------------------------------------\n\n# --- 导入依赖 ---\nimport torch\nimport torch.nn as nn\n\nprint(\"cuda_device_count =\", torch.cuda.device_count())\nprint(\"Tip: true DDP needs torchrun / multiple processes.\")\nprint(\"Here we just train on one device, as you will on a laptop.\")\n\ndevice = torch.device(\"cpu\")\nmodel = nn.Linear(4, 2).to(device)\nx = torch.randn(8, 4, device=device)\ny = torch.randn(8, 2, device=device)\nopt = torch.optim.SGD(model.parameters(), lr=0.1)\nloss = ((model(x) - y) ** 2).mean()\nloss.backward()\nopt.step()\nprint(\"single-process step ok, loss=\", float(loss))\n"
   },
   "checklist": [
     "对照书本附录 A 阅读",
