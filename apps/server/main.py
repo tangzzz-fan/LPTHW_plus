@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
+import re
 import shutil
 import signal
 import sys
@@ -16,6 +18,25 @@ from pydantic import BaseModel
 ROOT = Path(__file__).resolve().parents[2]
 CONTENT_ROOT = ROOT / "content" / "tracks"
 WORKSPACE_ROOT = ROOT / "learner_workspace"
+
+# Python 3.13+ colorizes tracebacks; strip for browser <pre> display.
+_ANSI_RE = re.compile(r"\x1b\[[0-9;]*[A-Za-z]|\x1b\][^\x07]*\x07|\x1b[\[\]()#;?]*.")
+
+
+def _strip_ansi(text: str) -> str:
+    if not text:
+        return text
+    return _ANSI_RE.sub("", text)
+
+
+def _run_env() -> dict[str, str]:
+    env = os.environ.copy()
+    env["NO_COLOR"] = "1"
+    env["PYTHON_COLORS"] = "0"
+    env["TERM"] = "dumb"
+    env.pop("FORCE_COLOR", None)
+    env.pop("CLICOLOR_FORCE", None)
+    return env
 
 app = FastAPI(title="LPTHW Learner API", version="0.1.0")
 app.add_middleware(
@@ -232,9 +253,9 @@ async def _read_available(stream: asyncio.StreamReader, limit: int = 200_000) ->
 async def _drain_session(session: dict[str, Any]) -> None:
     proc: asyncio.subprocess.Process = session["proc"]
     if proc.stdout:
-        session["stdout"] += await _read_available(proc.stdout)
+        session["stdout"] += _strip_ansi(await _read_available(proc.stdout))
     if proc.stderr:
-        session["stderr"] += await _read_available(proc.stderr)
+        session["stderr"] += _strip_ansi(await _read_available(proc.stderr))
 
 
 def _session_payload(session_id: str | None, session: dict[str, Any], running: bool) -> dict[str, Any]:
@@ -243,8 +264,8 @@ def _session_payload(session_id: str | None, session: dict[str, Any], running: b
         "sessionId": session_id if running else None,
         "running": running,
         "exitCode": None if running else proc.returncode,
-        "stdout": session["stdout"],
-        "stderr": session["stderr"],
+        "stdout": _strip_ansi(session["stdout"]),
+        "stderr": _strip_ansi(session["stderr"]),
         "waitingForInput": running,
     }
 
@@ -306,6 +327,7 @@ async def run_code(req: RunRequest) -> dict[str, Any]:
         stdin=asyncio.subprocess.PIPE,
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,
+        env=_run_env(),
     )
 
     session_id = str(uuid.uuid4())
@@ -357,8 +379,8 @@ async def send_stdin(body: StdinRequest) -> dict[str, Any]:
         proc.stdin.write(data.encode())
         await proc.stdin.drain()
 
-    stdout = await _read_available(proc.stdout) if proc.stdout else ""
-    stderr = await _read_available(proc.stderr) if proc.stderr else ""
+    stdout = _strip_ansi(await _read_available(proc.stdout) if proc.stdout else "")
+    stderr = _strip_ansi(await _read_available(proc.stderr) if proc.stderr else "")
     session["stdout"] += stdout
     session["stderr"] += stderr
 
@@ -369,21 +391,21 @@ async def send_stdin(body: StdinRequest) -> dict[str, Any]:
             "sessionId": body.sessionId,
             "running": True,
             "exitCode": None,
-            "stdout": session["stdout"],
-            "stderr": session["stderr"],
+            "stdout": _strip_ansi(session["stdout"]),
+            "stderr": _strip_ansi(session["stderr"]),
             "waitingForInput": True,
         }
 
-    stdout2 = await _read_available(proc.stdout) if proc.stdout else ""
-    stderr2 = await _read_available(proc.stderr) if proc.stderr else ""
+    stdout2 = _strip_ansi(await _read_available(proc.stdout) if proc.stdout else "")
+    stderr2 = _strip_ansi(await _read_available(proc.stderr) if proc.stderr else "")
     session["stdout"] += stdout2
     session["stderr"] += stderr2
     result = {
         "sessionId": body.sessionId,
         "running": False,
         "exitCode": proc.returncode,
-        "stdout": session["stdout"],
-        "stderr": session["stderr"],
+        "stdout": _strip_ansi(session["stdout"]),
+        "stderr": _strip_ansi(session["stderr"]),
     }
     _sessions.pop(body.sessionId, None)
     return result

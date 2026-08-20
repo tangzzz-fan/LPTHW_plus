@@ -52,9 +52,11 @@ function saveProgress(map: ProgressMap) {
 }
 
 function formatRunOutput(res: RunResult): string {
+  const stripAnsi = (s: string) =>
+    s.replace(/\u001b\[[0-9;]*[A-Za-z]|\u001b\][^\u0007]*\u0007/g, '')
   const parts: string[] = []
-  if (res.stdout) parts.push(res.stdout)
-  if (res.stderr) parts.push(res.stderr)
+  if (res.stdout) parts.push(stripAnsi(res.stdout))
+  if (res.stderr) parts.push(stripAnsi(res.stderr))
   if (!res.running && res.exitCode != null) {
     parts.push(`\n[exit ${res.exitCode}]`)
   }
