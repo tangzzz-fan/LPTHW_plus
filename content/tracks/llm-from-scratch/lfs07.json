@@ -1,0 +1,19 @@
+{
+  "title": "LFS07: Multilayer nets with nn.Module",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 60,
+  "requires": [
+    "torch"
+  ],
+  "entry": "lfs07_main.py",
+  "body": "# LFS07 · Multilayer nets with nn.Module\n\n对应《从零开始构建大模型》**附录 A · A.5 Implementing multilayer neural networks**（原创练习提纲，非书中原文）。\n\n## 目标\n- 用 `nn.Module` 定义小型 MLP\n- 前向：`model(x)`；参数：`model.parameters()`\n\n## 自检\n- [ ] 打印参数形状，完成一次前向\n",
+  "starterFiles": {
+    "lfs07_main.py": "import torch\nimport torch.nn as nn\n\nclass TinyMLP(nn.Module):\n    def __init__(self, in_dim=4, hidden=8, out_dim=2):\n        super().__init__()\n        self.net = nn.Sequential(\n            nn.Linear(in_dim, hidden),\n            nn.ReLU(),\n            nn.Linear(hidden, out_dim),\n        )\n\n    def forward(self, x):\n        return self.net(x)\n\ntorch.manual_seed(0)\nmodel = TinyMLP()\nx = torch.randn(3, 4)\nlogits = model(x)\nprint(\"out shape\", tuple(logits.shape))\nfor name, p in model.named_parameters():\n    print(name, tuple(p.shape))\n"
+  },
+  "checklist": [
+    "对照书本附录 A 阅读",
+    "运行本课代码",
+    "改参数再跑一次"
+  ]
+}

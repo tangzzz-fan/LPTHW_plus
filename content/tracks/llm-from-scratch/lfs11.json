@@ -1,0 +1,19 @@
+{
+  "title": "LFS11: Compute devices (CPU / MPS / CUDA)",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 30,
+  "requires": [
+    "torch"
+  ],
+  "entry": "lfs11_main.py",
+  "body": "# LFS11 · Compute devices (CPU / MPS / CUDA)\n\n对应《从零开始构建大模型》**附录 A · A.9.1 PyTorch computations on GPU devices**（原创练习提纲，非书中原文）。\n\n## 目标\n- 会选择设备：Mac 优先 MPS，否则 CPU；有 NVIDIA 则 CUDA\n- `.to(device)` 移动模型与数据\n\n## 自检\n- [ ] 张量确实在所选 device 上\n",
+  "starterFiles": {
+    "lfs11_main.py": "import torch\n\n\ndef pick_device() -> torch.device:\n    if torch.cuda.is_available():\n        return torch.device(\"cuda\")\n    if torch.backends.mps.is_available():\n        return torch.device(\"mps\")\n    return torch.device(\"cpu\")\n\n\ndevice = pick_device()\nprint(\"using\", device)\nx = torch.randn(2, 3, device=device)\nw = torch.randn(3, 4, device=device)\ny = x @ w\nprint(\"y\", tuple(y.shape), y.device)\n"
+  },
+  "checklist": [
+    "对照书本附录 A 阅读",
+    "运行本课代码",
+    "改参数再跑一次"
+  ]
+}

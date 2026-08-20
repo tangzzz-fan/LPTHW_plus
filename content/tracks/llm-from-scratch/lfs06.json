@@ -1,0 +1,19 @@
+{
+  "title": "LFS06: Automatic differentiation",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 60,
+  "requires": [
+    "torch"
+  ],
+  "entry": "lfs06_main.py",
+  "body": "# LFS06 · Automatic differentiation\n\n对应《从零开始构建大模型》**附录 A · A.4 Automatic differentiation via autograd**（原创练习提纲，非书中原文）。\n\n## 目标\n- 理解 `requires_grad`、`backward`、`.grad`\n- 知道训练步里为何要 `zero_grad`\n\n## 自检\n- [ ] 对简单函数求出正确梯度\n",
+  "starterFiles": {
+    "lfs06_main.py": "import torch\n\nx = torch.tensor(3.0, requires_grad=True)\ny = torch.tensor(2.0, requires_grad=True)\n# f = x^2 * y + y\nf = x**2 * y + y\nf.backward()\nprint(\"f\", float(f))\nprint(\"df/dx\", float(x.grad))  # 2*x*y = 12\nprint(\"df/dy\", float(y.grad))  # x^2 + 1 = 10\n\n# next step in a training loop would clear grads:\nx.grad.zero_()\ny.grad.zero_()\nprint(\"cleared\", x.grad, y.grad)\n"
+  },
+  "checklist": [
+    "对照书本附录 A 阅读",
+    "运行本课代码",
+    "改参数再跑一次"
+  ]
+}

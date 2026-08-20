@@ -1,0 +1,19 @@
+{
+  "title": "LFS08: Dataset and DataLoader",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 60,
+  "requires": [
+    "torch"
+  ],
+  "entry": "lfs08_main.py",
+  "body": "# LFS08 · Dataset and DataLoader\n\n对应《从零开始构建大模型》**附录 A · A.6 Setting up efficient data loaders**（原创练习提纲，非书中原文）。\n\n## 目标\n- 实现最小 `Dataset`\n- 用 `DataLoader` 按 batch 迭代（LLM 预训练同理，只是样本变成 token 块）\n\n## 自检\n- [ ] 看到两个 batch 打印\n",
+  "starterFiles": {
+    "lfs08_main.py": "import torch\nfrom torch.utils.data import DataLoader, Dataset\n\n\nclass ToyReg(Dataset):\n    def __init__(self, n=20):\n        self.x = torch.linspace(-1, 1, n).unsqueeze(1)\n        self.y = 2 * self.x + 0.1\n\n    def __len__(self):\n        return len(self.x)\n\n    def __getitem__(self, i):\n        return self.x[i], self.y[i]\n\n\nloader = DataLoader(ToyReg(), batch_size=8, shuffle=True)\nfor step, (bx, by) in enumerate(loader):\n    print(f\"batch {step}: x{tuple(bx.shape)} y{tuple(by.shape)}\")\n"
+  },
+  "checklist": [
+    "对照书本附录 A 阅读",
+    "运行本课代码",
+    "改参数再跑一次"
+  ]
+}

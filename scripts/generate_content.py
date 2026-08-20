@@ -1237,4 +1237,7 @@ if __name__ == "__main__":
     gen_lpthw()
     gen_async()
     gen_pytorch()
+    from gen_llm_from_scratch import main as gen_lfs
+
+    gen_lfs()
     print("content generated")

@@ -1,0 +1,19 @@
+{
+  "title": "LFS02: Scalars, vectors, matrices, tensors",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 60,
+  "requires": [
+    "torch"
+  ],
+  "entry": "lfs02_main.py",
+  "body": "# LFS02 · Scalars, vectors, matrices, tensors\n\n对应《从零开始构建大模型》**附录 A · A.2.1 Scalars, vectors, matrices, and tensors**（原创练习提纲，非书中原文）。\n\n## 目标\n- 分清 0D/1D/2D/3D 张量\n- 会用 `.shape` / `.ndim` 观察结构\n\n## 自检\n- [ ] 能说出每个示例的维度含义\n",
+  "starterFiles": {
+    "lfs02_main.py": "import torch\n\nscalar = torch.tensor(1.0)\nvector = torch.tensor([1.0, 2.0, 3.0])\nmatrix = torch.tensor([[1.0, 2.0], [3.0, 4.0]])\ntensor3d = torch.tensor([[[1, 2], [3, 4]], [[5, 6], [7, 8]]], dtype=torch.float32)\n\nfor name, t in [(\"scalar\", scalar), (\"vector\", vector), (\"matrix\", matrix), (\"3d\", tensor3d)]:\n    print(f\"{name:8} ndim={t.ndim} shape={tuple(t.shape)} -> {t}\")\n"
+  },
+  "checklist": [
+    "对照书本附录 A 阅读",
+    "运行本课代码",
+    "改参数再跑一次"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "title": "LFS09: A typical training loop",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 90,
+  "requires": [
+    "torch"
+  ],
+  "entry": "lfs09_main.py",
+  "body": "# LFS09 · A typical training loop\n\n对应《从零开始构建大模型》**附录 A · A.7 A typical training loop**（原创练习提纲，非书中原文）。\n\n## 目标\n- 串起：前向 → loss → backward → optimizer.step\n- 观察 loss 下降\n\n## 自检\n- [ ] loss 整体下降\n",
+  "starterFiles": {
+    "lfs09_main.py": "import torch\nimport torch.nn as nn\n\ntorch.manual_seed(0)\nmodel = nn.Linear(1, 1)\nopt = torch.optim.SGD(model.parameters(), lr=0.1)\nloss_fn = nn.MSELoss()\nx = torch.linspace(-1, 1, 40).unsqueeze(1)\ny = 3 * x - 1\n\nfor epoch in range(60):\n    pred = model(x)\n    loss = loss_fn(pred, y)\n    opt.zero_grad()\n    loss.backward()\n    opt.step()\n    if epoch % 10 == 0:\n        print(f\"epoch={epoch:02d} loss={loss.item():.4f}\")\n\nprint(\"weight\", model.weight.item(), \"bias\", model.bias.item())\n"
+  },
+  "checklist": [
+    "对照书本附录 A 阅读",
+    "运行本课代码",
+    "改参数再跑一次"
+  ]
+}

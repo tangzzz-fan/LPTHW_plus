@@ -1,0 +1,19 @@
+{
+  "title": "LFS04: Common tensor operations",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 60,
+  "requires": [
+    "torch"
+  ],
+  "entry": "lfs04_main.py",
+  "body": "# LFS04 · Common tensor operations\n\n对应《从零开始构建大模型》**附录 A · A.2.3 Common PyTorch tensor operations**（原创练习提纲，非书中原文）。\n\n## 目标\n- 练习 `reshape` / `view`、转置、矩阵乘、广播\n- 知道 `view` 要求内存连续，必要时 `.contiguous()`\n\n## 自检\n- [ ] 改形状再 matmul，不报错\n",
+  "starterFiles": {
+    "lfs04_main.py": "import torch\n\nx = torch.arange(6)\nprint(\"x\", x)\nprint(\"reshape (2,3)\", x.reshape(2, 3))\nprint(\"view (3,2)\", x.view(3, 2))\n\na = torch.tensor([[1.0, 2.0], [3.0, 4.0]])\nb = torch.tensor([[5.0, 6.0], [7.0, 8.0]])\nprint(\"a @ b\\n\", a @ b)\nprint(\"a.T\\n\", a.T)\n\n# broadcasting\nv = torch.tensor([10.0, 20.0])\nprint(\"a + v\\n\", a + v)\n"
+  },
+  "checklist": [
+    "对照书本附录 A 阅读",
+    "运行本课代码",
+    "改参数再跑一次"
+  ]
+}

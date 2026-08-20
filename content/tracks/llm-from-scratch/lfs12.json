@@ -1,0 +1,19 @@
+{
+  "title": "LFS12: Single-device training",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 120,
+  "requires": [
+    "torch"
+  ],
+  "entry": "lfs12_main.py",
+  "body": "# LFS12 · Single-device training\n\n对应《从零开始构建大模型》**附录 A · A.9.2 Single-GPU training**（原创练习提纲，非书中原文）。\n\n## 目标\n- 在选定 device 上跑完一个小训练循环（Mac 上通常是 MPS）\n- 记住：模型和 batch 必须在同一 device\n\n## 自检\n- [ ] 无 device mismatch 报错，loss 下降\n",
+  "starterFiles": {
+    "lfs12_main.py": "import torch\nimport torch.nn as nn\n\n\ndef pick_device() -> torch.device:\n    if torch.cuda.is_available():\n        return torch.device(\"cuda\")\n    if torch.backends.mps.is_available():\n        return torch.device(\"mps\")\n    return torch.device(\"cpu\")\n\n\ndevice = pick_device()\nprint(\"device\", device)\ntorch.manual_seed(0)\nmodel = nn.Sequential(nn.Linear(1, 16), nn.ReLU(), nn.Linear(16, 1)).to(device)\nopt = torch.optim.Adam(model.parameters(), lr=1e-2)\nx = torch.linspace(-1, 1, 64, device=device).unsqueeze(1)\ny = torch.sin(3 * x)\n\nfor epoch in range(100):\n    pred = model(x)\n    loss = ((pred - y) ** 2).mean()\n    opt.zero_grad()\n    loss.backward()\n    opt.step()\n    if epoch % 20 == 0:\n        print(f\"epoch={epoch} loss={loss.item():.4f}\")\n"
+  },
+  "checklist": [
+    "对照书本附录 A 阅读",
+    "运行本课代码",
+    "改参数再跑一次"
+  ]
+}

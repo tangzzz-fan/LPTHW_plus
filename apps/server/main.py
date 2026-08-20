@@ -122,6 +122,11 @@ def list_tracks() -> list[dict[str, Any]]:
         "lpthw": {"title": "LPTHW 基础", "priority": False, "order": 0},
         "async-llm": {"title": "Async / LLM 落地", "priority": True, "order": 1},
         "pytorch": {"title": "PyTorch", "priority": True, "order": 2},
+        "llm-from-scratch": {
+            "title": "LLMFromScratch",
+            "priority": True,
+            "order": 3,
+        },
     }
     tracks = []
     if not CONTENT_ROOT.exists():
