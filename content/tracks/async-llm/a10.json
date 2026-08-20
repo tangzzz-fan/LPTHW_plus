@@ -1,0 +1,17 @@
+{
+  "title": "A10: to_thread 桥接同步 SDK",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 5,
+  "requires": [],
+  "entry": "a10_main.py",
+  "body": "# A10 · asyncio.to_thread\n\n很多 LLM / 向量库 SDK 仍是**同步阻塞**的。在 `async` 路由里直接调用会卡住整个事件循环。\n\n## 目标\n- 对比：阻塞调用 vs `asyncio.to_thread`\n- 企业习惯：同步 SDK 一律丢线程池，主协程只做编排\n\n## 注释\n- 代码里带有 **【优先课注释】** 与分段说明，先读注释再跑。\n",
+  "starterFiles": {
+    "a10_main.py": "# 【优先课注释】Async / LLM 落地\n# 课题：A10: to_thread 桥接同步 SDK\n# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。\n# ---------------------------------------------------------------------------\n\n# --- 导入依赖 ---\nimport asyncio\nimport time\n\n\n# --- 函数 sync_llm_sdk：读参数与返回值，想清楚谁调用它 ---\ndef sync_llm_sdk(prompt: str) -> str:\n    \"\"\"Pretend a sync vendor SDK (blocks the thread).\"\"\"\n    time.sleep(0.4)\n    return f\"sync-reply:{prompt}\"\n\n\n# --- 异步函数 bad_call：注意 await 点，勿在此写阻塞 IO ---\nasync def bad_call(prompt: str) -> str:\n    # DO NOT do this in production async servers\n    return sync_llm_sdk(prompt)\n\n\n# --- 异步函数 good_call：注意 await 点，勿在此写阻塞 IO ---\nasync def good_call(prompt: str) -> str:\n    return await asyncio.to_thread(sync_llm_sdk, prompt)\n\n\n# --- 异步函数 main：注意 await 点，勿在此写阻塞 IO ---\nasync def main() -> None:\n    t0 = time.perf_counter()\n    # Two good_calls can overlap in the thread pool\n    a, b = await asyncio.gather(good_call(\"A\"), good_call(\"B\"))\n    print(a, b, f\"good_elapsed={time.perf_counter() - t0:.2f}s\")\n\n    t1 = time.perf_counter()\n    # Sequential blocking inside async = ~0.8s wall time\n    x = await bad_call(\"X\")\n    y = await bad_call(\"Y\")\n    print(x, y, f\"bad_elapsed={time.perf_counter() - t1:.2f}s\")\n\n\n# --- 脚本入口：从这里开始执行 ---\nif __name__ == \"__main__\":\n    asyncio.run(main())\n"
+  },
+  "checklist": [
+    "阅读说明",
+    "运行并解释输出",
+    "改参数再跑一次"
+  ]
+}

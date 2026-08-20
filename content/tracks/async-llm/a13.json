@@ -1,0 +1,17 @@
+{
+  "title": "A13: 流式 HTTP / SSE 消费",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 5,
+  "requires": [],
+  "entry": "a13_main.py",
+  "body": "# A13 · 消费流式响应\n\nA05 是内存里的 async generator；企业侧常见是 **HTTP chunk / SSE**。\n\n用 MockTransport 返回分块 body，练习 `aiter_text`。\n\n## 注释\n- 代码里带有 **【优先课注释】** 与分段说明，先读注释再跑。\n",
+  "starterFiles": {
+    "a13_main.py": "# 【优先课注释】Async / LLM 落地\n# 课题：A13: 流式 HTTP / SSE 消费\n# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。\n# ---------------------------------------------------------------------------\n\n# --- 导入依赖 ---\nimport asyncio\nimport httpx\n\n\n# --- 函数 handler：读参数与返回值，想清楚谁调用它 ---\ndef handler(request: httpx.Request) -> httpx.Response:\n    # Simulate streamed tokens (chunked body)\n    body = b\"data: Hello\\n\\ndata:  world\\n\\ndata: [DONE]\\n\\n\"\n    return httpx.Response(\n        200,\n        headers={\"content-type\": \"text/event-stream\"},\n        content=body,\n    )\n\n\n# --- 异步函数 consume_sse：注意 await 点，勿在此写阻塞 IO ---\nasync def consume_sse(client: httpx.AsyncClient, url: str) -> str:\n    parts: list[str] = []\n    async with client.stream(\"GET\", url) as resp:\n        resp.raise_for_status()\n        async for line in resp.aiter_lines():\n            if not line or not line.startswith(\"data:\"):\n                continue\n            payload = line[5:].strip()\n            if payload == \"[DONE]\":\n                break\n            parts.append(payload)\n            print(\"chunk:\", payload)\n    return \"\".join(parts)\n\n\n# --- 异步函数 main：注意 await 点，勿在此写阻塞 IO ---\nasync def main() -> None:\n    transport = httpx.MockTransport(handler)\n    async with httpx.AsyncClient(transport=transport, timeout=5.0) as client:\n        text = await consume_sse(client, \"https://llm.example/v1/stream\")\n        print(\"joined:\", text)\n\n\n# --- 脚本入口：从这里开始执行 ---\nif __name__ == \"__main__\":\n    asyncio.run(main())\n"
+  },
+  "checklist": [
+    "阅读说明",
+    "运行并解释输出",
+    "改参数再跑一次"
+  ]
+}

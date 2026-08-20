@@ -1,0 +1,17 @@
+{
+  "title": "A14: 简易熔断器",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 5,
+  "requires": [],
+  "entry": "a14_main.py",
+  "body": "# A14 · Circuit breaker\n\n上游连续失败时**快速失败**，避免雪崩；冷却后再试探半开。\n\n本课是教学级状态机，生产可换 `pybreaker` / 网关熔断。\n\n## 注释\n- 代码里带有 **【优先课注释】** 与分段说明，先读注释再跑。\n",
+  "starterFiles": {
+    "a14_main.py": "# 【优先课注释】Async / LLM 落地\n# 课题：A14: 简易熔断器\n# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。\n# ---------------------------------------------------------------------------\n\n# --- 导入依赖 ---\nimport asyncio\nimport time\n\n\n# --- 类 CircuitOpenError：关注 __init__ / forward 或核心方法 ---\nclass CircuitOpenError(RuntimeError):\n    pass\n\n\n# --- 类 CircuitBreaker：关注 __init__ / forward 或核心方法 ---\nclass CircuitBreaker:\n    def __init__(self, failure_threshold: int = 3, recovery_timeout: float = 0.4) -> None:\n        self.failure_threshold = failure_threshold\n        self.recovery_timeout = recovery_timeout\n        self.failures = 0\n        self.opened_at: float | None = None\n\n    def _ensure_closed_or_half(self) -> None:\n        if self.opened_at is None:\n            return\n        if time.monotonic() - self.opened_at >= self.recovery_timeout:\n            # half-open: allow one probe\n            return\n        raise CircuitOpenError(\"circuit open\")\n\n# --- 异步函数 call：注意 await 点，勿在此写阻塞 IO ---\n    async def call(self, coro_factory):\n        self._ensure_closed_or_half()\n        try:\n            result = await coro_factory()\n        except Exception:\n            self.failures += 1\n            if self.failures >= self.failure_threshold:\n                self.opened_at = time.monotonic()\n                print(\"OPEN circuit\")\n            raise\n        self.failures = 0\n        self.opened_at = None\n        return result\n\n\nFLAKY = {\"n\": 0}\n\n\n# --- 异步函数 flaky_upstream：注意 await 点，勿在此写阻塞 IO ---\nasync def flaky_upstream() -> str:\n    FLAKY[\"n\"] += 1\n    if FLAKY[\"n\"] <= 4:\n        raise RuntimeError(\"boom\")\n    return \"recovered\"\n\n\n# --- 异步函数 main：注意 await 点，勿在此写阻塞 IO ---\nasync def main() -> None:\n    br = CircuitBreaker()\n    for i in range(8):\n        try:\n            out = await br.call(flaky_upstream)\n            print(i, \"ok\", out)\n        except CircuitOpenError as exc:\n            print(i, \"fast-fail\", exc)\n            await asyncio.sleep(0.15)\n        except RuntimeError as exc:\n            print(i, \"upstream\", exc)\n\n\n# --- 脚本入口：从这里开始执行 ---\nif __name__ == \"__main__\":\n    asyncio.run(main())\n"
+  },
+  "checklist": [
+    "阅读说明",
+    "运行并解释输出",
+    "改参数再跑一次"
+  ]
+}

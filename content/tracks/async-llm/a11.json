@@ -1,0 +1,17 @@
+{
+  "title": "A11: HTTP 错误分类与指数退避",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 5,
+  "requires": [],
+  "entry": "a11_main.py",
+  "body": "# A11 · HTTP 重试（MockTransport）\n\n企业调用模型网关时：`429/5xx` 可重试，`4xx`（除 429）通常不重试。\n\n本课用 `httpx.MockTransport`，**不依赖外网**。\n\n## 注释\n- 代码里带有 **【优先课注释】** 与分段说明，先读注释再跑。\n",
+  "starterFiles": {
+    "a11_main.py": "# 【优先课注释】Async / LLM 落地\n# 课题：A11: HTTP 错误分类与指数退避\n# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。\n# ---------------------------------------------------------------------------\n\n# --- 导入依赖 ---\nimport asyncio\nimport httpx\n\nATTEMPTS = {\"n\": 0}\n\n\n# --- 函数 handler：读参数与返回值，想清楚谁调用它 ---\ndef handler(request: httpx.Request) -> httpx.Response:\n    ATTEMPTS[\"n\"] += 1\n    if ATTEMPTS[\"n\"] < 3:\n        return httpx.Response(503, json={\"error\": \"upstream busy\"})\n    return httpx.Response(200, json={\"ok\": True, \"attempt\": ATTEMPTS[\"n\"]})\n\n\n# --- 函数 should_retry：读参数与返回值，想清楚谁调用它 ---\ndef should_retry(status: int) -> bool:\n    return status == 429 or status >= 500\n\n\n# --- 异步函数 get_with_backoff：注意 await 点，勿在此写阻塞 IO ---\nasync def get_with_backoff(client: httpx.AsyncClient, url: str, max_attempts: int = 5) -> dict:\n    delay = 0.05\n    last: httpx.Response | None = None\n    for attempt in range(1, max_attempts + 1):\n        resp = await client.get(url)\n        last = resp\n        if resp.status_code < 400:\n            return resp.json()\n        if not should_retry(resp.status_code) or attempt == max_attempts:\n            resp.raise_for_status()\n        print(f\"attempt {attempt} -> {resp.status_code}, sleep {delay:.2f}s\")\n        await asyncio.sleep(delay)\n        delay *= 2\n    assert last is not None\n    last.raise_for_status()\n    return {}\n\n\n# --- 异步函数 main：注意 await 点，勿在此写阻塞 IO ---\nasync def main() -> None:\n    transport = httpx.MockTransport(handler)\n    async with httpx.AsyncClient(transport=transport, timeout=5.0) as client:\n        data = await get_with_backoff(client, \"https://llm.example/v1/chat\")\n        print(data)\n\n\n# --- 脚本入口：从这里开始执行 ---\nif __name__ == \"__main__\":\n    asyncio.run(main())\n"
+  },
+  "checklist": [
+    "阅读说明",
+    "运行并解释输出",
+    "改参数再跑一次"
+  ]
+}

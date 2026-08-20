@@ -1,0 +1,17 @@
+{
+  "title": "A12: FastAPI 异步路由与超时",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 10,
+  "requires": [],
+  "entry": "a12_main.py",
+  "body": "# A12 · FastAPI `async def` + 超时\n\n企业常见形态：HTTP 入口是 FastAPI，内部 `await` 模型客户端，并用 `wait_for` 卡死请求。\n\n本课用 `httpx.ASGITransport` 测本地 app，**不必起 uvicorn**。\n\n## 注释\n- 代码里带有 **【优先课注释】** 与分段说明，先读注释再跑。\n",
+  "starterFiles": {
+    "a12_main.py": "# 【优先课注释】Async / LLM 落地\n# 课题：A12: FastAPI 异步路由与超时\n# 建议：先通读注释 → 运行看输出 → 改一处参数再跑 → 对照书本加深。\n# ---------------------------------------------------------------------------\n\n# --- 导入依赖 ---\nimport asyncio\nfrom fastapi import FastAPI, HTTPException\nimport httpx\n\napp = FastAPI()\n\n\n# --- 异步函数 fake_upstream：注意 await 点，勿在此写阻塞 IO ---\nasync def fake_upstream(delay: float) -> str:\n    await asyncio.sleep(delay)\n    return \"model-ok\"\n\n\n@app.get(\"/chat\")\n# --- 异步函数 chat：注意 await 点，勿在此写阻塞 IO ---\nasync def chat(slow: float = 0.1, budget: float = 0.3) -> dict:\n    try:\n        text = await asyncio.wait_for(fake_upstream(slow), timeout=budget)\n    except asyncio.TimeoutError as exc:\n        raise HTTPException(status_code=504, detail=\"upstream timeout\") from exc\n    return {\"text\": text}\n\n\n# --- 异步函数 main：注意 await 点，勿在此写阻塞 IO ---\nasync def main() -> None:\n    transport = httpx.ASGITransport(app=app)\n    async with httpx.AsyncClient(transport=transport, base_url=\"http://test\") as client:\n        ok = await client.get(\"/chat\", params={\"slow\": 0.05, \"budget\": 0.3})\n        print(\"ok\", ok.status_code, ok.json())\n        bad = await client.get(\"/chat\", params={\"slow\": 1.0, \"budget\": 0.1})\n        print(\"timeout\", bad.status_code, bad.json())\n\n\n# --- 脚本入口：从这里开始执行 ---\nif __name__ == \"__main__\":\n    asyncio.run(main())\n"
+  },
+  "checklist": [
+    "阅读说明",
+    "运行并解释输出",
+    "改参数再跑一次"
+  ]
+}

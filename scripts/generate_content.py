@@ -868,6 +868,294 @@ if __name__ == "__main__":
         },
         5,
     ),
+    (
+        "a10",
+        "to_thread 桥接同步 SDK",
+        """# A10 · asyncio.to_thread
+
+很多 LLM / 向量库 SDK 仍是**同步阻塞**的。在 `async` 路由里直接调用会卡住整个事件循环。
+
+## 目标
+- 对比：阻塞调用 vs `asyncio.to_thread`
+- 企业习惯：同步 SDK 一律丢线程池，主协程只做编排
+""",
+        "a10_main.py",
+        {
+            "a10_main.py": '''import asyncio
+import time
+
+
+def sync_llm_sdk(prompt: str) -> str:
+    """Pretend a sync vendor SDK (blocks the thread)."""
+    time.sleep(0.4)
+    return f"sync-reply:{prompt}"
+
+
+async def bad_call(prompt: str) -> str:
+    # DO NOT do this in production async servers
+    return sync_llm_sdk(prompt)
+
+
+async def good_call(prompt: str) -> str:
+    return await asyncio.to_thread(sync_llm_sdk, prompt)
+
+
+async def main() -> None:
+    t0 = time.perf_counter()
+    # Two good_calls can overlap in the thread pool
+    a, b = await asyncio.gather(good_call("A"), good_call("B"))
+    print(a, b, f"good_elapsed={time.perf_counter() - t0:.2f}s")
+
+    t1 = time.perf_counter()
+    # Sequential blocking inside async = ~0.8s wall time
+    x = await bad_call("X")
+    y = await bad_call("Y")
+    print(x, y, f"bad_elapsed={time.perf_counter() - t1:.2f}s")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
+'''
+        },
+        5,
+    ),
+    (
+        "a11",
+        "HTTP 错误分类与指数退避",
+        """# A11 · HTTP 重试（MockTransport）
+
+企业调用模型网关时：`429/5xx` 可重试，`4xx`（除 429）通常不重试。
+
+本课用 `httpx.MockTransport`，**不依赖外网**。
+""",
+        "a11_main.py",
+        {
+            "a11_main.py": '''import asyncio
+import httpx
+
+ATTEMPTS = {"n": 0}
+
+
+def handler(request: httpx.Request) -> httpx.Response:
+    ATTEMPTS["n"] += 1
+    if ATTEMPTS["n"] < 3:
+        return httpx.Response(503, json={"error": "upstream busy"})
+    return httpx.Response(200, json={"ok": True, "attempt": ATTEMPTS["n"]})
+
+
+def should_retry(status: int) -> bool:
+    return status == 429 or status >= 500
+
+
+async def get_with_backoff(client: httpx.AsyncClient, url: str, max_attempts: int = 5) -> dict:
+    delay = 0.05
+    last: httpx.Response | None = None
+    for attempt in range(1, max_attempts + 1):
+        resp = await client.get(url)
+        last = resp
+        if resp.status_code < 400:
+            return resp.json()
+        if not should_retry(resp.status_code) or attempt == max_attempts:
+            resp.raise_for_status()
+        print(f"attempt {attempt} -> {resp.status_code}, sleep {delay:.2f}s")
+        await asyncio.sleep(delay)
+        delay *= 2
+    assert last is not None
+    last.raise_for_status()
+    return {}
+
+
+async def main() -> None:
+    transport = httpx.MockTransport(handler)
+    async with httpx.AsyncClient(transport=transport, timeout=5.0) as client:
+        data = await get_with_backoff(client, "https://llm.example/v1/chat")
+        print(data)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
+'''
+        },
+        5,
+    ),
+    (
+        "a12",
+        "FastAPI 异步路由与超时",
+        """# A12 · FastAPI `async def` + 超时
+
+企业常见形态：HTTP 入口是 FastAPI，内部 `await` 模型客户端，并用 `wait_for` 卡死请求。
+
+本课用 `httpx.ASGITransport` 测本地 app，**不必起 uvicorn**。
+""",
+        "a12_main.py",
+        {
+            "a12_main.py": '''import asyncio
+from fastapi import FastAPI, HTTPException
+import httpx
+
+app = FastAPI()
+
+
+async def fake_upstream(delay: float) -> str:
+    await asyncio.sleep(delay)
+    return "model-ok"
+
+
+@app.get("/chat")
+async def chat(slow: float = 0.1, budget: float = 0.3) -> dict:
+    try:
+        text = await asyncio.wait_for(fake_upstream(slow), timeout=budget)
+    except asyncio.TimeoutError as exc:
+        raise HTTPException(status_code=504, detail="upstream timeout") from exc
+    return {"text": text}
+
+
+async def main() -> None:
+    transport = httpx.ASGITransport(app=app)
+    async with httpx.AsyncClient(transport=transport, base_url="http://test") as client:
+        ok = await client.get("/chat", params={"slow": 0.05, "budget": 0.3})
+        print("ok", ok.status_code, ok.json())
+        bad = await client.get("/chat", params={"slow": 1.0, "budget": 0.1})
+        print("timeout", bad.status_code, bad.json())
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
+'''
+        },
+        10,
+    ),
+    (
+        "a13",
+        "流式 HTTP / SSE 消费",
+        """# A13 · 消费流式响应
+
+A05 是内存里的 async generator；企业侧常见是 **HTTP chunk / SSE**。
+
+用 MockTransport 返回分块 body，练习 `aiter_text`。
+""",
+        "a13_main.py",
+        {
+            "a13_main.py": '''import asyncio
+import httpx
+
+
+def handler(request: httpx.Request) -> httpx.Response:
+    # Simulate streamed tokens (chunked body)
+    body = b"data: Hello\\n\\ndata:  world\\n\\ndata: [DONE]\\n\\n"
+    return httpx.Response(
+        200,
+        headers={"content-type": "text/event-stream"},
+        content=body,
+    )
+
+
+async def consume_sse(client: httpx.AsyncClient, url: str) -> str:
+    parts: list[str] = []
+    async with client.stream("GET", url) as resp:
+        resp.raise_for_status()
+        async for line in resp.aiter_lines():
+            if not line or not line.startswith("data:"):
+                continue
+            payload = line[5:].strip()
+            if payload == "[DONE]":
+                break
+            parts.append(payload)
+            print("chunk:", payload)
+    return "".join(parts)
+
+
+async def main() -> None:
+    transport = httpx.MockTransport(handler)
+    async with httpx.AsyncClient(transport=transport, timeout=5.0) as client:
+        text = await consume_sse(client, "https://llm.example/v1/stream")
+        print("joined:", text)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
+'''
+        },
+        5,
+    ),
+    (
+        "a14",
+        "简易熔断器",
+        """# A14 · Circuit breaker
+
+上游连续失败时**快速失败**，避免雪崩；冷却后再试探半开。
+
+本课是教学级状态机，生产可换 `pybreaker` / 网关熔断。
+""",
+        "a14_main.py",
+        {
+            "a14_main.py": '''import asyncio
+import time
+
+
+class CircuitOpenError(RuntimeError):
+    pass
+
+
+class CircuitBreaker:
+    def __init__(self, failure_threshold: int = 3, recovery_timeout: float = 0.4) -> None:
+        self.failure_threshold = failure_threshold
+        self.recovery_timeout = recovery_timeout
+        self.failures = 0
+        self.opened_at: float | None = None
+
+    def _ensure_closed_or_half(self) -> None:
+        if self.opened_at is None:
+            return
+        if time.monotonic() - self.opened_at >= self.recovery_timeout:
+            # half-open: allow one probe
+            return
+        raise CircuitOpenError("circuit open")
+
+    async def call(self, coro_factory):
+        self._ensure_closed_or_half()
+        try:
+            result = await coro_factory()
+        except Exception:
+            self.failures += 1
+            if self.failures >= self.failure_threshold:
+                self.opened_at = time.monotonic()
+                print("OPEN circuit")
+            raise
+        self.failures = 0
+        self.opened_at = None
+        return result
+
+
+FLAKY = {"n": 0}
+
+
+async def flaky_upstream() -> str:
+    FLAKY["n"] += 1
+    if FLAKY["n"] <= 4:
+        raise RuntimeError("boom")
+    return "recovered"
+
+
+async def main() -> None:
+    br = CircuitBreaker()
+    for i in range(8):
+        try:
+            out = await br.call(flaky_upstream)
+            print(i, "ok", out)
+        except CircuitOpenError as exc:
+            print(i, "fast-fail", exc)
+            await asyncio.sleep(0.15)
+        except RuntimeError as exc:
+            print(i, "upstream", exc)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
+'''
+        },
+        5,
+    ),
 ]
 
 
