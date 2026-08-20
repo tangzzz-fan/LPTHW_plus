@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import Editor, { type OnMount } from '@monaco-editor/react'
+import type { editor as MonacoEditor } from 'monaco-editor'
 
 type EditorPaneProps = {
   path: string | null
@@ -27,6 +28,8 @@ export function EditorPane({
   saving,
   running,
 }: EditorPaneProps) {
+  const hostRef = useRef<HTMLDivElement>(null)
+  const editorRef = useRef<MonacoEditor.IStandaloneCodeEditor | null>(null)
   const onSaveRef = useRef(onSave)
   const onRunRef = useRef(onRun)
   const savingRef = useRef(saving)
@@ -79,10 +82,23 @@ export function EditorPane({
     return () => window.removeEventListener('keydown', onKeyDown, true)
   }, [])
 
-  const handleMount: OnMount = (editor, monaco) => {
+  // Keep Monaco in sync when splitters resize the panel (automaticLayout alone is flaky in CSS grid).
+  useEffect(() => {
+    const host = hostRef.current
+    if (!host || typeof ResizeObserver === 'undefined') return
+    const ro = new ResizeObserver(() => {
+      editorRef.current?.layout()
+    })
+    ro.observe(host)
+    return () => ro.disconnect()
+  }, [])
+
+  const handleMount: OnMount = (ed, monaco) => {
+    editorRef.current = ed
+    ed.layout()
     // Backup when focus is inside Monaco (some builds swallow keys oddly).
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => run())
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => save())
+    ed.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => run())
+    ed.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => save())
   }
 
   return (
@@ -112,9 +128,10 @@ export function EditorPane({
           </button>
         </div>
       </div>
-      <div className="editor-host">
+      <div className="editor-host" ref={hostRef}>
         <Editor
           height="100%"
+          width="100%"
           language="python"
           theme="vs-dark"
           value={value}

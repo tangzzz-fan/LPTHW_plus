@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState, type CSSProperties } from 'react'
 import { Sidebar, type ExerciseSummary, type LessonProgress, type Track } from './components/Sidebar'
 import { LessonView } from './components/LessonView'
 import { EditorPane } from './components/EditorPane'
 import { FileTree } from './components/FileTree'
 import { Terminal } from './components/Terminal'
+import { Splitter, useResizableLayout } from './components/Splitter'
 import './App.css'
 
 const PROGRESS_KEY = 'lpthw-progress'
@@ -102,6 +103,8 @@ export default function App() {
   const [saving, setSaving] = useState(false)
   const [running, setRunning] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const { layout, onSidebarDrag, onRightDrag, onLessonDrag } =
+    useResizableLayout()
 
   const trackProgress = useMemo(
     () => (activeTrack ? progress[activeTrack] ?? {} : {}),
@@ -474,7 +477,16 @@ export default function App() {
         </div>
       </header>
 
-      <div className="app-body">
+      <div
+        className="app-body"
+        style={
+          {
+            '--sidebar-w': `${layout.sidebar}px`,
+            '--right-w': `${layout.right}px`,
+            '--lesson-pct': `${layout.lessonPct}%`,
+          } as CSSProperties
+        }
+      >
         <Sidebar
           tracks={tracks}
           activeTrack={activeTrack}
@@ -485,10 +497,22 @@ export default function App() {
           progress={trackProgress}
         />
 
+        <Splitter
+          orientation="horizontal"
+          onDrag={onSidebarDrag}
+          title="拖动调整左侧栏宽度"
+          className="splitter-sidebar"
+        />
+
         <main className="main-col">
           <section className="lesson-section">
             <LessonView title={lesson?.title} bodyMarkdown={bodyMarkdown} />
           </section>
+          <Splitter
+            orientation="vertical"
+            onDrag={onLessonDrag}
+            title="拖动调整课文 / 编辑器高度"
+          />
           <section className="editor-section">
             <EditorPane
               path={currentPath}
@@ -501,6 +525,13 @@ export default function App() {
             />
           </section>
         </main>
+
+        <Splitter
+          orientation="horizontal"
+          onDrag={onRightDrag}
+          title="拖动调整编辑器 / 右侧栏宽度"
+          className="splitter-right"
+        />
 
         <aside className="right-col">
           <FileTree

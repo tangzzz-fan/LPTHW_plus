@@ -126,36 +126,88 @@
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: var(--sidebar-w) 1fr var(--right-w);
+  grid-template-columns: var(--sidebar-w) 5px minmax(0, 1fr) 5px var(--right-w);
 }
 
 .main-col {
   min-width: 0;
   min-height: 0;
+  overflow: hidden;
   display: grid;
-  grid-template-rows: minmax(140px, 38%) 1fr;
+  grid-template-rows: minmax(120px, var(--lesson-pct, 38%)) 5px minmax(0, 1fr);
+  border-left: none;
+  border-right: none;
+}
+
+.lesson-section {
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  background: var(--bg-elevated);
+  border-bottom: none;
+}
+
+.editor-section {
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
   border-left: 1px solid var(--border);
   border-right: 1px solid var(--border);
 }
 
-.lesson-section {
-  min-height: 0;
-  overflow: auto;
-  background: var(--bg-elevated);
-  border-bottom: 1px solid var(--border);
-}
-
-.editor-section {
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-}
-
 .right-col {
+  min-width: 0;
   min-height: 0;
+  overflow: hidden;
   display: grid;
   grid-template-rows: minmax(120px, 40%) 1fr;
   background: var(--bg-panel);
+}
+
+/* —— Splitters —— */
+.splitter {
+  flex-shrink: 0;
+  z-index: 2;
+  background: var(--border);
+  transition: background 0.12s ease;
+}
+
+.splitter:hover,
+.splitter:active {
+  background: var(--focus);
+}
+
+.splitter-horizontal {
+  cursor: col-resize;
+  width: 5px;
+  margin: 0 -0.5px;
+}
+
+.splitter-vertical {
+  cursor: row-resize;
+  height: 5px;
+  width: 100%;
+}
+
+body.col-resizing {
+  cursor: col-resize !important;
+  user-select: none !important;
+}
+
+body.col-resizing * {
+  cursor: col-resize !important;
+}
+
+body.row-resizing {
+  cursor: row-resize !important;
+  user-select: none !important;
+}
+
+body.row-resizing * {
+  cursor: row-resize !important;
 }
 
 /* —— Shared —— */
@@ -279,9 +331,11 @@
 
 /* —— Sidebar —— */
 .sidebar {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-height: 0;
   background: var(--bg-panel);
 }
 
@@ -504,7 +558,10 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
+  min-width: 0;
   min-height: 0;
+  overflow: hidden;
   background: #1e1e1e;
 }
 
@@ -517,9 +574,12 @@
   background: var(--bg-elevated);
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
+  min-width: 0;
 }
 
 .editor-path {
+  flex: 1;
+  min-width: 0;
   font-family: var(--font-mono);
   font-size: 12px;
   color: var(--text-muted);
@@ -535,8 +595,20 @@
 }
 
 .editor-host {
+  position: relative;
   flex: 1;
+  min-width: 0;
   min-height: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.editor-host > section,
+.editor-host .monaco-editor {
+  position: absolute !important;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 /* —— File tree —— */
@@ -655,9 +727,10 @@
 /* —— Responsive —— */
 @media (max-width: 960px) {
   .app-body {
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: var(--sidebar-w) 5px 1fr;
   }
 
+  .splitter-right,
   .right-col {
     display: none;
   }
@@ -668,11 +741,17 @@
     grid-template-columns: 1fr;
   }
 
-  .sidebar {
+  .sidebar,
+  .splitter-sidebar,
+  .splitter-right {
     display: none;
   }
 
   .main-col {
+    border: none;
+  }
+
+  .editor-section {
     border: none;
   }
 }
