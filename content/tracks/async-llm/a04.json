@@ -1,0 +1,17 @@
+{
+  "title": "A04: httpx AsyncClient",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 15,
+  "requires": [],
+  "entry": "a04_main.py",
+  "body": "# A04 · httpx 异步 HTTP\n\n用 `httpx.AsyncClient` 打一个公开 JSON API（需本机网络）。把状态码与耗时打出来。\n",
+  "starterFiles": {
+    "a04_main.py": "import asyncio\nimport time\nimport httpx\n\n\nasync def main() -> None:\n    t0 = time.perf_counter()\n    async with httpx.AsyncClient(timeout=10.0) as client:\n        resp = await client.get(\"https://httpbin.org/json\")\n        print(\"status\", resp.status_code)\n        print(resp.json())\n    print(f\"elapsed={time.perf_counter() - t0:.2f}s\")\n\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n"
+  },
+  "checklist": [
+    "阅读说明",
+    "运行并解释输出",
+    "改参数再跑一次"
+  ]
+}

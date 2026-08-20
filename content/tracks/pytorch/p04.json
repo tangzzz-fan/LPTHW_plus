@@ -1,0 +1,20 @@
+{
+  "title": "P04: Dataset / DataLoader",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 60,
+  "requires": [
+    "torch"
+  ],
+  "entry": "p04_main.py",
+  "body": "# P04 · Dataset 与 DataLoader\n\n从 `data.csv` 读入，按 batch 迭代。\n",
+  "starterFiles": {
+    "data.csv": "x,y\n0,0.5\n1,2.5\n2,4.5\n3,6.5\n4,8.5\n",
+    "p04_main.py": "import csv\nfrom pathlib import Path\n\nimport torch\nfrom torch.utils.data import DataLoader, Dataset\n\n\nclass CsvXy(Dataset):\n    def __init__(self, path: str) -> None:\n        rows = list(csv.DictReader(Path(path).open()))\n        self.x = torch.tensor([[float(r[\"x\"])] for r in rows], dtype=torch.float32)\n        self.y = torch.tensor([[float(r[\"y\"])] for r in rows], dtype=torch.float32)\n\n    def __len__(self) -> int:\n        return len(self.x)\n\n    def __getitem__(self, idx: int):\n        return self.x[idx], self.y[idx]\n\n\nds = CsvXy(\"data.csv\")\nloader = DataLoader(ds, batch_size=2, shuffle=False)\nfor batch_x, batch_y in loader:\n    print(\"batch\", batch_x.tolist(), batch_y.tolist())\n"
+  },
+  "checklist": [
+    "确认 torch 已安装（如需要）",
+    "运行通过",
+    "查看生成的文件"
+  ]
+}

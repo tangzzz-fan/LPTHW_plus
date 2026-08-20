@@ -1,0 +1,19 @@
+{
+  "title": "P07: 小文本分类",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 120,
+  "requires": [
+    "torch"
+  ],
+  "entry": "p07_main.py",
+  "body": "# P07 · 迷你文本分类\n\nBag of Words + 线性层。数据很小，默认 CPU 即可；有 MPS 时可自行 `.to(\"mps\")` 试验。\n",
+  "starterFiles": {
+    "p07_main.py": "import torch\nimport torch.nn as nn\n\npairs = [\n    (\"good film great actors\", 1),\n    (\"amazing movie loved it\", 1),\n    (\"terrible plot boring\", 0),\n    (\"bad acting waste time\", 0),\n    (\"wonderful story\", 1),\n    (\"awful experience\", 0),\n]\n\nvocab: dict[str, int] = {}\nfor text, _ in pairs:\n    for w in text.split():\n        vocab.setdefault(w, len(vocab))\n\n\ndef vectorize(text: str) -> torch.Tensor:\n    v = torch.zeros(len(vocab))\n    for w in text.split():\n        if w in vocab:\n            v[vocab[w]] += 1\n    return v\n\n\nX = torch.stack([vectorize(t) for t, _ in pairs])\ny = torch.tensor([label for _, label in pairs], dtype=torch.float32).unsqueeze(1)\n\nmodel = nn.Linear(len(vocab), 1)\nopt = torch.optim.Adam(model.parameters(), lr=0.1)\nloss_fn = nn.BCEWithLogitsLoss()\n\nfor epoch in range(200):\n    logits = model(X)\n    loss = loss_fn(logits, y)\n    opt.zero_grad()\n    loss.backward()\n    opt.step()\n\nwith torch.no_grad():\n    probs = torch.sigmoid(model(X)).squeeze(1)\nprint(\"probs\", [round(float(p), 3) for p in probs])\nprint(\"loss\", float(loss))\n"
+  },
+  "checklist": [
+    "确认 torch 已安装（如需要）",
+    "运行通过",
+    "查看生成的文件"
+  ]
+}

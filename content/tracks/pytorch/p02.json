@@ -1,0 +1,19 @@
+{
+  "title": "P02: autograd",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 30,
+  "requires": [
+    "torch"
+  ],
+  "entry": "p02_main.py",
+  "body": "# P02 · 自动求导\n\n`requires_grad=True` 的张量可反传。理解 `loss.backward()` 与 `.grad`。\n注意：本课默认 CPU，梯度查看更直观。\n",
+  "starterFiles": {
+    "p02_main.py": "import torch\n\nx = torch.tensor(2.0, requires_grad=True)\ny = x**2 + 3 * x + 1\ny.backward()\nprint(\"y\", float(y))\nprint(\"dy/dx\", float(x.grad))\n"
+  },
+  "checklist": [
+    "确认 torch 已安装（如需要）",
+    "运行通过",
+    "查看生成的文件"
+  ]
+}

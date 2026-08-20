@@ -1,0 +1,19 @@
+{
+  "title": "P05: 训练循环并保存权重",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 90,
+  "requires": [
+    "torch"
+  ],
+  "entry": "p05_main.py",
+  "body": "# P05 · 训练循环 + state_dict\n\n训练后保存 `model.pt`，在文件树中确认生成。\n",
+  "starterFiles": {
+    "p05_main.py": "import torch\nimport torch.nn as nn\n\ntorch.manual_seed(0)\nmodel = nn.Linear(1, 1)\nopt = torch.optim.SGD(model.parameters(), lr=0.1)\nloss_fn = nn.MSELoss()\nx = torch.linspace(-1, 1, 40).unsqueeze(1)\ny = -1.5 * x + 0.25\n\nfor epoch in range(80):\n    loss = loss_fn(model(x), y)\n    opt.zero_grad()\n    loss.backward()\n    opt.step()\n\ntorch.save(model.state_dict(), \"model.pt\")\nprint(\"saved model.pt loss=\", float(loss))\n"
+  },
+  "checklist": [
+    "确认 torch 已安装（如需要）",
+    "运行通过",
+    "查看生成的文件"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "title": "Ex 4: Variables and Names",
+  "priority": false,
+  "outlineOnly": false,
+  "requires": [],
+  "checklist": [
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 4 · Variables and Names\n\n给值起名字。变量名要可读。\n",
+  "entry": "ex04.py",
+  "starterFiles": {
+    "ex04.py": "cars = 100\nspace_in_a_car = 4.0\ndrivers = 30\npassengers = 90\ncars_not_driven = cars - drivers\ncars_driven = drivers\ncarpool_capacity = cars_driven * space_in_a_car\naverage_passengers_per_car = passengers / cars_driven\n\nprint(\"There are\", cars, \"cars available.\")\nprint(\"There are only\", drivers, \"drivers available.\")\nprint(\"We can transport\", carpool_capacity, \"people today.\")\nprint(\"We have\", passengers, \"to carpool today.\")\nprint(\"We need to put about\", average_passengers_per_car, \"in each car.\")\n"
+  },
+  "timeoutSec": 5
+}

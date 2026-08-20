@@ -1,0 +1,16 @@
+{
+  "title": "Ex 2: Comments and Pound Characters",
+  "priority": false,
+  "outlineOnly": false,
+  "requires": [],
+  "checklist": [
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 2 · Comments\n\n`#` 后面是注释。用注释给未来的自己留言。\n",
+  "entry": "ex02.py",
+  "starterFiles": {
+    "ex02.py": "# A comment, this is so you can read your program later.\nprint(\"I could have code like this.\")  # and the comment after is ignored\n"
+  },
+  "timeoutSec": 5
+}

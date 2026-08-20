@@ -1,0 +1,17 @@
+{
+  "title": "A07: Queue 缓冲",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 5,
+  "requires": [],
+  "entry": "a07_main.py",
+  "body": "# A07 · 生产者-消费者 Queue\n\n请求洪峰时用队列削峰。一个生产者投递，多个 worker 消费。\n",
+  "starterFiles": {
+    "a07_main.py": "import asyncio\n\n\nasync def producer(q: asyncio.Queue) -> None:\n    for i in range(5):\n        await q.put({\"id\": i, \"prompt\": f\"q{i}\"})\n        print(\"enqueued\", i)\n    for _ in range(2):\n        await q.put(None)  # poison pills\n\n\nasync def worker(name: str, q: asyncio.Queue) -> None:\n    while True:\n        item = await q.get()\n        if item is None:\n            q.task_done()\n            break\n        await asyncio.sleep(0.1)\n        print(name, \"handled\", item[\"id\"])\n        q.task_done()\n\n\nasync def main() -> None:\n    q: asyncio.Queue = asyncio.Queue()\n    await asyncio.gather(producer(q), worker(\"w1\", q), worker(\"w2\", q))\n    print(\"drained\")\n\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n"
+  },
+  "checklist": [
+    "阅读说明",
+    "运行并解释输出",
+    "改参数再跑一次"
+  ]
+}

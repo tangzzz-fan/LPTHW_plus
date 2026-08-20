@@ -1,0 +1,19 @@
+{
+  "title": "P03: nn.Module 一步优化",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 60,
+  "requires": [
+    "torch"
+  ],
+  "entry": "p03_main.py",
+  "body": "# P03 · Module + 一步优化\n\n线性层拟合一个简单目标，跑几步 SGD。\n",
+  "starterFiles": {
+    "p03_main.py": "import torch\nimport torch.nn as nn\n\ntorch.manual_seed(0)\nmodel = nn.Linear(1, 1)\nopt = torch.optim.SGD(model.parameters(), lr=0.1)\nloss_fn = nn.MSELoss()\n\nx = torch.linspace(-1, 1, 20).unsqueeze(1)\ny = 2 * x + 0.5\n\nfor step in range(50):\n    pred = model(x)\n    loss = loss_fn(pred, y)\n    opt.zero_grad()\n    loss.backward()\n    opt.step()\n    if step % 10 == 0:\n        print(f\"step={step} loss={loss.item():.4f}\")\n\nprint(\"weight\", model.weight.item(), \"bias\", model.bias.item())\n"
+  },
+  "checklist": [
+    "确认 torch 已安装（如需要）",
+    "运行通过",
+    "查看生成的文件"
+  ]
+}

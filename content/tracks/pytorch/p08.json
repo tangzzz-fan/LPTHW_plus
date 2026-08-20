@@ -1,0 +1,19 @@
+{
+  "title": "P08: asyncio.to_thread 桥接",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 60,
+  "requires": [
+    "torch"
+  ],
+  "entry": "p08_main.py",
+  "body": "# P08 · 异步服务里跑同步推理\n\nFastAPI/异步 worker 中不要直接在事件循环里跑重计算。用 `asyncio.to_thread` 包一层。\n",
+  "starterFiles": {
+    "p08_main.py": "import asyncio\nimport time\n\nimport torch\nimport torch.nn as nn\n\nmodel = nn.Linear(4, 2)\nmodel.eval()\n\n\ndef sync_infer(batch: list[list[float]]) -> list[list[float]]:\n    # pretend this is heavy\n    time.sleep(0.2)\n    with torch.no_grad():\n        x = torch.tensor(batch, dtype=torch.float32)\n        return model(x).tolist()\n\n\nasync def handle_request(batch: list[list[float]]) -> list[list[float]]:\n    return await asyncio.to_thread(sync_infer, batch)\n\n\nasync def main() -> None:\n    t0 = time.perf_counter()\n    a, b = await asyncio.gather(\n        handle_request([[0.1, 0.2, 0.3, 0.4]]),\n        handle_request([[0.5, 0.4, 0.3, 0.2]]),\n    )\n    print(\"results\", a, b)\n    print(f\"elapsed={time.perf_counter() - t0:.2f}s\")\n\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n"
+  },
+  "checklist": [
+    "确认 torch 已安装（如需要）",
+    "运行通过",
+    "查看生成的文件"
+  ]
+}

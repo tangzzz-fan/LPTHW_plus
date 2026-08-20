@@ -1,0 +1,17 @@
+{
+  "title": "A01: asyncio 基础",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 5,
+  "requires": [],
+  "entry": "a01_main.py",
+  "body": "# A01 · asyncio 基础\n\n企业 LLM 服务几乎都是异步的。先建立直觉：`async def` 定义协程，`await` 让出等待。\n\n## 目标\n- 写一个异步函数并 `asyncio.run`\n- 理解「看起来像同步，实际可并发」\n",
+  "starterFiles": {
+    "a01_main.py": "import asyncio\nimport time\n\n\nasync def fetch_fake(name: str, delay: float) -> str:\n    print(f\"start {name}\")\n    await asyncio.sleep(delay)\n    print(f\"done {name}\")\n    return f\"{name}-ok\"\n\n\nasync def main() -> None:\n    t0 = time.perf_counter()\n    # Sequential awaits (not concurrent yet)\n    a = await fetch_fake(\"A\", 0.3)\n    b = await fetch_fake(\"B\", 0.3)\n    print(a, b, f\"elapsed={time.perf_counter() - t0:.2f}s\")\n\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n"
+  },
+  "checklist": [
+    "阅读说明",
+    "运行并解释输出",
+    "改参数再跑一次"
+  ]
+}

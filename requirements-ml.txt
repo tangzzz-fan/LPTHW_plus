@@ -1,0 +1,4 @@
+# Kept for reference. Prefer: uv sync --extra ml
+# macOS Apple Silicon: default PyPI only (MPS). Never use whl/cpu.
+torch>=2.2.0
+numpy>=1.26.0

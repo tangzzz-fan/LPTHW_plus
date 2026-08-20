@@ -1,0 +1,17 @@
+{
+  "title": "A09: 迷你 RAG 流水线骨架",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 5,
+  "requires": [],
+  "entry": "a09_main.py",
+  "body": "# A09 · 异步 RAG 骨架\n\n流程：读本地 docs → 朴素检索 → 拼 prompt → 假 LLM → 写 `answer.txt`。\n\n这是企业落地的主干形状；真实项目会替换检索与模型客户端。\n",
+  "starterFiles": {
+    "a09_main.py": "import asyncio\nfrom pathlib import Path\n\n\nDOCS = {\n    \"fastapi.txt\": \"FastAPI supports async def routes and dependency injection.\",\n    \"timeouts.txt\": \"Always set timeouts and retries for LLM HTTP calls.\",\n    \"rag.txt\": \"RAG retrieves context documents before generation.\",\n}\n\n\nasync def retrieve(query: str, k: int = 2) -> list[str]:\n    await asyncio.sleep(0.05)\n    scored = []\n    for name, text in DOCS.items():\n        score = sum(1 for w in query.lower().split() if w in text.lower())\n        scored.append((score, name, text))\n    scored.sort(reverse=True)\n    return [f\"[{n}] {t}\" for s, n, t in scored[:k] if s > 0] or [f\"[{scored[0][1]}] {scored[0][2]}\"]\n\n\nasync def fake_llm(prompt: str) -> str:\n    await asyncio.sleep(0.1)\n    return \"Based on context: \" + prompt.split(\"Context:\", 1)[-1][:120].strip()\n\n\nasync def main() -> None:\n    query = \"How do I set timeouts in FastAPI LLM calls?\"\n    ctx = await retrieve(query)\n    prompt = \"Question: \" + query + \"\\nContext:\\n\" + \"\\n\".join(ctx)\n    answer = await fake_llm(prompt)\n    Path(\"answer.txt\").write_text(answer + \"\\n\", encoding=\"utf-8\")\n    print(answer)\n    print(\"wrote answer.txt\")\n\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n"
+  },
+  "checklist": [
+    "阅读说明",
+    "运行并解释输出",
+    "改参数再跑一次"
+  ]
+}

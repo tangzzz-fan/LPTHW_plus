@@ -1,0 +1,16 @@
+{
+  "title": "Ex 16: Reading and Writing Files",
+  "priority": false,
+  "outlineOnly": false,
+  "requires": [],
+  "checklist": [
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 16 · Reading and Writing Files\n\n练习 `write`。运行后刷新文件树，打开新文件确认内容。\n",
+  "entry": "ex16.py",
+  "starterFiles": {
+    "ex16.py": "filename = \"out.txt\"\nwith open(filename, \"w\") as f:\n    f.write(\"I am truncating and writing.\\n\")\n    f.write(\"Line two.\\n\")\nprint(f\"Wrote {filename}\")\n"
+  },
+  "timeoutSec": 5
+}

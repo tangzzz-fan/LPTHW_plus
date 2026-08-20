@@ -1,0 +1,17 @@
+{
+  "title": "A03: 超时与取消",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 5,
+  "requires": [],
+  "entry": "a03_main.py",
+  "body": "# A03 · 超时与取消\n\nLLM 调用必须设超时。练习 `wait_for` 与 `CancelledError`。\n",
+  "starterFiles": {
+    "a03_main.py": "import asyncio\n\n\nasync def slow_llm() -> str:\n    await asyncio.sleep(2)\n    return \"too-late\"\n\n\nasync def main() -> None:\n    try:\n        result = await asyncio.wait_for(slow_llm(), timeout=0.5)\n        print(result)\n    except asyncio.TimeoutError:\n        print(\"TIMEOUT: upstream LLM did not respond in time\")\n\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n"
+  },
+  "checklist": [
+    "阅读说明",
+    "运行并解释输出",
+    "改参数再跑一次"
+  ]
+}

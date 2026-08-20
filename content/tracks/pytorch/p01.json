@@ -1,0 +1,19 @@
+{
+  "title": "P01: Tensor 基础",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 30,
+  "requires": [
+    "torch"
+  ],
+  "entry": "p01_main.py",
+  "body": "# P01 · Tensor 基础\n\n张量是 PyTorch 的核心数据结构。练习创建、形状、dtype。\n\n若报错 `No module named 'torch'`，在项目根执行（先 `proxy_on`）：\n`uv sync --extra ml`\n或 `npm run install:ml`\n\n不要使用 Linux 的 `whl/cpu` 索引。本课会检测 MPS。\n",
+  "starterFiles": {
+    "p01_main.py": "import torch\n\n\ndef pick_device() -> torch.device:\n    if torch.backends.mps.is_available():\n        return torch.device(\"mps\")\n    return torch.device(\"cpu\")\n\n\ndevice = pick_device()\nprint(\"torch\", torch.__version__)\nprint(\"device\", device)\nprint(\"mps_built\", torch.backends.mps.is_built(), \"mps_available\", torch.backends.mps.is_available())\n\nx = torch.tensor([[1.0, 2.0], [3.0, 4.0]], device=device)\nprint(\"x\", x)\nprint(\"shape\", tuple(x.shape), \"dtype\", x.dtype)\nprint(\"x + 1\", x + 1)\nprint(\"matmul\", x @ x.T)\n"
+  },
+  "checklist": [
+    "确认 torch 已安装（如需要）",
+    "运行通过",
+    "查看生成的文件"
+  ]
+}

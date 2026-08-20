@@ -1,0 +1,16 @@
+{
+  "title": "Ex 1: A Good First Program",
+  "priority": false,
+  "outlineOnly": false,
+  "requires": [],
+  "checklist": [
+    "对照书本做一遍",
+    "改几个数字/字符串再跑"
+  ],
+  "body": "# Ex 1 · A Good First Program\n\n练习 `print`。多敲几遍，观察引号与括号。\n\n## 自检\n- [ ] 至少三行不同输出\n",
+  "entry": "ex01.py",
+  "starterFiles": {
+    "ex01.py": "print(\"Hello World!\")\nprint(\"Hello Again\")\nprint(\"I like typing this.\")\n"
+  },
+  "timeoutSec": 5
+}

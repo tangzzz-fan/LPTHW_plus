@@ -1,0 +1,17 @@
+{
+  "title": "A06: Semaphore 限流",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 5,
+  "requires": [],
+  "entry": "a06_main.py",
+  "body": "# A06 · 并发限流\n\n对模型 API 必须限流，避免打爆配额。用 `Semaphore` 控制同时进行的调用数。\n",
+  "starterFiles": {
+    "a06_main.py": "import asyncio\nimport time\n\nSEM = asyncio.Semaphore(2)\n\n\nasync def call_model(i: int) -> str:\n    async with SEM:\n        print(f\"enter {i}\")\n        await asyncio.sleep(0.3)\n        print(f\"leave {i}\")\n        return f\"r{i}\"\n\n\nasync def main() -> None:\n    t0 = time.perf_counter()\n    results = await asyncio.gather(*(call_model(i) for i in range(6)))\n    print(results, f\"elapsed={time.perf_counter() - t0:.2f}s\")\n\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n"
+  },
+  "checklist": [
+    "阅读说明",
+    "运行并解释输出",
+    "改参数再跑一次"
+  ]
+}

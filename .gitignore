@@ -1,0 +1,12 @@
+node_modules/
+apps/web/node_modules/
+apps/web/dist/
+.venv/
+.python-version
+
+__pycache__/
+*.pyc
+.DS_Store
+learner_workspace/
+*.pt
+.scratch/**/comments.md

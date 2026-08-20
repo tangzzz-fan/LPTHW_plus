@@ -1,0 +1,17 @@
+{
+  "title": "A02: create_task 与 gather",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 5,
+  "requires": [],
+  "entry": "a02_main.py",
+  "body": "# A02 · 并发：task / gather\n\n把多个 IO 等待叠在一起。对比 A01 的耗时。\n",
+  "starterFiles": {
+    "a02_main.py": "import asyncio\nimport time\n\n\nasync def fetch_fake(name: str, delay: float) -> str:\n    await asyncio.sleep(delay)\n    return f\"{name}-ok\"\n\n\nasync def main() -> None:\n    t0 = time.perf_counter()\n    results = await asyncio.gather(\n        fetch_fake(\"A\", 0.4),\n        fetch_fake(\"B\", 0.4),\n        fetch_fake(\"C\", 0.4),\n    )\n    print(results, f\"elapsed={time.perf_counter() - t0:.2f}s\")\n\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n"
+  },
+  "checklist": [
+    "阅读说明",
+    "运行并解释输出",
+    "改参数再跑一次"
+  ]
+}

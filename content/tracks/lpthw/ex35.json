@@ -1,0 +1,16 @@
+{
+  "title": "Ex 35: Branches and Functions",
+  "priority": false,
+  "outlineOnly": true,
+  "timeoutSec": 5,
+  "requires": [],
+  "entry": "ex35.py",
+  "body": "# Ex 35 · Branches and Functions\n\n提纲占位：对照《Learn Python the Hard Way》本课阅读并在此练习。\n\n## 建议\n- 手敲代码，不要复制粘贴\n- 每改一处就运行一次\n- 把不懂的符号记进笔记\n\n把你的练习代码写在入口文件里即可。\n",
+  "starterFiles": {
+    "ex35.py": "# Ex 35: Branches and Functions\nprint(\"TODO: complete exercise 35\")\n"
+  },
+  "checklist": [
+    "阅读书中本课",
+    "在此完成练习并运行"
+  ]
+}

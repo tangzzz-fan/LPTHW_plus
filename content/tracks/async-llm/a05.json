@@ -1,0 +1,17 @@
+{
+  "title": "A05: 流式 chunk（模拟 LLM）",
+  "priority": true,
+  "outlineOnly": false,
+  "timeoutSec": 5,
+  "requires": [],
+  "entry": "a05_main.py",
+  "body": "# A05 · 流式输出\n\n企业聊天接口常用 token/chunk 流。这里用异步生成器模拟。\n",
+  "starterFiles": {
+    "a05_main.py": "import asyncio\n\n\nasync def fake_llm_stream(prompt: str):\n    tokens = [\"Hello\", \", \", \"this\", \" \", \"is\", \" \", \"streamed\", \" \", \"output\", \".\"]\n    for t in tokens:\n        await asyncio.sleep(0.05)\n        yield t\n\n\nasync def main() -> None:\n    print(\"prompt accepted\")\n    async for chunk in fake_llm_stream(\"hi\"):\n        print(chunk, end=\"\", flush=True)\n    print(\"\\n[done]\")\n\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n"
+  },
+  "checklist": [
+    "阅读说明",
+    "运行并解释输出",
+    "改参数再跑一次"
+  ]
+}
