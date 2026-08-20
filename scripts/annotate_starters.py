@@ -56,6 +56,8 @@ def annotate_priority(src: str, title: str, track: str) -> str:
         "async-llm": "Async / LLM 落地",
         "pytorch": "PyTorch",
         "llm-from-scratch": "LLMFromScratch（附录 A）",
+        "mit-python": "MIT-Python",
+        "mit-llm": "MIT-LLM",
     }.get(track, track)
     header = f'''\
 # 【优先课注释】{track_hint}
@@ -129,7 +131,7 @@ def main() -> None:
     for p in sorted((TRACKS / "lpthw").glob("ex*.json")):
         if process_lesson(p, "lpthw", "lpthw"):
             n += 1
-    for track in ("async-llm", "pytorch", "llm-from-scratch"):
+    for track in ("async-llm", "pytorch", "llm-from-scratch", "mit-python", "mit-llm"):
         folder = TRACKS / track
         if not folder.is_dir():
             continue

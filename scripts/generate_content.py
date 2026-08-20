@@ -1244,4 +1244,7 @@ if __name__ == "__main__":
     from gen_llm_from_scratch import main as gen_lfs
 
     gen_lfs()
+    from gen_mit_tracks import main as gen_mit
+
+    gen_mit()
     print("content generated")

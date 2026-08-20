@@ -1,6 +1,6 @@
 # LPTHW Learner（仅本地个人学习）
 
-本机互动学习站：对照《Learn Python the Hard Way》打基础，并重点练习 **Async / LLM 企业落地**、**PyTorch**，以及《从零开始构建大模型》**附录 A（LLMFromScratch）**。代码用本机 Python（via `uv`）真实执行。
+本机互动学习站：对照《Learn Python the Hard Way》打基础，并重点练习 **Async / LLM 企业落地**、**PyTorch**、《从零开始构建大模型》**附录 A（LLMFromScratch）**，以及 inbox 导入的 **MIT-Python / MIT-LLM** 攻坚题。代码用本机 Python（via `uv`）真实执行。
 
 仓库内是原创学习提纲与练习，不含书的全文。
 
@@ -55,6 +55,8 @@ uv run python -c "import torch; print(torch.__version__, 'mps=', torch.backends.
 | `async-llm` | 重点：asyncio、httpx、流式、限流、Queue、结构化重试、迷你 RAG |
 | `pytorch` | 重点：Tensor → 训练/推理 → `asyncio.to_thread` 桥接 |
 | `llm-from-scratch` | **LLMFromScratch**：对照《从零开始构建大模型》附录 A（PyTorch 入门） |
+| `mit-python` | **MIT-Python**：inbox 一期 T1–T6 代码题（LPTHW 手敲） |
+| `mit-llm` | **MIT-LLM**：inbox 一期 T1–T7 代码题（mock 可跑，LPTHW 手敲） |
 
 学习产生的文件在 `learner_workspace/`（已 gitignore）。
 

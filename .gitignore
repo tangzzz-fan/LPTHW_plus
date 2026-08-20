@@ -10,3 +10,6 @@ __pycache__/
 learner_workspace/
 *.pt
 .scratch/**/comments.md
+inbox/**/.venv/
+inbox/**/__pycache__/
+**/__pycache__/

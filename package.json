@@ -9,6 +9,7 @@
     "dev": "npx concurrently -k -n api,web -c blue,green \"npm run dev:api\" \"npm run dev:web\"",
     "generate:content": "uv run python scripts/generate_content.py && uv run python scripts/annotate_starters.py",
     "generate:lfs": "uv run python scripts/gen_llm_from_scratch.py && uv run python scripts/annotate_starters.py",
+    "generate:mit": "uv run python scripts/gen_mit_tracks.py && uv run python scripts/annotate_starters.py",
     "annotate:starters": "uv run python scripts/annotate_starters.py",
     "install:web": "npm --prefix apps/web install",
     "install:api": "uv sync",

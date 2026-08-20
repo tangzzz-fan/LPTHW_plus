@@ -127,6 +127,8 @@ def list_tracks() -> list[dict[str, Any]]:
             "priority": True,
             "order": 3,
         },
+        "mit-python": {"title": "MIT-Python", "priority": True, "order": 4},
+        "mit-llm": {"title": "MIT-LLM", "priority": True, "order": 5},
     }
     tracks = []
     if not CONTENT_ROOT.exists():
