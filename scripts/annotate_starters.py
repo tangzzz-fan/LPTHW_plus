@@ -24,6 +24,140 @@ LPTHW_FOOTER = """
 print("(请在上方自行输入代码)")
 """
 
+PKG_FILE_HEADER = """\
+# =============================================================================
+# 包支持文件（{rel}）：必须保持可被 import。
+# 主练习在入口脚本里手敲；本文件请直接阅读/微调，不要改成只剩占位 print。
+# =============================================================================
+"""
+
+
+def _looks_like_python(code: str) -> bool:
+    s = code.strip()
+    if not s:
+        return False
+    prefixes = (
+        '"""',
+        "'''",
+        "def ",
+        "class ",
+        "import ",
+        "from ",
+        "return ",
+        "async ",
+        "if ",
+        "elif ",
+        "else:",
+        "for ",
+        "while ",
+        "try:",
+        "except",
+        "finally:",
+        "with ",
+        "@",
+        "pass",
+        "raise ",
+        "yield ",
+        "assert ",
+        "print(",
+        "__all__",
+        "VERSION",
+    )
+    if any(s.startswith(p) for p in prefixes):
+        return True
+    if s[0] in "\"'([{":
+        return True
+    # simple assignment: NAME = ...
+    if "=" in s and not s.startswith("="):
+        left = s.split("=", 1)[0].strip()
+        if left.isidentifier():
+            return True
+    return False
+
+
+def _uncomment_hand_typed(src: str) -> str:
+    """Best-effort undo of comment_out_python (for repairing package files)."""
+    lines_out: list[str] = []
+    for line in src.splitlines():
+        s = line.strip()
+        if not s:
+            lines_out.append("")
+            continue
+        if "请在上方自行输入" in s:
+            continue
+        if s.startswith("# ==="):
+            continue
+        if any(
+            k in s
+            for k in (
+                "自己动手敲",
+                "删掉最底部",
+                "保存并运行",
+                "对照书本",
+                "写完练习后",
+                "包支持文件",
+                "必须保持可被 import",
+                "主练习在入口",
+                "把下面",
+                "不要改成只剩",
+            )
+        ):
+            continue
+        # Drop already-broken instruction lines like "1) 把下面..."
+        if len(s) >= 2 and s[0].isdigit() and s[1] == ")":
+            continue
+        if s.startswith("#"):
+            # Only uncomment real code lines, never instructional Chinese comments
+            if s.startswith("# "):
+                leading = line[: len(line) - len(line.lstrip(" \t"))]
+                rest = line.lstrip()[2:]
+                if _looks_like_python(rest):
+                    lines_out.append(f"{leading}{rest}")
+            continue
+        if _looks_like_python(s) or s.startswith(")") or s.startswith("]") or s.startswith("}"):
+            lines_out.append(line)
+            continue
+        # drop leftover junk
+    text = "\n".join(lines_out)
+    while "\n\n\n" in text:
+        text = text.replace("\n\n\n", "\n\n")
+    return text.strip() + "\n"
+
+
+def keep_package_module(src: str, rel_path: str) -> str:
+    """Package modules (__init__.py / pkg/*.py) must stay importable."""
+    rel = rel_path.replace("\\", "/")
+    needs_repair = (
+        "自己动手敲" in src
+        or 'print("(请在上方自行输入代码)")' in src
+        or any(
+            ln.strip()[:2].isdigit() and ")" in ln.strip()[:4]
+            for ln in src.splitlines()
+            if ln.strip()
+        )
+        or (
+            "必须保持可被 import" in src
+            and not _looks_like_python(
+                next(
+                    (
+                        ln
+                        for ln in src.splitlines()
+                        if ln.strip() and not ln.strip().startswith("#")
+                    ),
+                    "",
+                )
+            )
+        )
+    )
+    if "必须保持可被 import" in src and not needs_repair:
+        return src
+    raw = _uncomment_hand_typed(src) if needs_repair or "自己动手敲" in src else src
+    # Always rebuild header for repaired files
+    body = raw
+    if "必须保持可被 import" in body:
+        body = _uncomment_hand_typed(body)
+    return PKG_FILE_HEADER.format(rel=rel) + "\n" + body.lstrip()
+
 
 def comment_out_python(src: str) -> str:
     """Comment executable lines; keep existing comments; add type-yourself banner."""
@@ -99,19 +233,24 @@ def process_lesson(path: Path, mode: str, track: str) -> bool:
     starters = data.get("starterFiles") or {}
     changed = False
     title = data.get("title", path.stem)
+    entry = data.get("entry") or ""
     for name, content in list(starters.items()):
         if not name.endswith(".py"):
             continue
         if mode == "lpthw":
-            new = comment_out_python(content)
+            rel = name.replace("\\", "/")
+            # Package modules must stay importable (Ex46 skeleton etc.)
+            is_pkg_support = rel.endswith("__init__.py") or (
+                "/" in rel and rel != entry
+            )
+            if is_pkg_support:
+                new = keep_package_module(content, rel)
+            else:
+                new = comment_out_python(content)
         else:
             # mit-python / mit-llm: keep hand-type code; only add priority header if missing.
-            # Do NOT comment_out again (already commented by gen_mit).
             if "自己动手敲" in content:
-                new = annotate_priority(content, title, track) if "【优先课注释】" not in content else content
-                # refresh guidance line only
-                if "【优先课注释】" in content:
-                    new = annotate_priority(content, title, track)
+                new = annotate_priority(content, title, track)
             else:
                 new = annotate_priority(content, title, track)
                 new = comment_out_python(new)
@@ -126,9 +265,9 @@ def process_lesson(path: Path, mode: str, track: str) -> bool:
             body.rstrip()
             + "\n\n## 动手要求\n"
             + "- 起始代码已用注释标出：**请自行输入**（或去掉 `#`），再删除占位 `print`。\n"
+            + "- 包内 `__init__.py` 等需保持可导入；不要改成只剩占位 print。\n"
             + "- 少复制粘贴，多手敲；敲错再改，是笨方法的核心。\n"
         )
-    # Avoid appending duplicate 动手要求/注释 onto mit-style bodies that already have 本题任务
     if mode == "priority" and "## 本题任务" not in body and "优先课注释" not in body:
         data["body"] = (
             (data.get("body") or body).rstrip()

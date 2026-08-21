@@ -49,6 +49,13 @@ app.add_middleware(
 
 # session_id -> running process state
 _sessions: dict[str, dict[str, Any]] = {}
+# After handing an input()-blocked process to the client, keep it alive this long
+# (timeoutSec is only the *boot* wait so the UI gets a session quickly).
+INTERACTIVE_TTL_SEC = 900.0
+
+
+def _touch_session_deadline(session: dict[str, Any]) -> None:
+    session["deadline"] = asyncio.get_event_loop().time() + INTERACTIVE_TTL_SEC
 
 
 def _safe_join(base: Path, relative: str) -> Path:
@@ -84,15 +91,29 @@ def _workspace(track: str, lesson_id: str) -> Path:
     return WORKSPACE_ROOT / track / lesson_id
 
 
-def _ensure_workspace(track: str, lesson_id: str) -> Path:
+def _looks_like_stale_scaffold(existing: str) -> bool:
+    """Old generator stubs that should be replaced by current hand-type starters."""
+    return 'TODO: complete exercise' in existing
+
+
+def _ensure_workspace(track: str, lesson_id: str, *, force: bool = False) -> Path:
     lesson = _load_lesson(track, lesson_id)
     ws = _workspace(track, lesson_id)
     ws.mkdir(parents=True, exist_ok=True)
     starter = lesson.get("starterFiles") or {}
     for name, content in starter.items():
         target = _safe_join(ws, name)
-        if not target.exists():
-            target.parent.mkdir(parents=True, exist_ok=True)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if force or not target.exists():
+            target.write_text(content, encoding="utf-8")
+            continue
+        try:
+            existing = target.read_text(encoding="utf-8")
+        except OSError:
+            target.write_text(content, encoding="utf-8")
+            continue
+        # Refresh obsolete TODO scaffolds so learners see commented examples.
+        if _looks_like_stale_scaffold(existing) and content.strip():
             target.write_text(content, encoding="utf-8")
     return ws
 
@@ -191,6 +212,18 @@ def get_exercise(track: str, lesson_id: str) -> dict[str, Any]:
     return lesson
 
 
+@app.post("/api/files/{track}/{lesson_id}/reset-starters")
+def reset_starters(track: str, lesson_id: str) -> dict[str, Any]:
+    """Overwrite workspace files with current lesson starterFiles (hand-type comments)."""
+    ws = _ensure_workspace(track, lesson_id, force=True)
+    names = sorted(
+        str(p.relative_to(ws)).replace("\\", "/")
+        for p in ws.rglob("*")
+        if p.is_file()
+    )
+    return {"ok": True, "files": names}
+
+
 @app.get("/api/files/{track}/{lesson_id}")
 def list_files(track: str, lesson_id: str) -> list[dict[str, str]]:
     ws = _ensure_workspace(track, lesson_id)
@@ -258,15 +291,21 @@ async def _drain_session(session: dict[str, Any]) -> None:
         session["stderr"] += _strip_ansi(await _read_available(proc.stderr))
 
 
-def _session_payload(session_id: str | None, session: dict[str, Any], running: bool) -> dict[str, Any]:
+def _session_payload(
+    session_id: str | None,
+    session: dict[str, Any],
+    running: bool,
+) -> dict[str, Any]:
     proc: asyncio.subprocess.Process = session["proc"]
+    awaiting = bool(session.get("awaiting_stdin", False))
     return {
         "sessionId": session_id if running else None,
         "running": running,
         "exitCode": None if running else proc.returncode,
         "stdout": _strip_ansi(session["stdout"]),
         "stderr": _strip_ansi(session["stderr"]),
-        "waitingForInput": running,
+        # True only when the process is (likely) blocked on input(), not for long compute jobs.
+        "waitingForInput": bool(running and awaiting),
     }
 
 
@@ -287,7 +326,12 @@ async def run_code(req: RunRequest) -> dict[str, Any]:
         raise HTTPException(status_code=400, detail=f"Entry not found: {entry}")
 
     # Continue existing interactive session
-    if req.sessionId and req.sessionId in _sessions:
+    if req.sessionId:
+        if req.sessionId not in _sessions:
+            raise HTTPException(
+                status_code=404,
+                detail="Session not found or already finished",
+            )
         session = _sessions[req.sessionId]
         proc: asyncio.subprocess.Process = session["proc"]
         if req.stdin is not None and proc.stdin and not proc.stdin.is_closing():
@@ -339,15 +383,16 @@ async def run_code(req: RunRequest) -> dict[str, Any]:
         proc.stdin.write(payload.encode())
         await proc.stdin.drain()
 
-    # Wait up to lesson timeout. Interactive input() lessons use a short timeoutSec
-    # so the client gets a session quickly; torch lessons use 30–120s.
+    # Wait up to lesson timeoutSec as *boot* only: finish fast jobs, or return a
+    # session once blocked on input(). Do NOT use this short value as the
+    # interactive kill deadline (see INTERACTIVE_TTL_SEC).
     loop = asyncio.get_event_loop()
-    deadline = loop.time() + float(timeout)
-    while loop.time() < deadline:
+    boot_deadline = loop.time() + float(timeout)
+    while loop.time() < boot_deadline:
         await _drain_session(session)
         if proc.returncode is not None:
             break
-        remaining = deadline - loop.time()
+        remaining = boot_deadline - loop.time()
         try:
             await asyncio.wait_for(proc.wait(), timeout=min(0.15, max(0.05, remaining)))
             break
@@ -360,7 +405,10 @@ async def run_code(req: RunRequest) -> dict[str, Any]:
         _sessions.pop(session_id, None)
         return result
 
-    session["deadline"] = loop.time() + float(timeout)
+    # Still running after boot wait → treat short-timeout lessons as stdin games;
+    # long-timeout lessons (torch etc.) as background compute (client will poll).
+    session["awaiting_stdin"] = float(timeout) <= 15
+    _touch_session_deadline(session)
     return _session_payload(session_id, session, running=True)
 
 
@@ -378,6 +426,8 @@ async def send_stdin(body: StdinRequest) -> dict[str, Any]:
         data = body.data if body.data.endswith("\n") else body.data + "\n"
         proc.stdin.write(data.encode())
         await proc.stdin.drain()
+
+    _touch_session_deadline(session)
 
     stdout = _strip_ansi(await _read_available(proc.stdout) if proc.stdout else "")
     stderr = _strip_ansi(await _read_available(proc.stderr) if proc.stderr else "")

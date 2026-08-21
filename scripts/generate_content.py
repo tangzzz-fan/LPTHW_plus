@@ -429,10 +429,10 @@ FULL_LPTHW = {
         "timeoutSec": 5,
     },
     45: {
-        "body": '# Ex 45 · You Make a Game\n\n极简文字游戏骨架：场景字典 + 主循环。在此基础上可自行扩展。\n\n## 目标\n- 跑通一个可玩的迷你循环\n- 看懂如何加新场景\n\n## 自检\n- [ ] 能从 start 走到 end\n- [ ] 新增一个场景名并接到地图\n',
+        "body": '# Ex 45 · You Make a Game\n\n极简文字游戏骨架：场景字典 + 主循环。在此基础上可自行扩展。\n\n## 目标\n- 跑通一个可玩的迷你循环\n- 看懂如何加新场景\n\n## 怎么玩\n- `north` → plaza（通关，返回 `end` 结束循环）\n- `east` → cafe（再回到 start）\n- `end` / `quit` → 主动退出\n\n## 自检\n- [ ] 能从 start 走到 end（通关或输入 end）\n- [ ] 新增一个场景名并接到地图\n',
         "entry": 'ex45.py',
         "starterFiles": {
-            'ex45.py': 'def start():\n    print("You wake up in a train station.")\n    print("Go north to the plaza, or east to the cafe?")\n    choice = input("> ").strip().lower()\n    if choice == "north":\n        return "plaza"\n    if choice == "east":\n        return "cafe"\n    print("Confused, you stay put.")\n    return "start"\n\n\ndef plaza():\n    print("A fountain sparkles. You find a ticket. You win!")\n    return "end"\n\n\ndef cafe():\n    print("Coffee smell. You rest, then head back.")\n    return "start"\n\n\nSCENES = {\n    "start": start,\n    "plaza": plaza,\n    "cafe": cafe,\n}\n\nroom = "start"\nwhile room != "end":\n    room = SCENES[room]()\nprint("--- thanks for playing ---")\n',
+            'ex45.py': 'def start():\n    print("You wake up in a train station.")\n    print("Go north to the plaza, or east to the cafe?")\n    print("(type end or quit to leave)")\n    choice = input("> ").strip().lower()\n    if choice == "north":\n        return "plaza"\n    if choice == "east":\n        return "cafe"\n    if choice in ("end", "quit"):\n        print("You leave the station. Bye.")\n        return "end"\n    print("Confused, you stay put.")\n    return "start"\n\n\ndef plaza():\n    print("A fountain sparkles. You find a ticket. You win!")\n    return "end"\n\n\ndef cafe():\n    print("Coffee smell. You rest, then head back.")\n    return "start"\n\n\nSCENES = {\n    "start": start,\n    "plaza": plaza,\n    "cafe": cafe,\n}\n\nroom = "start"\nwhile room != "end":\n    room = SCENES[room]()\nprint("--- thanks for playing ---")\n',
         },
         "timeoutSec": 3,
     },

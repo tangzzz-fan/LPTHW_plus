@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState, type CSSProperties } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { Sidebar, type ExerciseSummary, type LessonProgress, type Track } from './components/Sidebar'
 import { LessonView } from './components/LessonView'
 import { EditorPane } from './components/EditorPane'
@@ -96,6 +96,7 @@ export default function App() {
   const [files, setFiles] = useState<{ path: string }[]>([])
   const [currentPath, setCurrentPath] = useState<string | null>(null)
   const [editorValue, setEditorValue] = useState('')
+  const [editorEpoch, setEditorEpoch] = useState(0)
   const [progress, setProgress] = useState<ProgressMap>(() => loadProgress())
   const [terminalOutput, setTerminalOutput] = useState('')
   const [sessionId, setSessionId] = useState<string | null>(null)
@@ -105,6 +106,8 @@ export default function App() {
   const [error, setError] = useState<string | null>(null)
   const { layout, onSidebarDrag, onRightDrag, onLessonDrag } =
     useResizableLayout()
+  /** Bumped on lesson switch / new run so stale session polls cannot overwrite the terminal. */
+  const runGenerationRef = useRef(0)
 
   const trackProgress = useMemo(
     () => (activeTrack ? progress[activeTrack] ?? {} : {}),
@@ -180,6 +183,7 @@ export default function App() {
       return
     }
     let cancelled = false
+    runGenerationRef.current += 1
     setActiveLessonId(null)
     setLesson(null)
     setFiles([])
@@ -227,6 +231,7 @@ export default function App() {
       )
       setCurrentPath(data.path)
       setEditorValue(data.content)
+      setEditorEpoch((n) => n + 1)
     },
     [],
   )
@@ -234,6 +239,7 @@ export default function App() {
   const selectLesson = useCallback(
     async (lessonId: string) => {
       if (!activeTrack) return
+      runGenerationRef.current += 1
       setActiveLessonId(lessonId)
       setError(null)
       setTerminalOutput('')
@@ -284,11 +290,12 @@ export default function App() {
   }, [activeTrack, activeLessonId, currentPath, editorValue])
 
   const applyRunResult = useCallback(
-    (res: RunResult, trackId: string, lessonId: string) => {
+    (res: RunResult, trackId: string, lessonId: string, gen: number) => {
+      if (gen !== runGenerationRef.current) return res
       setTerminalOutput(formatRunOutput(res))
       if (res.running && res.sessionId) {
         setSessionId(res.sessionId)
-        setWaitingForInput(true)
+        setWaitingForInput(Boolean(res.waitingForInput))
       } else {
         setSessionId(null)
         setWaitingForInput(false)
@@ -302,19 +309,33 @@ export default function App() {
   )
 
   const pollSession = useCallback(
-    async (sid: string, trackId: string, lessonId: string) => {
+    async (sid: string, trackId: string, lessonId: string, gen: number) => {
       for (let i = 0; i < 600; i++) {
+        if (gen !== runGenerationRef.current) return
         await new Promise((r) => setTimeout(r, 300))
-        const res = await api<RunResult>('/api/run', {
-          method: 'POST',
-          body: JSON.stringify({
-            track: trackId,
-            exerciseId: lessonId,
-            sessionId: sid,
-          }),
-        })
-        applyRunResult(res, trackId, lessonId)
-        if (!res.running) return
+        if (gen !== runGenerationRef.current) return
+        try {
+          const res = await api<RunResult>('/api/run', {
+            method: 'POST',
+            body: JSON.stringify({
+              track: trackId,
+              exerciseId: lessonId,
+              sessionId: sid,
+            }),
+          })
+          if (gen !== runGenerationRef.current) return
+          // If the server says it is waiting for stdin, stop polling — further
+          // updates come from /api/run/stdin. Polling here races and clears the input box.
+          if (res.waitingForInput) {
+            applyRunResult(res, trackId, lessonId, gen)
+            return
+          }
+          applyRunResult(res, trackId, lessonId, gen)
+          if (!res.running) return
+        } catch {
+          // Do not clear waitingForInput — a transient 404/reload must not lock the box.
+          return
+        }
       }
     },
     [applyRunResult],
@@ -322,9 +343,12 @@ export default function App() {
 
   const handleRun = useCallback(async () => {
     if (!activeTrack || !activeLessonId || running) return
+    const gen = ++runGenerationRef.current
     setRunning(true)
     setError(null)
     setWaitingForInput(false)
+    setSessionId(null)
+    setTerminalOutput('')
     try {
       const entry = lesson?.entry || currentPath || 'main.py'
       const res = await api<RunResult>('/api/run', {
@@ -337,19 +361,27 @@ export default function App() {
           timeoutSec: lesson?.timeoutSec,
         }),
       })
-      applyRunResult(res, activeTrack, activeLessonId)
-      if (res.running && res.sessionId) {
-        // Keep UI responsive for input(); also poll long jobs.
-        void pollSession(res.sessionId, activeTrack, activeLessonId)
+      applyRunResult(res, activeTrack, activeLessonId, gen)
+      if (
+        res.running &&
+        res.sessionId &&
+        gen === runGenerationRef.current &&
+        !res.waitingForInput
+      ) {
+        // Background compute only. Interactive input() sessions must not be polled.
+        void pollSession(res.sessionId, activeTrack, activeLessonId, gen)
       }
     } catch (e) {
-      setError(e instanceof Error ? e.message : String(e))
-      setTerminalOutput(
-        (prev) =>
-          `${prev}\n[error] ${e instanceof Error ? e.message : String(e)}`,
-      )
+      if (gen === runGenerationRef.current) {
+        setError(e instanceof Error ? e.message : String(e))
+        setTerminalOutput(
+          `[error] ${e instanceof Error ? e.message : String(e)}`,
+        )
+      }
     } finally {
-      setRunning(false)
+      if (gen === runGenerationRef.current) {
+        setRunning(false)
+      }
     }
   }, [
     activeTrack,
@@ -366,30 +398,44 @@ export default function App() {
   const handleTerminalInput = useCallback(
     async (line: string) => {
       if (!sessionId || !activeTrack || !activeLessonId) return
+      const gen = runGenerationRef.current
+      const sid = sessionId
       setError(null)
+      setTerminalOutput(
+        (prev) =>
+          `${prev}${prev.endsWith('\n') || !prev ? '' : '\n'}> ${line}\n`,
+      )
       try {
-        let res: RunResult
+        const res = await api<RunResult>('/api/run/stdin', {
+          method: 'POST',
+          body: JSON.stringify({ sessionId: sid, data: line }),
+        })
+        applyRunResult(res, activeTrack, activeLessonId, gen)
+      } catch (e) {
+        // Fallback: same session via /api/run + stdin field
         try {
-          res = await api<RunResult>('/api/run/stdin', {
-            method: 'POST',
-            body: JSON.stringify({ sessionId, data: line }),
-          })
-        } catch {
-          res = await api<RunResult>('/api/run', {
+          const res = await api<RunResult>('/api/run', {
             method: 'POST',
             body: JSON.stringify({
               track: activeTrack,
               exerciseId: activeLessonId,
-              sessionId,
+              sessionId: sid,
               stdin: line,
             }),
           })
+          applyRunResult(res, activeTrack, activeLessonId, gen)
+        } catch (e2) {
+          if (gen === runGenerationRef.current) {
+            const msg = e2 instanceof Error ? e2.message : String(e2)
+            setError(msg)
+            setTerminalOutput(
+              (prev) =>
+                `${prev}\n[stdin 失败] ${msg}\n（若刚改过代码，API 可能热重载丢了会话：请再点一次「运行」）\n`,
+            )
+            setWaitingForInput(false)
+            setSessionId(null)
+          }
         }
-        applyRunResult(res, activeTrack, activeLessonId)
-      } catch (e) {
-        setError(e instanceof Error ? e.message : String(e))
-        setWaitingForInput(false)
-        setSessionId(null)
       }
     },
     [sessionId, activeTrack, activeLessonId, applyRunResult],
@@ -515,6 +561,7 @@ export default function App() {
           />
           <section className="editor-section">
             <EditorPane
+              key={`${activeLessonId ?? ''}:${currentPath ?? ''}:${editorEpoch}`}
               path={currentPath}
               value={editorValue}
               onChange={setEditorValue}

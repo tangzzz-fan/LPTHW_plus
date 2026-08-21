@@ -21,9 +21,10 @@ export function Terminal({
 
   useEffect(() => {
     if (waitingForInput) {
+      // Keep focus after each prompt refresh (e.g. next room in a game).
       inputRef.current?.focus()
     }
-  }, [waitingForInput])
+  }, [waitingForInput, output])
 
   function handleKeyDown(e: KeyboardEvent<HTMLInputElement>) {
     if (e.key !== 'Enter') return
